@@ -1,0 +1,1 @@
+include ':app', ':kotlinrxsocket-1.0.0'
