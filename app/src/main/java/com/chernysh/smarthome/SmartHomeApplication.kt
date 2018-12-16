@@ -1,0 +1,45 @@
+package com.chernysh.smarthome
+
+import android.support.v7.app.AppCompatDelegate
+import com.chernysh.smarthome.utils.logging.CrashReportingTree
+import com.crashlytics.android.Crashlytics
+import com.squareup.leakcanary.LeakCanary
+import dagger.android.AndroidInjector
+import dagger.android.HasServiceInjector
+import dagger.android.support.DaggerApplication
+import io.fabric.sdk.android.Fabric
+import timber.log.Timber
+import javax.inject.Inject
+
+class SmartHomeApplication : DaggerApplication(), HasServiceInjector {
+    @Inject internal var mDebugTimberTree: Timber.DebugTree? = null
+    @Inject internal var mReleaseTimberTree: CrashReportingTree? = null
+
+    override fun onCreate() {
+        super.onCreate()
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
+        initThirdParties()
+    }
+
+    private fun initThirdParties() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return
+        }
+        LeakCanary.install(this)
+        Fabric.with(this, Crashlytics())
+        if (BuildConfig.DEBUG) {
+            // AndroidDevMetrics.initWith(this);
+            Timber.plant(mDebugTimberTree)
+        } else {
+            Timber.plant(mReleaseTimberTree)
+        }
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.builder().create(this)
+    }
+
+}
