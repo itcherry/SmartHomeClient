@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SmartHome.iml" filepath="$PROJECT_DIR$/SmartHome.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com-google-firebase-messaging/com-google-firebase-messaging.iml" filepath="$PROJECT_DIR$/com-google-firebase-messaging/com-google-firebase-messaging.iml" />
       <module fileurl="file://$PROJECT_DIR$/kotlinrxsocket-1.0.0/kotlinrxsocket-1.0.0.iml" filepath="$PROJECT_DIR$/kotlinrxsocket-1.0.0/kotlinrxsocket-1.0.0.iml" />
     </modules>
   </component>

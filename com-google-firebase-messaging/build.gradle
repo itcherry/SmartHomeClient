@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+group='com.github.erdalceylan'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '28.0.2'
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        raspberryType {
+            buildConfigField("String", 'HOST_LINK', '\"http://176.36.146.229\"')
+            buildConfigField("String", 'PORT_API', '\":8085/\"')
+            buildConfigField("String", 'PORT_SOCKET', '\":9092\"')
+        }
+        dormitoryType {
+            buildConfigField("String", 'HOST_LINK', '\"http://77.47.204.201\"')
+            buildConfigField("String", 'PORT_API', '\":8082/\"')
+            buildConfigField("String", 'PORT_SOCKET', '\":9090\"')
+        }
+        varashType {
+            buildConfigField("String", 'HOST_LINK', '\"http://134.249.164.155\"')
+            buildConfigField("String", 'PORT_API', '\":8085/\"')
+            buildConfigField("String", 'PORT_SOCKET', '\":9092\"')
+        }
+        kiselBrotherType {
+            initWith(debug)
+            buildConfigField("String", 'HOST_LINK', '\"http://176.96.221.97\"')
+            buildConfigField("String", 'PORT_API', '\":8085/\"')
+            buildConfigField("String", 'PORT_SOCKET', '\":9092\"')
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.google.firebase:firebase-core:11.2.0'
+    testImplementation 'junit:junit:4.12'
+}
+
+
+

@@ -1,1 +1,2 @@
 include ':app', ':kotlinrxsocket-1.0.0'
+include ':app', ':com-google-firebase-messaging'

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.chernysh.smarthome">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -9,6 +12,16 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
+        <!-- Meta data -->
+        <meta-data
+                android:name="android.max_aspect"
+                android:value="ratio_float" />
+        <meta-data
+                android:name="io.fabric.ApiKey"
+                android:value="044b7dfc84eb1a148f1ae6b840e3911a8ee29379" />
+
+        <!-- Activities -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -16,6 +29,22 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- Service -->
+        <!-- Firebase Notifications -->
+        <!--<service android:name=".data.network.service.firebase.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".data.network.service.firebase.FirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>-->
+
+        <!-- Receivers -->
+        <!-- Providers -->
     </application>
 
 </manifest>
