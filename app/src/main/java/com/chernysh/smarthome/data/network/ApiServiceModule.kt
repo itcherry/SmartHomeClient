@@ -19,7 +19,7 @@ package com.chernysh.smarthome.data.network
  * limitations under the License.
  */
 
-import com.chernysh.smarthome.data.network.retrofit.HedbanzApiErrorHandlerFactory
+import com.chernysh.smarthome.data.network.retrofit.ApiErrorHandlerFactory
 import com.chernysh.smarthome.data.network.service.ApiService
 import com.chernysh.smarthome.data.network.source.ApiDataSource
 import com.chernysh.smarthome.di.scope.ApplicationScope
@@ -60,7 +60,7 @@ class ApiServiceModule {
     @ApplicationScope
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .addConverterFactory(HedbanzApiErrorHandlerFactory.create())
+            .addConverterFactory(ApiErrorHandlerFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)

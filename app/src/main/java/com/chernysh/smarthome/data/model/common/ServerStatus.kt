@@ -1,4 +1,4 @@
-package com.chernysh.smarthome.utils
+package com.chernysh.smarthome.data.model.common
 
 /**
  * Copyright 2017. Andrii Chernysh
@@ -19,28 +19,30 @@ package com.chernysh.smarthome.utils
  * limitations under the License.
  */
 
-import android.content.Context
-import android.net.ConnectivityManager
-import io.fabric.sdk.android.services.network.NetworkUtils
-import timber.log.Timber
-
 /**
- * Utility class to process network actions
+ * Describes status, that device can receive from server
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  * Developed by <u>Transcendensoft</u>
  */
+enum class ServerStatus private constructor(status: String) {
+    SUCCESS("success"), ERROR("error");
 
-private val TAG = NetworkUtils::class.java.name
+    var status: String
+        internal set
 
-fun Context.isNetworkConnected(): Boolean {
-    val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-    if (cm != null) {
-        val activeNetwork = cm.activeNetworkInfo
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting
-    } else {
-        Timber.tag(TAG).e("ConnectivityManager is null. Cant get network state. IsNetworkConnected method.")
-        return false
+    init {
+        this.status = status
+    }
+
+    companion object {
+        fun getServerStatusBasedOnString(status: String): ServerStatus {
+            for (serverStatus in ServerStatus.values()) {
+                if (serverStatus.status.equals(status, ignoreCase = true)) {
+                    return serverStatus
+                }
+            }
+            return ERROR
+        }
     }
 }
-

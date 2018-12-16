@@ -1,7 +1,7 @@
-package com.chernysh.smarthome.utils
+package com.chernysh.smarthome.data.network.retrofit
 
 /**
- * Copyright 2017. Andrii Chernysh
+ * Copyright 2018. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,27 +20,27 @@ package com.chernysh.smarthome.utils
  */
 
 import android.content.Context
-import android.net.ConnectivityManager
-import io.fabric.sdk.android.services.network.NetworkUtils
-import timber.log.Timber
+import com.chernysh.smarthome.data.exception.NoConnectivityException
+import com.chernysh.smarthome.utils.isNetworkConnected
+import okhttp3.Interceptor
+import okhttp3.Response
+import java.io.IOException
 
 /**
- * Utility class to process network actions
+ * OkHttp interceptor that intercepts no network situation
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  * Developed by <u>Transcendensoft</u>
  */
+class ConnectivityInterceptor(private val mContext: Context) : Interceptor {
 
-private val TAG = NetworkUtils::class.java.name
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        if (!mContext.isNetworkConnected()) {
+            throw NoConnectivityException()
+        }
 
-fun Context.isNetworkConnected(): Boolean {
-    val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-    if (cm != null) {
-        val activeNetwork = cm.activeNetworkInfo
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting
-    } else {
-        Timber.tag(TAG).e("ConnectivityManager is null. Cant get network state. IsNetworkConnected method.")
-        return false
+        val builder = chain.request().newBuilder()
+        return chain.proceed(builder.build())
     }
 }
-

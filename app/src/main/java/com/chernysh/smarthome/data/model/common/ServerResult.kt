@@ -1,4 +1,4 @@
-package com.chernysh.smarthome.utils
+package com.chernysh.smarthome.data.model.common
 
 /**
  * Copyright 2017. Andrii Chernysh
@@ -19,28 +19,30 @@ package com.chernysh.smarthome.utils
  * limitations under the License.
  */
 
-import android.content.Context
-import android.net.ConnectivityManager
-import io.fabric.sdk.android.services.network.NetworkUtils
-import timber.log.Timber
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 /**
- * Utility class to process network actions
+ * Generic class, that describes fields which device
+ * can receive from server.
+ * There are 3 basic fields:
+ * 1) ServerStatus - [ServerStatus] can be success or error
+ * 2) Error message_received - message_received to output or null if success
+ * 3) Data - result object from server
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  * Developed by <u>Transcendensoft</u>
  */
+class ServerResult<T> {
+    @SerializedName("status")
+    @Expose
+    val status: String? = null
 
-private val TAG = NetworkUtils::class.java.name
+    @SerializedName("error")
+    @Expose
+    val serverError: ServerError? = null
 
-fun Context.isNetworkConnected(): Boolean {
-    val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-    if (cm != null) {
-        val activeNetwork = cm.activeNetworkInfo
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting
-    } else {
-        Timber.tag(TAG).e("ConnectivityManager is null. Cant get network state. IsNetworkConnected method.")
-        return false
-    }
+    @SerializedName("data")
+    @Expose
+    val data: T? = null
 }
-
