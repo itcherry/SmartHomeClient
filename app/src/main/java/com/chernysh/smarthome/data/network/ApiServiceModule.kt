@@ -40,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  * Developed by <u>Transcendensoft</u>
  */
-@Module(includes = arrayOf(NetworkModule::class))
+@Module(includes = [NetworkModule::class])
 class ApiServiceModule {
     @Provides
     @ApplicationScope

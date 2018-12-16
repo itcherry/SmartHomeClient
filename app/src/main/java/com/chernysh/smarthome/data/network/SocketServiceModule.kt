@@ -19,6 +19,7 @@ package ua.andrii.chernysh.rxsockets.data.network
  * limitations under the License.
  */
 
+import com.chernysh.smarthome.data.network.source.ApiDataSource
 import com.chernysh.smarthome.di.scope.ApplicationScope
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -41,19 +42,14 @@ class SocketServiceModule {
     @ApplicationScope
     fun provideSocket(gsonProvided: Gson, loggingInterceptor: SocketLoggingInterceptor): RxSocket {
         return createRxSocket {
-            hostIp = "http://192.168.43.206"
-            port = 9092
-            namespace = "home"
+            hostIp = ApiDataSource.HOST
+            port = ApiDataSource.PORT_SOCKET
+            namespace = ApiDataSource.SOCKET_NSP
             socketLoggingInterceptor = loggingInterceptor
             gson = gsonProvided
             options {
                 forceNew = false
                 reconnection = true
-                reconnectionAttempts = 3
-                reconnectionDelay = 1000
-                reconnectionDelayMax = 10000
-                randomizationFactor = 0.3
-                timeout = 5000
             }
         }
     }

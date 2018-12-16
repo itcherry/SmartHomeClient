@@ -46,6 +46,7 @@ android {
         project.ext.set("archivesBaseName", "SmartHome-v" + versionName);
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+
         buildConfigField("String", 'HOST_LINK', '\"http://176.36.146.229\"')
         buildConfigField("String", 'PORT_API', '\":8080/\"')
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')

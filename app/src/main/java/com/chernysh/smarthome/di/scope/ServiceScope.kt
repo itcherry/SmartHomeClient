@@ -1,10 +1,6 @@
-package com.transcendensoft.hedbanz.data.network.service.firebase
+package com.chernysh.smarthome.di.scope
 
-import android.content.Context
-import com.chernysh.smarthome.data.network.service.firebase.SmartHomeFirebaseMessagingService
-import com.chernysh.smarthome.di.qualifier.ServiceContext
-import dagger.Binds
-import dagger.Module
+import javax.inject.Scope
 
 /**
  * Copyright 2017. Andrii Chernysh
@@ -23,16 +19,14 @@ import dagger.Module
  *
  */
 /**
- * Module that provides context and other
- * instances for firebase messaging service.
- * Service that recieves push notifications.
+ * Dagger 2 scope for service level. Additionally,
+ * a component with a specific scope cannot have a
+ * sub component with the same scope.
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
- *         Developed by <u>Transcendensoft</u>
+ * Developed by <u>Transcendensoft</u>
  */
-@Module
-interface FirebaseMessagingServiceModule {
-    @ServiceContext
-    @Binds
-    fun bindServiceContext(smartHomeFirebaseMessagingService: SmartHomeFirebaseMessagingService): Context
-}
+@MustBeDocumented
+@Scope
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+annotation class ServiceScope

@@ -1,13 +1,17 @@
-package com.chernysh.smarthome.data.repository;
+package com.chernysh.smarthome.data.repository
+
 /**
  * Copyright 2018. Andrii Chernysh
- * <p>
+ *
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ *
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,25 +19,22 @@ package com.chernysh.smarthome.data.repository;
  * limitations under the License.
  */
 
-import dagger.Binds;
-import dagger.Module;
-import ua.andrii.chernysh.rxsockets.data.source.DataSourceModule;
-import ua.andrii.chernysh.rxsockets.di.scope.ApplicationScope;
-import ua.andrii.chernysh.rxsockets.domain.repository.LightsRepository;
-import ua.andrii.chernysh.rxsockets.domain.repository.TemperatureHumidityRepository;
+import com.chernysh.smarthome.data.source.DataSourceModule
+import com.chernysh.smarthome.di.scope.ApplicationScope
+import com.chernysh.smarthome.domain.repository.TemperatureHumidityRepository
+import dagger.Binds
+import dagger.Module
+import ua.andrii.chernysh.rxsockets.data.repository.TemperatureHumidityRepositoryImpl
+
 
 /**
  * Module that binds repository dependencies
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  */
-@Module(includes = DataSourceModule.class)
-public interface RepositoryModule {
+@Module(includes = [DataSourceModule::class])
+interface RepositoryModule {
     @Binds
     @ApplicationScope
-    TemperatureHumidityRepository bindTemperatureHumidityRepository(TemperatureHumidityRepositoryImpl temperatureHumidityRepository);
-
-    @Binds
-    @ApplicationScope
-    LightsRepository bindLightsRepository(LightsRepositoryImpl lightsRepository);
+    fun bindTemperatureHumidityRepository(temperatureHumidityRepository: TemperatureHumidityRepositoryImpl): TemperatureHumidityRepository
 }

@@ -1,11 +1,11 @@
-package ua.andrii.chernysh.rxsockets.data.repository
-
+package com.chernysh.smarthome.data.repository
+import com.chernysh.smarthome.data.source.SocketDataSource
+import com.chernysh.smarthome.domain.repository.SocketRepository
 import io.reactivex.Observable
 import ua.andrii.chernysh.kotlinrxsocket.socket.RxSocketEvent
-import ua.andrii.chernysh.rxsockets.data.source.SocketDataSource
-import ua.andrii.chernysh.rxsockets.domain.repository.SocketRepository
 
-abstract class SocketRepositoryImpl(val socketDataSource: SocketDataSource): SocketRepository {
+
+abstract class SocketRepositoryImpl(private val socketDataSource: SocketDataSource): SocketRepository {
     override fun onSocketConnect() = socketDataSource.observableOnConnect()
     override fun onSocketDisconnect() = socketDataSource.observableOnDisconnect()
     override fun onSocketReconnect() = socketDataSource.observableOnReconnect()

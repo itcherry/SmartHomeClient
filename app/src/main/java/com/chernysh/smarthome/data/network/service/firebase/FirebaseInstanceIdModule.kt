@@ -1,7 +1,7 @@
-package com.transcendensoft.hedbanz.data.network.service.firebase
+package com.chernysh.smarthome.data.network.service.firebase
 
 import android.content.Context
-import com.transcendensoft.hedbanz.di.qualifier.ServiceContext
+import com.chernysh.smarthome.di.qualifier.ServiceContext
 import dagger.Binds
 import dagger.Module
 
@@ -32,5 +32,5 @@ import dagger.Module
 interface FirebaseInstanceIdModule {
     @ServiceContext
     @Binds
-    fun bindServiceContext(hedbanzFirebaseInstanceIdService: HedbanzFirebaseInstanceIdService): Context
+    fun bindServiceContext(smartHomeFirebaseInstanceIdService: SmartHomeFirebaseInstanceIdService): Context
 }

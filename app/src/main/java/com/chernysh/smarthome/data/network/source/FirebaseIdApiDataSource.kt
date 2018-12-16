@@ -1,10 +1,8 @@
-package com.transcendensoft.hedbanz.data.network.service.firebase
+package com.chernysh.smarthome.data.network.source
 
-import android.content.Context
-import com.chernysh.smarthome.data.network.service.firebase.SmartHomeFirebaseMessagingService
-import com.chernysh.smarthome.di.qualifier.ServiceContext
-import dagger.Binds
-import dagger.Module
+import com.transcendensoft.hedbanz.data.source.FirebaseIdDataSource
+import io.reactivex.Completable
+import javax.inject.Inject
 
 /**
  * Copyright 2017. Andrii Chernysh
@@ -23,16 +21,17 @@ import dagger.Module
  *
  */
 /**
- * Module that provides context and other
- * instances for firebase messaging service.
- * Service that recieves push notifications.
+ * Bind and unbind firebase token on server
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
- *         Developed by <u>Transcendensoft</u>
+ * Developed by <u>Transcendensoft</u>
  */
-@Module
-interface FirebaseMessagingServiceModule {
-    @ServiceContext
-    @Binds
-    fun bindServiceContext(smartHomeFirebaseMessagingService: SmartHomeFirebaseMessagingService): Context
+class FirebaseIdApiDataSource @Inject constructor() : ApiDataSource(), FirebaseIdDataSource {
+
+    override fun unbindFirebaseToken(userId: Long): Completable =
+            mService.unbindFirebaseToken(userId)
+
+
+    override fun bindFirebaseToken(userId: Long, token: String): Completable =
+            mService.bindFirebaseToken(userId, mapOf("fcmToken" to token))
 }

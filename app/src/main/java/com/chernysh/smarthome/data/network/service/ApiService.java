@@ -15,6 +15,14 @@ package com.chernysh.smarthome.data.network.service;
  * limitations under the License.
  */
 
+import io.reactivex.Completable;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+
+import java.util.Map;
+
 /**
  * Interface that describes all API methods with server
  *
@@ -22,5 +30,13 @@ package com.chernysh.smarthome.data.network.service;
  * Developed by <u>Transcendensoft</u>
  */
 public interface ApiService {
+    /* Firebase */
+    @PUT("user/{userId}/token")
+    Completable bindFirebaseToken(@Path("userId") long userId,
+                                  @Body Map<String, String> tokenBody);
 
+    @DELETE("user/{userId}/token")
+    Completable unbindFirebaseToken(@Path("userId") long userId);
+
+    /*  */
 }

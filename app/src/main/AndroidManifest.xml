@@ -33,16 +33,16 @@
 
         <!-- Service -->
         <!-- Firebase Notifications -->
-        <!--<service android:name=".data.network.service.firebase.FirebaseMessagingService">
+        <service android:name=".data.network.service.firebase.SmartHomeFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".data.network.service.firebase.FirebaseInstanceIdService">
+        <service android:name=".data.network.service.firebase.SmartHomeFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>-->
+        </service>
 
         <!-- Receivers -->
         <!-- Providers -->

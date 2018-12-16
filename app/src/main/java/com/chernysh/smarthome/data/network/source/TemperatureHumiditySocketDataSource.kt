@@ -1,10 +1,11 @@
-package ua.andrii.chernysh.rxsockets.data.network.source
+package com.chernysh.smarthome.data.network.source
 
+import com.chernysh.smarthome.data.model.TemperatureHumidityDTO
+import com.chernysh.smarthome.data.source.TemperatureHumidityDataSource
 import io.reactivex.Observable
 import ua.andrii.chernysh.kotlinrxsocket.socket.RxSocket
-import ua.andrii.chernysh.rxsockets.data.model.TemperatureHumidityDTO
-import ua.andrii.chernysh.rxsockets.data.source.TemperatureHumidityDataSource
 import javax.inject.Inject
+
 
 /**
  * Copyright 2017. Andrii Chernysh
