@@ -19,8 +19,9 @@ package com.chernysh.smarthome.data.source
  * limitations under the License.
  */
 
-import com.chernysh.smarthome.data.network.source.TemperatureHumiditySocketDataSource
+import com.chernysh.smarthome.data.network.source.*
 import com.chernysh.smarthome.di.scope.ApplicationScope
+import com.transcendensoft.hedbanz.data.source.FirebaseIdDataSource
 import dagger.Binds
 import dagger.Module
 
@@ -35,4 +36,40 @@ interface DataSourceModule {
     @ApplicationScope
     fun provideTemperatureHumiditySocketDataSource(
         dataSource: TemperatureHumiditySocketDataSource): TemperatureHumidityDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideAlarmApiDataSourceDataSource(dataSource: AlarmApiDataSource): AlarmDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideBedroomApiDataSourceDataSource(dataSource: BedroomApiDataSource): BedroomDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideBoilerApiDataSourceDataSource(dataSource: BoilerApiDataSource): BoilerDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideCorridorApiDataSourceDataSource(dataSource: CorridorApiDataSource): CorridorDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideDoorApiDataSourceDataSource(dataSource: DoorApiDataSource): DoorDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideKitchenApiDataSourceDataSource(dataSource: KitchenApiDataSource): KitchenDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideLivingRoomApiDataSourceDataSource(dataSource: LivingRoomApiDataSource): LivingRoomDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideNeptunApiDataSourceDataSource(dataSource: NeptunApiDataSource): NeptunDataSource
+
+    @Binds
+    @ApplicationScope
+    fun provideFirebaseIdApiDataSourceDataSource(dataSource: FirebaseIdApiDataSource): FirebaseIdDataSource
 }
