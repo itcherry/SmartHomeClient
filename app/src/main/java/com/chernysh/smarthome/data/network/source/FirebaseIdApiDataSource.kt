@@ -1,7 +1,7 @@
 package com.chernysh.smarthome.data.network.source
 
 import com.transcendensoft.hedbanz.data.source.FirebaseIdDataSource
-import io.reactivex.Completable
+import io.reactivex.Maybe
 import javax.inject.Inject
 
 /**
@@ -28,10 +28,10 @@ import javax.inject.Inject
  */
 class FirebaseIdApiDataSource @Inject constructor() : ApiDataSource(), FirebaseIdDataSource {
 
-    override fun unbindFirebaseToken(userId: Long): Completable =
-            mService.unbindFirebaseToken(userId)
+    override fun unbindFirebaseToken(userId: Long): Maybe<Any> =
+        mService.unbindFirebaseToken(userId)
 
 
-    override fun bindFirebaseToken(userId: Long, token: String): Completable =
-            mService.bindFirebaseToken(userId, mapOf("fcmToken" to token))
+    override fun bindFirebaseToken(userId: Long, token: String): Maybe<Any> =
+        mService.bindFirebaseToken(userId, mapOf("fcmToken" to token))
 }

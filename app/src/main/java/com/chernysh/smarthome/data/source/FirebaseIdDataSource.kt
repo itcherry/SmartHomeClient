@@ -1,6 +1,6 @@
 package com.transcendensoft.hedbanz.data.source
 
-import io.reactivex.Completable
+import io.reactivex.Maybe
 
 /**
  * Copyright 2017. Andrii Chernysh
@@ -26,6 +26,6 @@ import io.reactivex.Completable
  *         Developed by <u>Transcendensoft</u>
  */
 interface FirebaseIdDataSource {
-    fun bindFirebaseToken(userId: Long, token: String): Completable
-    fun unbindFirebaseToken(userId: Long): Completable
+    fun bindFirebaseToken(userId: Long, token: String): Maybe<Any>
+    fun unbindFirebaseToken(userId: Long): Maybe<Any>
 }
