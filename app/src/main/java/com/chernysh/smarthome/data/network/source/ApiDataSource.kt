@@ -33,7 +33,7 @@ import javax.inject.Inject
  * Developed by <u>Transcendensoft</u>
  */
 abstract class ApiDataSource protected constructor() {
-    @Inject internal lateinit var mService: ApiService
+    @Inject internal lateinit var service: ApiService
 
     companion object {
         val HOST = BuildConfig.HOST_LINK
