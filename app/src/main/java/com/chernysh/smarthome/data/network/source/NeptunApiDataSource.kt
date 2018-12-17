@@ -30,7 +30,7 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class NeptunDataSourceImpl @Inject constructor() :
+class NeptunApiDataSource @Inject constructor() :
     ApiDataSource(), NeptunDataSource {
     override fun getState(): Single<Boolean> = service.getNeptunState()
 }

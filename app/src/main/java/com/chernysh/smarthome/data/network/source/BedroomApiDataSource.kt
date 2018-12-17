@@ -1,6 +1,6 @@
 package com.chernysh.smarthome.data.network.source
 
-import com.chernysh.smarthome.data.source.KitchenDataSource
+import com.chernysh.smarthome.data.source.BedroomDataSource
 import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
@@ -26,16 +26,19 @@ import javax.inject.Inject
 
 /**
  * Data source for changing and getting state of
- * rozetkas or light at kitchen
+ * rozetkas or light at bedroom
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class KitchenDataSourceImpl @Inject constructor() :
-    ApiDataSource(), KitchenDataSource {
+class BedroomApiDataSource @Inject constructor() :
+    ApiDataSource(), BedroomDataSource {
+    override fun setRozetkaState(isEnabled: Boolean): Maybe<Any> = service.setBedroomRozetkaState(isEnabled)
 
-    override fun setLightState(isEnabled: Boolean): Maybe<Any> = service.setKitchenLightState(isEnabled)
+    override fun getRozetkaState(): Single<Boolean> = service.getBedroomRozetkaState()
 
-    override fun getLightState(): Single<Boolean> = service.getKitchenLightState()
+    override fun setLightState(isEnabled: Boolean): Maybe<Any> = service.setBedroomLightState(isEnabled)
+
+    override fun getLightState(): Single<Boolean> = service.getBedroomLightState()
 }

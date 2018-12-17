@@ -1,6 +1,6 @@
 package com.chernysh.smarthome.data.network.source
 
-import com.chernysh.smarthome.data.source.DoorDataSource
+import com.chernysh.smarthome.data.source.CorridorDataSource
 import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
@@ -25,15 +25,16 @@ import javax.inject.Inject
  */
 
 /**
- * Data source for changing and getting state of entrance door
+ * Data source for changing and getting state of
+ * rozetkas or light at corridor
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class DoorDataSourceImpl @Inject constructor() :
-    ApiDataSource(), DoorDataSource {
-    override fun setState(isEnabled: Boolean): Maybe<Any> = service.setDoorState(isEnabled)
+class CorridorApiDataSource @Inject constructor() :
+    ApiDataSource(), CorridorDataSource {
+    override fun setLightState(isEnabled: Boolean): Maybe<Any> = service.setCorridorLightState(isEnabled)
 
-    override fun getState(): Single<Boolean> = service.getDoorState()
+    override fun getLightState(): Single<Boolean> = service.getCorridorLightState()
 }
