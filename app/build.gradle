@@ -45,7 +45,7 @@ android {
         versionCode 1
         versionName "0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        project.ext.set("archivesBaseName", "SmartHome-v" + versionName);
+        project.ext.set("archivesBaseName", "SmartDynasty-v" + versionName);
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 

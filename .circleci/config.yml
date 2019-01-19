@@ -98,7 +98,7 @@ jobs:
         run:
           name: "Deploy to fabric prod build"
           command: |
-            bundle exec fastlane crashlytics_beta api_token:$FABRIC_TOKEN build_secret:FABRIC_BUILD_SECRET notes:PROD,CIRCLE_BRANCH
+            bundle exec fastlane crashlytics_beta api_token:$FABRIC_TOKEN build_secret:FABRIC_BUILD_SECRET path:app/build/outputs/apk/release/SmartDynasty-v$CIRCLE_BUILD_NUM.apk notes:PROD,$CIRCLE_BRANCH
       -
         run:
           name: "Save signed apk to workspace"

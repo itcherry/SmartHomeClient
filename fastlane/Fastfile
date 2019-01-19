@@ -81,21 +81,21 @@ platform :android do
   lane :deploy do |options|
     supply(
       track: "beta",
-      json_key_data:options[:json_data]
-      apk:lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
-      mapping:options[:mapping]
+      json_key_data: options[:json_data]
+      apk: options[:path],
+      mapping: options[:mapping]
     )
 
     increment_version_name(app_project_dir: '**/app', bump_type: 'patch') # Change it when you need to make minor or major increment
-    #{telegramMessage( "New Android build was successfully published to Google Play beta! Congratulations! #{buildInfo}")}
+    telegramMessage( "New Android build was successfully published to Google Play beta! Congratulations! #{buildInfo}")
   end
 
   after_all do |lane|
-    #{telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} was successful! Congratulations!, Circle Ci job: #{ENV['CIRCLE_JOB']} #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}")}
+    telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} was successful! Congratulations!, Circle Ci job: #{ENV['CIRCLE_JOB']} #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
   end
 
   error do |lane, exception|
-    #{telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} failed during #{ENV['CIRCLE_JOB']} Circle Ci job \n #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}",)}
+    telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} failed during #{ENV['CIRCLE_JOB']} Circle Ci job \n #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}",)
   end
 
   def buildInfo
