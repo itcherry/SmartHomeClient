@@ -1,9 +1,5 @@
 version: 2
 
-dependencies:
-  pre:
-    - source environmentSetup.sh && copyEnvVarsToGradleProperties
-
 references:
   container_config: &container_config
     docker:
