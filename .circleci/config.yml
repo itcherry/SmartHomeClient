@@ -1,31 +1,152 @@
 version: 2
+
+dependencies:
+  pre:
+  - source environmentSetup.sh && copyEnvVarsToGradleProperties
+
+references:
+  container_config: &container_config
+    docker:
+    - image: circleci/android:api-28-alpha
+
+    working_directory: ~/code
+
+    environment:
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=\"-Xmx1536m -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1\""
+      TERM: dumb
+
+    resource_class: large
+
+  workspace_root: &workspace_root
+                    /tmp/workspace
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+  general_cache_key: &general_cache_key
+    key: smart_dynasty-{{ checksum "App/build.gradle" }}-{{ checksum "App/app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "App/gradle.properties" }}-{{ checksum "App/gradle/wrapper/gradle-wrapper.properties" }}
+
 jobs:
   build:
-    working_directory: ~/code
-    docker:
-      - image: circleci/android:api-28-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
+    <<: *container_config
+    steps:
+    - checkout
+    -
+      run:
+        command: gem install bundler && bundle install
+        name: configure build
+    -
+      restore_cache:
+        <<: *general_cache_key
+    - run:
+        name: "Setting telegram credentials"
+        command: |
+          cd App/ && bundle exec fastlane set_telegram_creds token:$TELEGRAM_TOKEN chat_id:TELEGRAM_CHAT_ID
+    -
+      run:
+        name: "Initial Build"
+        command: |
+          cd App/ && bundle exec fastlane build
+    -
+      save_cache:
+        <<: *general_cache_key
+        paths:
+        - ~/.gradle
+        - ~/.m2
+        - /opt/android-sdk-linux/licenses/
+  test:
+    <<: *container_config
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
+      -
+        run:
+          command: gem install bundler && bundle install
+          name: configure build
+      -
+        restore_cache:
+          <<: *general_cache_key
+      -
+        run:
+          name: "Run Tests"
+          command: |
+            cd App/ && bundle exec fastlane test
+      -
+        store_artifacts:
+          path: App/app/build/reports/tests/
+          destination: tests_reports/
+      -
+        store_test_results:
+          path: ~/code/App/app/build/test-results
+  prod:
+    <<: *container_config
+    steps:
+      - checkout
+      -
+        run:
+          command: gem install bundler && bundle install
+          name: configure build
+      -
+        restore_cache:
+          <<: *general_cache_key
+      -
+        run:
+          name: "Sign apk prod"
+          command: |
+            cd App/ && bundle exec fastlane sign_apk_lane type:Release keystore_path:app/keystore/smarthome.jks store_password:$STORE_PASSWORD key_alias: $KEY_ALIAS key_password:$KEY_PASSWORD
+      -
+        run:
+          name: "Deploy to fabric prod build"
+          command: |
+            cd App/ && bundle exec fastlane crashlytics_beta api_token:$FABRIC_TOKEN build_secret:FABRIC_BUILD_SECRET notes:PROD,CIRCLE_BRANCH
+      -
+        run:
+          name: "Save signed apk to workspace"
+          command: |
+            mkdir -p /tmp/workspace/built_apks/prodApk/
+            mv App/app/build/outputs/apk/release/app-prod-NDK-release.apk /tmp/workspace/built_apks/prodApk/
+            mv App/app/build/outputs/mapping/release/mapping.txt /tmp/workspace/built_apks/prodApk/
+      -
+        persist_to_workspace:
+          root: *workspace_root
           paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - store_test_results:
-          path: app/build/test-results
-          destination: test-results/
-      - run:
-          name: Initial build
-          command: ./gradlew clean assembleRelease --no-daemon --stacktrace
-      - store_artifacts:
-          path: app/build/outputs/apk/
-          destination: apks/
+            - built_apks/prodApk
+  deploy:
+    <<: *container_config
+    steps:
+      - checkout
+      - *attach_workspace
+      -
+        run:
+          command: gem install bundler && bundle install
+          name: configure build
+      -
+        run:
+          name: "Fastlane deploy"
+          command: |
+            cd App/ && bundle exec fastlane deploy path:/tmp/workspace/built_apks/prodApk/app-prod-NDK-release.apk json_data:$GOOGLE_API_JSON mapping:/tmp/workspace/built_apks/prodApk/mapping.txt
+
+workflows:
+  version: 2
+  build_tests_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - prod:
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+          requires:
+            - test
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - test
+            - prod

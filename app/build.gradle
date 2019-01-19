@@ -36,10 +36,12 @@ ext {
 
 android {
     compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.chernysh.smarthome"
         minSdkVersion 19
         targetSdkVersion 28
+
         versionCode 1
         versionName "0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -50,10 +52,7 @@ android {
         buildConfigField("String", 'HOST_LINK', '\"http://176.36.146.229\"')
         buildConfigField("String", 'PORT_API', '\":8080/\"')
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
-        buildConfigField("String", "FABRIC_TOKEN", "\"" + FABRIC_TOKEN + "\"")
-        buildConfigField("String", "GOOGLE_API_JSON", "\"" + GOOGLE_API_JSON + "\"")
-        buildConfigField("String", "TELEGRAM_CHAT_ID", "\"" + TELEGRAM_CHAT_ID + "\"")
-        buildConfigField("String", "TELEGRAM_TOKEN", "\"" + TELEGRAM_TOKEN + "\"")
+        resValue("String", "fabric_token", "\"" + FABRIC_TOKEN + "\"")
     }
     buildTypes {
         release {

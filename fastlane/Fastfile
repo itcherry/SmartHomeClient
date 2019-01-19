@@ -16,36 +16,99 @@
 default_platform(:android)
 
 platform :android do
+  TELEGRAM_TOKEN = nil
+  TELEGRAM_CHAT_ID = nil
+
+  desc "Initialize telegram credentials"
+  lane :set_telegram_creds do |options|
+    TELEGRAM_TOKEN = options[:token]
+    TELEGRAM_CHAT_ID = options[:chat_id]
+  end
+
+  desc "Build debug version of application with incrementing version code of app"
+  lane :build do
+    increment_version_code(app_project_dir: '**/app')
+    gradle(task: "--stacktrace assemble", build_type: "Debug")
+  end
+
   desc "Runs all the tests"
   lane :test do
-    gradle(task: "test")
+    gradle(task: "--stacktrace testDebugUnitTest")
+  end
+
+  lane :sign_apk_lane do |options|
+    gradle(task: "clean")
+    gradle(
+      task: "--stacktrace assemble",
+      # flavor: options[:flavor],
+      build_type: options[:type].
+      properties: {
+        "android.injected.signing.store.file" => options[:keystore_path],
+        "android.injected.signing.store.password" => options[:store_password],
+        "android.injected.signing.key.alias" => options[:key_alias],
+        "android.injected.signing.key.password" => options[:key_password],
+      }
+    )
+    analyze_apk(
+      android_home: ENV[ANDROID_HOME],
+      build_tools_version: '28.0.3',
+      apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+    )
+
+    #{telegramMessage("Android #{options[:type]} build signed and analyzed.\n
+                       Package name: #{lane_context[SharedValues::ANALYZE_APK_PACKAGE_NAME]}\n
+                       Version code: #{lane_context[SharedValues::ANALYZE_APK_VERSION_CODE]}\n
+                       App name: #{lane_context[SharedValues::ANALYZE_APK_APP_NAME]}\n
+                       Minimum sdk: #{lane_context[SharedValues::ANALYZE_APK_MIN_SDK]}\n
+                       Apk size: #{lane_context[SharedValues::ANALYZE_APK_SIZE]} bytes")}
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
+    lane :crashlytics_beta do |options|
+      sh("cd .. && touch changelog.txt")
+      File.write("./changelog.txt", options[:notes])
+      crashlytics(
+        api_token: options[:api_token],
+        build_secret: options[:build_secret],
+        apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
+        groups:["smart-dynasty-test-group"],
+        notifications: true,
+        notes_path:"fastlane/changelog.txt"
+      )
+    end
 
   desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+  lane :deploy do |options|
+    supply(
+      track: "beta",
+      json_key_data:options[:json_data]
+      apk:lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
+      mapping:options[:mapping]
+    )
+
+    increment_version_name(app_project_dir: '**/app', bump_type: 'patch') # Change it when you need to make minor or major increment
+    #{telegramMessage( "New Android build was successfully published to Google Play beta! Congratulations! #{buildInfo}")}
   end
 
-  lane :test do
-    telegram
+  after_all do |lane|
+    #{telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} was successful! Congratulations!, Circle Ci job: #{ENV['CIRCLE_JOB']} #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}")}
   end
 
-  lane :proxied do
-  	telegram(
-        token: "your_token",
-        chat_id: "your_chat_id",
-        text: "Hello World! (sent trough proxy)",
-        proxy: "https://123.45.67.89:80"
-      )
+  error do |lane, exception|
+    #{telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} failed during #{ENV['CIRCLE_JOB']} Circle Ci job \n #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}",)}
+  end
+
+  def buildInfo
+    "Build version #{get_version_name(app_project_dir: '**/app')} (#{get_version_code(app_project_dir: '**/app')})"
+  end
+
+  def telegramMessage(message)
+    telegram(
+      token: #{TELEGRAM_TOKEN},
+      chat_id: #{TELEGRAM_CHAT_ID},
+      text: message
+    )
   end
 end
+
+

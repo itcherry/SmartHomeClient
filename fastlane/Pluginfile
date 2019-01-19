@@ -3,3 +3,5 @@
 # Ensure this file is checked in to source control!
 
 gem 'fastlane-plugin-telegram'
+gem 'fastlane-plugin-android_versioning'
+gem 'fastlane-plugin-analyze_apk'

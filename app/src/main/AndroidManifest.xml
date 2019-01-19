@@ -20,7 +20,7 @@
                 android:value="ratio_float" />
         <meta-data
                 android:name="io.fabric.ApiKey"
-                android:value="044b7dfc84eb1a148f1ae6b840e3911a8ee29379" />
+                android:value="@string/fabric_token" />
 
         <!-- Activities -->
         <activity android:name=".MainActivity">
