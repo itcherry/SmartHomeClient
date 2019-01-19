@@ -42,12 +42,12 @@ jobs:
     - run:
         name: "Setting telegram credentials"
         command: |
-          cd App/ && bundle exec fastlane set_telegram_creds token:$TELEGRAM_TOKEN chat_id:$TELEGRAM_CHAT_ID
+          bundle exec fastlane set_telegram_creds token:$TELEGRAM_TOKEN chat_id:$TELEGRAM_CHAT_ID
     -
       run:
         name: "Initial Build"
         command: |
-          cd App/ && bundle exec fastlane build
+          bundle exec fastlane build
     -
       save_cache:
         <<: *general_cache_key
@@ -70,7 +70,7 @@ jobs:
         run:
           name: "Run Tests"
           command: |
-            cd App/ && bundle exec fastlane test
+            bundle exec fastlane test
       -
         store_artifacts:
           path: App/app/build/reports/tests/
@@ -93,12 +93,12 @@ jobs:
         run:
           name: "Sign apk prod"
           command: |
-            cd App/ && bundle exec fastlane sign_apk_lane type:Release keystore_path:app/keystore/smarthome.jks store_password:$STORE_PASSWORD key_alias: $KEY_ALIAS key_password:$KEY_PASSWORD
+            bundle exec fastlane sign_apk_lane type:Release keystore_path:app/keystore/smarthome.jks store_password:$STORE_PASSWORD key_alias: $KEY_ALIAS key_password:$KEY_PASSWORD
       -
         run:
           name: "Deploy to fabric prod build"
           command: |
-            cd App/ && bundle exec fastlane crashlytics_beta api_token:$FABRIC_TOKEN build_secret:FABRIC_BUILD_SECRET notes:PROD,CIRCLE_BRANCH
+            bundle exec fastlane crashlytics_beta api_token:$FABRIC_TOKEN build_secret:FABRIC_BUILD_SECRET notes:PROD,CIRCLE_BRANCH
       -
         run:
           name: "Save signed apk to workspace"
@@ -124,7 +124,7 @@ jobs:
         run:
           name: "Fastlane deploy"
           command: |
-            cd App/ && bundle exec fastlane deploy path:/tmp/workspace/built_apks/prodApk/app-prod-NDK-release.apk json_data:$GOOGLE_API_JSON mapping:/tmp/workspace/built_apks/prodApk/mapping.txt
+            bundle exec fastlane deploy path:/tmp/workspace/built_apks/prodApk/app-prod-NDK-release.apk json_data:$GOOGLE_API_JSON mapping:/tmp/workspace/built_apks/prodApk/mapping.txt
 
 workflows:
   version: 2
