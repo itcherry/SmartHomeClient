@@ -41,12 +41,12 @@ platform :android do
     gradle(
       task: "--stacktrace assemble",
       # flavor: options[:flavor],
-      build_type: options[:type].
+      build_type: options[:type],
       properties: {
         "android.injected.signing.store.file" => options[:keystore_path],
         "android.injected.signing.store.password" => options[:store_password],
         "android.injected.signing.key.alias" => options[:key_alias],
-        "android.injected.signing.key.password" => options[:key_password],
+        "android.injected.signing.key.password" => options[:key_password]
       }
     )
     analyze_apk(
@@ -56,11 +56,11 @@ platform :android do
     )
 
     #{telegramMessage("Android #{options[:type]} build signed and analyzed.\n
-                       Package name: #{lane_context[SharedValues::ANALYZE_APK_PACKAGE_NAME]}\n
-                       Version code: #{lane_context[SharedValues::ANALYZE_APK_VERSION_CODE]}\n
-                       App name: #{lane_context[SharedValues::ANALYZE_APK_APP_NAME]}\n
-                       Minimum sdk: #{lane_context[SharedValues::ANALYZE_APK_MIN_SDK]}\n
-                       Apk size: #{lane_context[SharedValues::ANALYZE_APK_SIZE]} bytes")}
+                       Package name:#{lane_context[SharedValues::ANALYZE_APK_PACKAGE_NAME]}\n
+                       Version code:#{lane_context[SharedValues::ANALYZE_APK_VERSION_CODE]}\n
+                       App name:#{lane_context[SharedValues::ANALYZE_APK_APP_NAME]}\n
+                       Minimum sdk:#{lane_context[SharedValues::ANALYZE_APK_MIN_SDK]}\n
+                       Apk size:#{lane_context[SharedValues::ANALYZE_APK_SIZE]} bytes")}
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"

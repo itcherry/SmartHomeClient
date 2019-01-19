@@ -2,12 +2,12 @@ version: 2
 
 dependencies:
   pre:
-  - source environmentSetup.sh && copyEnvVarsToGradleProperties
+    - source environmentSetup.sh && copyEnvVarsToGradleProperties
 
 references:
   container_config: &container_config
     docker:
-    - image: circleci/android:api-28-alpha
+      - image: circleci/android:api-28-alpha
 
     working_directory: ~/code
 
@@ -25,7 +25,7 @@ references:
       at: *workspace_root
 
   general_cache_key: &general_cache_key
-    key: smart_dynasty-{{ checksum "App/build.gradle" }}-{{ checksum "App/app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "App/gradle.properties" }}-{{ checksum "App/gradle/wrapper/gradle-wrapper.properties" }}
+    key: smart_dynasty-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle.properties" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 
 jobs:
   build:
@@ -73,11 +73,11 @@ jobs:
             bundle exec fastlane test
       -
         store_artifacts:
-          path: App/app/build/reports/tests/
+          path: app/build/reports/tests/
           destination: tests_reports/
       -
         store_test_results:
-          path: ~/code/App/app/build/test-results
+          path: ~/code/app/build/test-results
   prod:
     <<: *container_config
     steps:
@@ -104,8 +104,8 @@ jobs:
           name: "Save signed apk to workspace"
           command: |
             mkdir -p /tmp/workspace/built_apks/prodApk/
-            mv App/app/build/outputs/apk/release/app-prod-NDK-release.apk /tmp/workspace/built_apks/prodApk/
-            mv App/app/build/outputs/mapping/release/mapping.txt /tmp/workspace/built_apks/prodApk/
+            mv app/build/outputs/apk/release/app-prod-NDK-release.apk /tmp/workspace/built_apks/prodApk/
+            mv app/build/outputs/mapping/release/mapping.txt /tmp/workspace/built_apks/prodApk/
       -
         persist_to_workspace:
           root: *workspace_root
