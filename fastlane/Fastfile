@@ -81,7 +81,7 @@ platform :android do
   lane :deploy do |options|
     supply(
       track: "beta",
-      json_key_data: options[:json_data]
+      json_key_data: options[:json_data],
       apk: options[:path],
       mapping: options[:mapping]
     )
