@@ -5,5 +5,8 @@ import com.chernysh.smarthome.domain.model.TemperatureHumidityData
 import io.reactivex.Observable
 
 interface TemperatureHumidityRepository: SocketRepository {
-    fun temperatureHumidityObservable(dataPolicy: DataPolicy): Observable<TemperatureHumidityData>
+    fun temperatureHumidityBedroomObservable(dataPolicy: DataPolicy): Observable<TemperatureHumidityData>
+    fun temperatureHumidityKitchenObservable(dataPolicy: DataPolicy): Observable<TemperatureHumidityData>
+    fun temperatureHumidityLivingRoomObservable(dataPolicy: DataPolicy): Observable<TemperatureHumidityData>
+    fun temperatureHumidityOutdoorObservable(dataPolicy: DataPolicy): Observable<TemperatureHumidityData>
 }
