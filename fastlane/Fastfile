@@ -35,4 +35,17 @@ platform :android do
     gradle(task: "clean assembleRelease")
     upload_to_play_store
   end
+
+  lane :test do
+    telegram
+  end
+
+  lane :proxied do
+  	telegram(
+        token: "your_token",
+        chat_id: "your_chat_id",
+        text: "Hello World! (sent trough proxy)",
+        proxy: "https://123.45.67.89:80"
+      )
+  end
 end

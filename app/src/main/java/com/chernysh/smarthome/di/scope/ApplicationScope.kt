@@ -20,6 +20,7 @@ package com.chernysh.smarthome.di.scope
  */
 
 import javax.inject.Qualifier
+import javax.inject.Scope
 
 /**
  * Dagger 2 scope for application level
@@ -30,6 +31,6 @@ import javax.inject.Qualifier
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  */
 @MustBeDocumented
-@Qualifier
+@Scope
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class ApplicationScope
