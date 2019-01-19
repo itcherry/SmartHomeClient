@@ -55,12 +55,12 @@ platform :android do
       apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
     )
 
-    #{telegramMessage("Android #{options[:type]} build signed and analyzed.\n
-                       Package name:#{lane_context[SharedValues::ANALYZE_APK_PACKAGE_NAME]}\n
-                       Version code:#{lane_context[SharedValues::ANALYZE_APK_VERSION_CODE]}\n
-                       App name:#{lane_context[SharedValues::ANALYZE_APK_APP_NAME]}\n
-                       Minimum sdk:#{lane_context[SharedValues::ANALYZE_APK_MIN_SDK]}\n
-                       Apk size:#{lane_context[SharedValues::ANALYZE_APK_SIZE]} bytes")}
+    telegramMessage("Android #{options[:type]} build signed and analyzed.\n
+                       Package name: #{lane_context[SharedValues::ANALYZE_APK_PACKAGE_NAME]}\n
+                       Version code: #{lane_context[SharedValues::ANALYZE_APK_VERSION_CODE]}\n
+                       App name: #{lane_context[SharedValues::ANALYZE_APK_APP_NAME]}\n
+                       Minimum sdk: #{lane_context[SharedValues::ANALYZE_APK_MIN_SDK]}\n
+                       Apk size: #{lane_context[SharedValues::ANALYZE_APK_SIZE]} bytes")
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
