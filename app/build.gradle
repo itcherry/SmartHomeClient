@@ -52,7 +52,7 @@ android {
         buildConfigField("String", 'HOST_LINK', '\"http://176.36.146.229\"')
         buildConfigField("String", 'PORT_API', '\":8080/\"')
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
-        resValue("String", "fabric_token", "\"" + FABRIC_TOKEN + "\"")
+        resValue("string", "fabric_token", "\"" + FABRIC_TOKEN + "\"")
     }
     buildTypes {
         release {
