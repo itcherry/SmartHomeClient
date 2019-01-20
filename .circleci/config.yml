@@ -102,7 +102,7 @@ jobs:
         run:
           name: "Sign apk prod"
           command: |
-            echo $KEYSTORE_JKS | base64 -d > smarthome.jks
+            echo $KEYSTORE_JKS | base64 -D > smarthome.jks
             bundle exec fastlane sign_apk type:Release keystore_path:smarthome.jks store_password:$STORE_PASSWORD key_alias:$KEY_ALIAS key_password:$KEY_PASSWORD
       -
         run:
