@@ -16,13 +16,13 @@
 default_platform(:android)
 
 platform :android do
-  telegramToken = nil
-  telegramChatId = nil
+  TELEGRAM_TOKEN = nil
+  TELEGRAM_CHAT_ID = nil
 
   desc "Initialize telegram credentials"
   lane :set_telegram_creds do |options|
-    telegramToken = options[:token]
-    telegramChatId = options[:chat_id]
+    TELEGRAM_TOKEN = options[:token]
+    TELEGRAM_CHAT_ID = options[:chat_id]
   end
 
   desc "Build debug version of application with incrementing version code of app"
@@ -91,6 +91,7 @@ platform :android do
   end
 
   after_all do |lane|
+    puts("token: #{TELEGRAM_TOKEN}; chat_id: #{TELEGRAM_CHAT_ID}")
     telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} was successful! Congratulations!, Circle Ci job: #{ENV['CIRCLE_JOB']} #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
   end
 
@@ -104,8 +105,8 @@ platform :android do
 
   def telegramMessage(message)
     telegram(
-      token: telegramToken,
-      chat_id: telegramChatId,
+      token: TELEGRAM_TOKEN,
+      chat_id: TELEGRAM_CHAT_ID,
       text: message
     )
   end
