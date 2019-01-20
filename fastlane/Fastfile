@@ -49,9 +49,9 @@ platform :android do
       }
     )
     analyze_apk(
-      android_home: ENV[ANDROID_HOME],
+      android_home: "/usr/local/android-sdk-linux",
       build_tools_version: '28.0.3',
-      apk_path: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk"
+      apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
     )
 
     telegramMessage("Android #{options[:type]} build *№ #{ENV['CIRCLE_BUILD_NUM']}* was successfully signed and analyzed.
