@@ -52,7 +52,7 @@ platform :android do
     analyze_apk(
       android_home: ENV[ANDROID_HOME],
       build_tools_version: '28.0.3',
-      apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+      apk_path: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk"
     )
 
     telegramMessage("Android #{options[:type]} build signed and analyzed.\n
@@ -70,7 +70,7 @@ platform :android do
       crashlytics(
         api_token: options[:api_token],
         build_secret: options[:build_secret],
-        apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
+        apk_path: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk",
         groups:["smart-dynasty-test-group"],
         notifications: true,
         notes_path:"fastlane/changelog.txt"
@@ -82,7 +82,7 @@ platform :android do
     supply(
       track: "beta",
       json_key_data: options[:json_data],
-      apk: options[:path],
+      apk: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk",
       mapping: options[:mapping]
     )
 
@@ -105,10 +105,9 @@ platform :android do
 
   def telegramMessage(message)
     telegram(
-      token: "764723199:AAFtArwAWV3nTkHobuAkDNf06L-PToyIHhk",
-      chat_id: "590369912",
-      text: message,
-      proxy: "https://92.60.190.249:59961"
+      token: TELEGRAM_TOKEN,
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message
     )
   end
 end

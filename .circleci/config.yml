@@ -107,19 +107,7 @@ jobs:
         run:
           name: "Deploy to fabric prod build"
           command: |
-            bundle exec fastlane crashlytics_beta api_token:$FABRIC_TOKEN build_secret:FABRIC_BUILD_SECRET path:app/build/outputs/apk/release/SmartDynasty-v$CIRCLE_BUILD_NUM.apk notes:PROD,$CIRCLE_BRANCH
-      -
-        run:
-          name: "Save signed apk to workspace"
-          command: |
-            mkdir -p /tmp/workspace/built_apks/prodApk/
-            mv app/build/outputs/apk/release/app-prod-NDK-release.apk /tmp/workspace/built_apks/prodApk/
-            mv app/build/outputs/mapping/release/mapping.txt /tmp/workspace/built_apks/prodApk/
-      -
-        persist_to_workspace:
-          root: *workspace_root
-          paths:
-            - built_apks/prodApk
+            bundle exec fastlane crashlytics_beta api_token:$FABRIC_TOKEN build_secret:$FABRIC_BUILD_SECRET notes:PROD,$CIRCLE_BRANCH
   deploy:
     <<: *container_config
     steps:
@@ -133,7 +121,7 @@ jobs:
         run:
           name: "Fastlane deploy"
           command: |
-            bundle exec fastlane deploy path:/tmp/workspace/built_apks/prodApk/app-prod-NDK-release.apk json_data:$GOOGLE_API_JSON mapping:/tmp/workspace/built_apks/prodApk/mapping.txt
+            bundle exec fastlane deploy json_data:$GOOGLE_API_JSON mapping:/tmp/workspace/built_apks/prodApk/mapping.txt
 
 workflows:
   version: 2
