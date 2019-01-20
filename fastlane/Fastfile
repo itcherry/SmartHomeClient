@@ -107,7 +107,7 @@ platform :android do
       token: TELEGRAM_TOKEN,
       chat_id: TELEGRAM_CHAT_ID,
       text: message,
-      proxy: "https://185.136.158.12:1080"
+      proxy: "https://212.96.167.47:45426"
     )
   end
 end
