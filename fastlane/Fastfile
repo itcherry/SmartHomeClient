@@ -104,11 +104,13 @@ platform :android do
   end
 
   def telegramMessage(message)
-    telegram(
-      token: TELEGRAM_TOKEN,
-      chat_id: TELEGRAM_CHAT_ID,
-      text: message
-    )
+    require 'net/http'
+
+    token = "764723199:AAFtArwAWV3nTkHobuAkDNf06L-PToyIHhk"
+    chat_id = "252991258"
+    text = "fasdfasdf"
+    uri = URI.parse("https://api.telegram.org/bot#{token}/sendMessage")
+    response = Net::HTTP.post_form(uri, {:chat_id => chat_id, :text => text})
   end
 end
 
