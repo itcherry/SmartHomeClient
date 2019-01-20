@@ -36,11 +36,10 @@ platform :android do
     gradle(task: "--stacktrace testDebugUnitTest")
   end
 
-  lane :sign_apk_lane do |options|
+  lane :sign_apk do |options|
     gradle(task: "clean")
     gradle(
       task: "--stacktrace assemble",
-      # flavor: options[:flavor],
       build_type: options[:type],
       properties: {
         "android.injected.signing.store.file" => options[:keystore_path],

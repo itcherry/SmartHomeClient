@@ -102,7 +102,7 @@ jobs:
         run:
           name: "Sign apk prod"
           command: |
-            bundle exec fastlane sign_apk_lane type:Release keystore_path:app/keystore/smarthome.jks store_password:$STORE_PASSWORD key_alias: $KEY_ALIAS key_password:$KEY_PASSWORD
+            bundle exec fastlane sign_apk type:Release keystore_path:app/keystore/smarthome.jks store_password:$STORE_PASSWORD key_alias:$KEY_ALIAS key_password:$KEY_PASSWORD
       -
         run:
           name: "Deploy to fabric prod build"
