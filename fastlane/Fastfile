@@ -107,7 +107,8 @@ platform :android do
     telegram(
       token: "764723199:AAFtArwAWV3nTkHobuAkDNf06L-PToyIHhk",
       chat_id: "590369912",
-      text: message
+      text: message,
+      proxy: "https://92.60.190.249:59961"
     )
   end
 end
