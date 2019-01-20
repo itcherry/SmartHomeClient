@@ -55,12 +55,14 @@ platform :android do
       apk_path: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk"
     )
 
-    telegramMessage("Android #{options[:type]} build signed and analyzed.\n
-                       Package name: #{lane_context[SharedValues::ANALYZE_APK_PACKAGE_NAME]}\n
-                       Version code: #{lane_context[SharedValues::ANALYZE_APK_VERSION_CODE]}\n
-                       App name: #{lane_context[SharedValues::ANALYZE_APK_APP_NAME]}\n
-                       Minimum sdk: #{lane_context[SharedValues::ANALYZE_APK_MIN_SDK]}\n
-                       Apk size: #{lane_context[SharedValues::ANALYZE_APK_SIZE]} bytes")
+    telegramMessage("Android #{options[:type]} build *№ #{ENV['CIRCLE_BUILD_NUM']}* was successfully signed and analyzed.
+                       *Circle Ci job:* #{ENV['CIRCLE_JOB']}.
+                       *Build info:* #{buildInfo}.\n
+                       *Package name:* #{lane_context[SharedValues::ANALYZE_APK_PACKAGE_NAME]}.
+                       *Version code:* #{lane_context[SharedValues::ANALYZE_APK_VERSION_CODE]}.
+                       *App name:* #{lane_context[SharedValues::ANALYZE_APK_APP_NAME]}.
+                       *Minimum sdk:* #{lane_context[SharedValues::ANALYZE_APK_MIN_SDK]}.
+                       *Apk size:* #{lane_context[SharedValues::ANALYZE_APK_SIZE]} bytes.")
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
@@ -75,6 +77,8 @@ platform :android do
         notifications: true,
         notes_path:"fastlane/changelog.txt"
       )
+
+      telegramMessage("Build *№ #{ENV['CIRCLE_BUILD_NUM']}* was successfully uploaded to *Crashlytics Beta*, congratulations!, Circle Ci job: _#{ENV['CIRCLE_JOB']}_. Build info: *#{buildInfo}*")
     end
 
   desc "Deploy a new version to the Google Play"
@@ -87,16 +91,11 @@ platform :android do
     )
 
     increment_version_name(app_project_dir: '**/app', bump_type: 'patch') # Change it when you need to make minor or major increment
-    telegramMessage( "New Android build was successfully published to Google Play beta! Congratulations! #{buildInfo}")
-  end
-
-  after_all do |lane|
-    puts("token: #{TELEGRAM_TOKEN}; chat_id: #{TELEGRAM_CHAT_ID}")
-    telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} was successful! Congratulations!, Circle Ci job: #{ENV['CIRCLE_JOB']} #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
+    telegramMessage( "New Android build № #{ENV['CIRCLE_BUILD_NUM']} was successfully published to Google Play beta! Congratulations! Build info: *#{buildInfo}*")
   end
 
   error do |lane, exception|
-    telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} failed during #{ENV['CIRCLE_JOB']} Circle Ci job \n #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}",)
+    telegramMessage("Build *№ #{ENV['CIRCLE_BUILD_NUM']}* FAILED during #{ENV['CIRCLE_JOB']} Circle Ci job _#{ENV['CIRCLE_JOB']}_ *#{buildInfo}*. Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
   end
 
   def buildInfo
@@ -106,11 +105,8 @@ platform :android do
   def telegramMessage(message)
     require 'net/http'
 
-    token = "764723199:AAFtArwAWV3nTkHobuAkDNf06L-PToyIHhk"
-    chat_id = "252991258"
-    text = "fasdfasdf"
-    uri = URI.parse("https://api.telegram.org/bot#{token}/sendMessage")
-    response = Net::HTTP.post_form(uri, {:chat_id => chat_id, :text => text})
+    uri = URI.parse("https://api.telegram.org/bot#{TELEGRAM_TOKEN}/sendMessage")
+    response = Net::HTTP.post_form(uri, {:chat_id => TELEGRAM_CHAT_ID, :text => message, :parse_mode => "Markdown"})
   end
 end
 
