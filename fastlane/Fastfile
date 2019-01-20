@@ -16,13 +16,13 @@
 default_platform(:android)
 
 platform :android do
-  TELEGRAM_TOKEN = nil
-  TELEGRAM_CHAT_ID = nil
+  t_token = nil
+  t_chat_id = nil
 
   desc "Initialize telegram credentials"
   lane :set_telegram_creds do |options|
-    TELEGRAM_TOKEN = options[:token]
-    TELEGRAM_CHAT_ID = options[:chat_id]
+    t_token = options[:token]
+    t_chat_id = options[:chat_id]
   end
 
   desc "Build debug version of application with incrementing version code of app"
@@ -104,10 +104,9 @@ platform :android do
 
   def telegramMessage(message)
     telegram(
-      token: TELEGRAM_TOKEN,
-      chat_id: TELEGRAM_CHAT_ID,
-      text: message,
-      proxy: "https://212.96.167.47:45426"
+      token: t_token,
+      chat_id: t_chat_id,
+      text: message
     )
   end
 end
