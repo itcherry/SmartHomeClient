@@ -1,6 +1,7 @@
 package com.chernysh.smarthome
 
 import android.support.v7.app.AppCompatDelegate
+import com.chernysh.smarthome.di.component.DaggerAppComponent
 import com.chernysh.smarthome.utils.logging.CrashReportingTree
 import com.crashlytics.android.Crashlytics
 import com.squareup.leakcanary.LeakCanary
@@ -12,8 +13,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class SmartHomeApplication : DaggerApplication(), HasServiceInjector {
-    @Inject internal var mDebugTimberTree: Timber.DebugTree? = null
-    @Inject internal var mReleaseTimberTree: CrashReportingTree? = null
+    @Inject lateinit var mDebugTimberTree: Timber.DebugTree
+    @Inject lateinit var mReleaseTimberTree: CrashReportingTree
 
     override fun onCreate() {
         super.onCreate()
@@ -41,5 +42,4 @@ class SmartHomeApplication : DaggerApplication(), HasServiceInjector {
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder().create(this)
     }
-
 }

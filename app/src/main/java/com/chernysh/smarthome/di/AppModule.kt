@@ -33,7 +33,7 @@ import ua.andrii.chernysh.rxsockets.data.network.SocketServiceModule
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  */
-@Module(includes = arrayOf(SocketServiceModule::class, ActivityBindingModule::class))
+@Module(includes = [SocketServiceModule::class, ActivityBindingModule::class])
 abstract class AppModule {
 
     @Binds
@@ -43,8 +43,10 @@ abstract class AppModule {
     /*@Binds
     abstract fun bindBaseActivity(mainActivity: MainActivity): DaggerAppCompatActivity*/
 
+    @Module
     companion object {
         @Provides
+        @JvmStatic
         fun provideApplication(smartHomeApplication: SmartHomeApplication): Application {
             return smartHomeApplication
         }

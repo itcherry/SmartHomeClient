@@ -10,18 +10,18 @@ buildscript {
     }
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+
 repositories {
     jcenter()
     mavenCentral()
     google()
     maven { url 'https://maven.fabric.io/public' }
 }
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
 
 ext {
     support_version = '28.0.0'
@@ -41,7 +41,6 @@ android {
         applicationId "com.chernysh.smarthome"
         minSdkVersion 19
         targetSdkVersion 28
-
         versionCode 1
         versionName "0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -52,7 +51,7 @@ android {
         buildConfigField("String", 'HOST_LINK', '\"http://176.36.146.229\"')
         buildConfigField("String", 'PORT_API', '\":8080/\"')
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
-        resValue("string", "fabric_token", "\"" + FABRIC_TOKEN + "\"")
+        manifestPlaceholders = [ fabric_token: FABRIC_TOKEN]
     }
     buildTypes {
         release {
@@ -95,7 +94,7 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.6@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
         transitive = true;
     }
 
@@ -108,7 +107,7 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
     //Networking
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
@@ -154,3 +153,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+apply plugin: 'com.google.gms.google-services'

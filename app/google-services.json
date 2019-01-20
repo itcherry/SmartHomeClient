@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "446560254465",
+    "firebase_url": "https://smartdynasty-5df74.firebaseio.com",
+    "project_id": "smartdynasty-5df74",
+    "storage_bucket": "smartdynasty-5df74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446560254465:android:7fb975b4a607459e",
+        "android_client_info": {
+          "package_name": "com.chernysh.smarthome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446560254465-humv6jrgn8darv3k5hof5ka2rjprhdce.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC606YHZvSB8cxNNaVo5flZ4D9_Uy8J2rE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
