@@ -109,7 +109,7 @@ platform :android do
     require 'net/http'
 
     uri = URI.parse("https://api.telegram.org/bot#{TELEGRAM_TOKEN}/sendMessage")
-    response = Net::HTTP.post_form(uri, {:chat_id => TELEGRAM_CHAT_ID, :text => message, :parse_mode => Markdown})
+    response = Net::HTTP.post_form(uri, {:chat_id => TELEGRAM_CHAT_ID, :text => message, :parse_mode => "Markdown"})
   end
 end
 

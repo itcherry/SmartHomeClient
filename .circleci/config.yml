@@ -128,16 +128,23 @@ workflows:
   version: 2
   build_tests_deploy:
     jobs:
+      - build
+      - test:
+          requires:
+            - build
       - prod:
           filters:
             branches:
               only:
                 - develop
                 - master
+          requires:
+            - test
       - deploy:
           filters:
             branches:
               only:
                 - master
           requires:
+            - test
             - prod
