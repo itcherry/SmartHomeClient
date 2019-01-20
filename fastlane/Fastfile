@@ -91,7 +91,6 @@ platform :android do
   end
 
   after_all do |lane|
-    puts("token: #{TELEGRAM_TOKEN}, chat_id: #{TELEGRAM_CHAT_ID}")
     telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} was successful! Congratulations!, Circle Ci job: #{ENV['CIRCLE_JOB']} #{buildInfo} \n Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
   end
 
@@ -107,7 +106,8 @@ platform :android do
     telegram(
       token: TELEGRAM_TOKEN,
       chat_id: TELEGRAM_CHAT_ID,
-      text: message
+      text: message,
+      proxy: "http://157.230.58.198:80"
     )
   end
 end
