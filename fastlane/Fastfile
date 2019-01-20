@@ -105,8 +105,8 @@ platform :android do
 
   def telegramMessage(message)
     telegram(
-      token: TELEGRAM_TOKEN,
-      chat_id: TELEGRAM_CHAT_ID,
+      token: "764723199:AAFtArwAWV3nTkHobuAkDNf06L-PToyIHhk",
+      chat_id: "590369912",
       text: message
     )
   end
