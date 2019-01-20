@@ -35,10 +35,12 @@ jobs:
     -
       restore_cache:
         <<: *general_cache_key
-    - run:
+    -
+      run:
         name: chmod permissions
         command: chmod +x ./gradlew
-    - run:
+    -
+      run:
         name: "Setting telegram credentials"
         command: |
           bundle exec fastlane set_telegram_creds token:$TELEGRAM_TOKEN chat_id:$TELEGRAM_CHAT_ID
@@ -67,6 +69,10 @@ jobs:
           <<: *general_cache_key
       -
         run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+      -
+        run:
           name: "Run Tests"
           command: |
             bundle exec fastlane test
@@ -88,6 +94,10 @@ jobs:
       -
         restore_cache:
           <<: *general_cache_key
+      -
+        run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
       -
         run:
           name: "Sign apk prod"
