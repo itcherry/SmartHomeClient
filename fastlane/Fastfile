@@ -49,7 +49,7 @@ platform :android do
       }
     )
     analyze_apk(
-      android_home: "/usr/local/android-sdk-linux",
+      android_home: "/opt/android/sdk",
       build_tools_version: '28.0.3',
       apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
     )
