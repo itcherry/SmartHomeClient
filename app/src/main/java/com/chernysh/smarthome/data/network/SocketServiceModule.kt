@@ -43,7 +43,7 @@ class SocketServiceModule {
     fun provideSocket(gsonProvided: Gson, loggingInterceptor: SocketLoggingInterceptor): RxSocket {
         return createRxSocket {
             hostIp = ApiDataSource.HOST
-            port = ApiDataSource.PORT_SOCKET
+            port = ApiDataSource.PORT_SOCKET.toInt()
             namespace = ApiDataSource.SOCKET_NSP
             socketLoggingInterceptor = loggingInterceptor
             gson = gsonProvided

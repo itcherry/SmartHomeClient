@@ -39,37 +39,37 @@ interface DataSourceModule {
 
     @Binds
     @ApplicationScope
-    fun provideAlarmApiDataSourceDataSource(dataSource: AlarmApiDataSource): AlarmDataSource
+    fun provideAlarmApiDataSource(dataSource: AlarmApiDataSource): AlarmDataSource
 
     @Binds
     @ApplicationScope
-    fun provideBedroomApiDataSourceDataSource(dataSource: BedroomApiDataSource): BedroomDataSource
+    fun provideBedroomApiDataSource(dataSource: BedroomApiDataSource): BedroomDataSource
 
     @Binds
     @ApplicationScope
-    fun provideBoilerApiDataSourceDataSource(dataSource: BoilerApiDataSource): BoilerDataSource
+    fun provideBoilerApiDataSource(dataSource: BoilerApiDataSource): BoilerDataSource
 
     @Binds
     @ApplicationScope
-    fun provideCorridorApiDataSourceDataSource(dataSource: CorridorApiDataSource): CorridorDataSource
+    fun provideCorridorApiDataSource(dataSource: CorridorApiDataSource): CorridorDataSource
 
     @Binds
     @ApplicationScope
-    fun provideDoorApiDataSourceDataSource(dataSource: DoorApiDataSource): DoorDataSource
+    fun provideDoorApiDataSource(dataSource: DoorApiDataSource): DoorDataSource
 
     @Binds
     @ApplicationScope
-    fun provideKitchenApiDataSourceDataSource(dataSource: KitchenApiDataSource): KitchenDataSource
+    fun provideKitchenApiDataSource(dataSource: KitchenApiDataSource): KitchenDataSource
 
     @Binds
     @ApplicationScope
-    fun provideLivingRoomApiDataSourceDataSource(dataSource: LivingRoomApiDataSource): LivingRoomDataSource
+    fun provideLivingRoomApiDataSource(dataSource: LivingRoomApiDataSource): LivingRoomDataSource
 
     @Binds
     @ApplicationScope
-    fun provideNeptunApiDataSourceDataSource(dataSource: NeptunApiDataSource): NeptunDataSource
+    fun provideNeptunApiDataSource(dataSource: NeptunApiDataSource): NeptunDataSource
 
     @Binds
     @ApplicationScope
-    fun provideFirebaseIdApiDataSourceDataSource(dataSource: FirebaseIdApiDataSource): FirebaseIdDataSource
+    fun provideFirebaseIdApiDataSource(dataSource: FirebaseIdApiDataSource): FirebaseIdDataSource
 }

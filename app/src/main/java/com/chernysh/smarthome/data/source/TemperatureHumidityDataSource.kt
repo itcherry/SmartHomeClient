@@ -8,5 +8,9 @@ import io.reactivex.Observable
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  */
 interface TemperatureHumidityDataSource: SocketDataSource {
-    fun getTemperature(): Observable<TemperatureHumidityDTO>
+    fun getTemperatureBedroom(): Observable<TemperatureHumidityDTO>
+    fun getTemperatureKitchen(): Observable<TemperatureHumidityDTO>
+    fun getTemperatureLivingRoom(): Observable<TemperatureHumidityDTO>
+    fun getTemperatureOutdoor(): Observable<TemperatureHumidityDTO>
+
 }

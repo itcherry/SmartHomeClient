@@ -1,4 +1,4 @@
-package com.chernysh.smarthome.di.scope
+package com.chernysh.smarthome.domain.interactor.bedroom
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -19,17 +19,12 @@ package com.chernysh.smarthome.di.scope
  * limitations under the License.
  */
 
-import javax.inject.Qualifier
-import javax.inject.Scope
-
 /**
- * Dagger 2 scope for activity level. Additionally,
- * a component with a specific scope cannot have a
- * sub component with the same scope.
+ * TODO add description here
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
+ *         developed by <u>Transcendensoft</u>
+ *         especially for Zhk Dinastija
  */
-@MustBeDocumented
-@Scope
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
-annotation class ActivityScope
+class BedroomInteractor {
+}

@@ -28,11 +28,22 @@ import javax.inject.Inject
  */
 class TemperatureHumiditySocketDataSource @Inject constructor(val socket: RxSocket) :
         SocketDataSource(socket), TemperatureHumidityDataSource {
+    override fun getTemperatureKitchen(): Observable<TemperatureHumidityDTO> =
+        socket.observableOn(TEMP_HUM_KITCHEN_EVENT, TemperatureHumidityDTO::class.java)
 
-    override fun getTemperature(): Observable<TemperatureHumidityDTO> =
-        socket.observableOn(TEMP_HUM_EVENT, TemperatureHumidityDTO::class.java)
+    override fun getTemperatureLivingRoom(): Observable<TemperatureHumidityDTO> =
+        socket.observableOn(TEMP_HUM_LIVING_ROOM_EVENT, TemperatureHumidityDTO::class.java)
+
+    override fun getTemperatureOutdoor(): Observable<TemperatureHumidityDTO> =
+        socket.observableOn(TEMP_HUM_OUTDOOR_EVENT, TemperatureHumidityDTO::class.java)
+
+    override fun getTemperatureBedroom(): Observable<TemperatureHumidityDTO> =
+        socket.observableOn(TEMP_HUM_BEDROOM_EVENT, TemperatureHumidityDTO::class.java)
 
     companion object {
-        const val TEMP_HUM_EVENT = "tempHum"
+        const val TEMP_HUM_BEDROOM_EVENT = "tempHumBedroom"
+        const val TEMP_HUM_KITCHEN_EVENT = "tempHumKitchen"
+        const val TEMP_HUM_LIVING_ROOM_EVENT = "tempHumLivingRoom"
+        const val TEMP_HUM_OUTDOOR_EVENT = "tempHumOutdoor"
     }
 }
