@@ -91,11 +91,14 @@ platform :android do
     )
 
     increment_version_name(app_project_dir: '**/app', bump_type: 'patch') # Change it when you need to make minor or major increment
-    telegramMessage( "New Android build № #{ENV['CIRCLE_BUILD_NUM']} was successfully published to Google Play beta! Congratulations! Build info: *#{buildInfo}*")
+    telegramMessage( "New Android build № #{ENV['CIRCLE_BUILD_NUM']} was successfully published to Google Play beta!
+                      Congratulations! Build info: *#{buildInfo}*")
   end
 
   error do |lane, exception|
-    telegramMessage("Build *№ #{ENV['CIRCLE_BUILD_NUM']}* FAILED during #{ENV['CIRCLE_JOB']} Circle Ci job _#{ENV['CIRCLE_JOB']}_ *#{buildInfo}*. Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
+    telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} *FAILED* during #{ENV['CIRCLE_JOB']} Circle Ci job _#{ENV['CIRCLE_JOB']}_.
+                     Build info: *#{buildInfo}*.
+                     Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
   end
 
   def buildInfo
