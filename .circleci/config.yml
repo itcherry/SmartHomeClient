@@ -102,8 +102,8 @@ jobs:
         run:
           name: "Sign apk prod"
           command: |
-            echo $KEYSTORE_JKS | base64 --decode > /home/circleci/code/app/smarthome.jks
-            bundle exec fastlane sign_apk type:Release keystore_path:/home/circleci/code/app/smarthome.jks store_password:$STORE_PASSWORD key_alias:$KEY_ALIAS key_password:$KEY_PASSWORD
+            echo $KEYSTORE_FILE | base64 --decode > /home/circleci/code/app/smartdynasty.jks
+            bundle exec fastlane sign_apk type:Release keystore_path:/home/circleci/code/app/smartdynasty.jks store_password:$STORE_PASSWORD key_alias:$KEY_ALIAS key_password:$KEY_PASSWORD
       -
         run:
           name: "Deploy to fabric prod build"
