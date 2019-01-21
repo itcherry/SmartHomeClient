@@ -58,8 +58,4 @@ class BedroomInteractor @Inject constructor(
 
     fun disableRozetkaObservable() =
         bedroomRozetkaUseCase.processBedroomRozetka(BedroomRozetkaUseCase.Data(Method.SET, false))
-
-    fun disconnect() {
-        temperatureHumidityRepository.disconnect()
-    }
 }

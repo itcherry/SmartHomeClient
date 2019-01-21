@@ -1,10 +1,8 @@
-package com.chernysh.smarthome.domain.interactor.kitchen
+package com.chernysh.smarthome.domain.interactor.kitchen.usecase
 
 import com.chernysh.smarthome.data.exception.NoConnectivityException
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.Method
-import com.chernysh.smarthome.domain.repository.BedroomRepository
-import com.chernysh.smarthome.domain.repository.CorridorRepository
 import com.chernysh.smarthome.domain.repository.KitchenRepository
 import io.reactivex.Observable
 import javax.inject.Inject

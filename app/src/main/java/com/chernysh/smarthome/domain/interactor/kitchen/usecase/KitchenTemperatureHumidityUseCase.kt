@@ -1,15 +1,13 @@
-package com.chernysh.smarthome.domain.interactor.bedroom.usecase
+package com.chernysh.smarthome.domain.interactor.kitchen.usecase
 
 import com.chernysh.smarthome.data.source.DataPolicy
 import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import com.chernysh.smarthome.domain.repository.TemperatureHumidityRepository
 import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
- * Use case to getting temperature and humidity withing bedroom
+ * Use case to getting temperature and humidity withing kitchen
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
@@ -20,7 +18,7 @@ class BedroomTemperatureHumidityUseCase @Inject constructor(
 
     fun getTemperatureHumidity(): Observable<TemperatureHumidityViewState> =
         Observable.merge(listOf(
-            temperatureHumidityRepository.temperatureHumidityBedroomObservable(DataPolicy.SOCKET)
+            temperatureHumidityRepository.temperatureHumidityKitchenObservable(DataPolicy.SOCKET)
                 .map { TemperatureHumidityViewState.DataState(it) },
             temperatureHumidityRepository.onSocketConnect().map { TemperatureHumidityViewState.SocketConnectedState },
             temperatureHumidityRepository.onSocketDisconnect().map { TemperatureHumidityViewState.SocketDisconnectedState },
@@ -31,4 +29,5 @@ class BedroomTemperatureHumidityUseCase @Inject constructor(
             .doOnDispose { temperatureHumidityRepository.disconnect() }
             .startWith { TemperatureHumidityViewState.NoDataState }
             .onErrorReturn { TemperatureHumidityViewState.ErrorState(it) }
+
 }

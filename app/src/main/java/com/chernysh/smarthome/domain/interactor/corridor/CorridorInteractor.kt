@@ -10,12 +10,12 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class CorridorInteractor @Inject constructor(private val corridorLightsUseCase: KitchenLightsUseCase) {
-    fun getLightsStateObservable() = corridorLightsUseCase.processCorridorLights(KitchenLightsUseCase.Data(Method.GET))
+class CorridorInteractor @Inject constructor(private val corridorLightsUseCase: CorridorLightsUseCase) {
+    fun getLightsStateObservable() = corridorLightsUseCase.processCorridorLights(CorridorLightsUseCase.Data(Method.GET))
 
     fun enableLightsObservable() =
-        corridorLightsUseCase.processCorridorLights(KitchenLightsUseCase.Data(Method.SET, true))
+        corridorLightsUseCase.processCorridorLights(CorridorLightsUseCase.Data(Method.SET, true))
 
     fun disableLightsObservable() =
-        corridorLightsUseCase.processCorridorLights(KitchenLightsUseCase.Data(Method.SET, false))
+        corridorLightsUseCase.processCorridorLights(CorridorLightsUseCase.Data(Method.SET, false))
 }
