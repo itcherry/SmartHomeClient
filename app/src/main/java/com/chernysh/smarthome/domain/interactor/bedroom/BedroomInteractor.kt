@@ -1,12 +1,11 @@
 package com.chernysh.smarthome.domain.interactor.bedroom
 
-import com.chernysh.smarthome.domain.Method
+import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomLightsUseCase
 import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomRozetkaUseCase
 import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomTemperatureHumidityUseCase
 import com.chernysh.smarthome.domain.model.TemperatureHumidityData
 import com.chernysh.smarthome.domain.repository.TemperatureHumidityRepository
-import ua.andrii.chernysh.kotlinrxsocket.socket.RxSocketEvent
 import javax.inject.Inject
 
 /**
@@ -41,36 +40,26 @@ class BedroomInteractor @Inject constructor(
     private val bedroomRozetkaUseCase: BedroomRozetkaUseCase,
     private val temperatureHumidityRepository: TemperatureHumidityRepository) {
 
-    fun onTemperatureHumidityListener(listener: (data: TemperatureHumidityData) -> Unit) {
-        bedroomTemperatureHumidityUseCase.execute(Unit, listener)
-    }
+    fun onTemperatureHumidityObservable() = bedroomTemperatureHumidityUseCase.getTemperatureHumidity()
 
-    fun getLightsState(listener: (isEnabled: Boolean) -> Unit) =
-        bedroomLightsUseCase.execute(BedroomLightsUseCase.Data(Method.GET), listener)
+    fun getLightsStateObservable() = bedroomLightsUseCase.processBedroomLights(BedroomLightsUseCase.Data(Method.GET))
 
-    fun enableLights(listener: (isEnabled: Boolean) -> Unit) =
-        bedroomLightsUseCase.execute(BedroomLightsUseCase.Data(Method.SET, true), listener)
+    fun enableLightsObservable() =
+        bedroomLightsUseCase.processBedroomLights(BedroomLightsUseCase.Data(Method.SET, true))
 
-    fun disableLights(listener: (isEnabled: Boolean) -> Unit) =
-        bedroomLightsUseCase.execute(BedroomLightsUseCase.Data(Method.SET, false), listener)
+    fun disableLightsObservable() =
+        bedroomLightsUseCase.processBedroomLights(BedroomLightsUseCase.Data(Method.SET, false))
 
-    fun getRozetkaState(listener: (isEnabled: Boolean) -> Unit) =
-        bedroomRozetkaUseCase.execute(BedroomRozetkaUseCase.Data(Method.GET), listener)
+    fun getRozetkaStateObservable() =
+        bedroomRozetkaUseCase.processBedroomRozetka(BedroomRozetkaUseCase.Data(Method.GET))
 
-    fun enableRozetka(listener: (isEnabled: Boolean) -> Unit) =
-        bedroomRozetkaUseCase.execute(BedroomRozetkaUseCase.Data(Method.SET, true), listener)
+    fun enableRozetkaObservable() =
+        bedroomRozetkaUseCase.processBedroomRozetka(BedroomRozetkaUseCase.Data(Method.SET, true))
 
-    fun disableRozetka(listener: (isEnabled: Boolean) -> Unit) =
-        bedroomRozetkaUseCase.execute(BedroomRozetkaUseCase.Data(Method.SET, false), listener)
-
-    fun connect() {
-        temperatureHumidityRepository.connect()
-    }
+    fun disableRozetkaObservable() =
+        bedroomRozetkaUseCase.processBedroomRozetka(BedroomRozetkaUseCase.Data(Method.SET, false))
 
     fun disconnect() {
         temperatureHumidityRepository.disconnect()
-        bedroomTemperatureHumidityUseCase.dispose()
-        bedroomRozetkaUseCase.dispose()
-        bedroomLightsUseCase.dispose()
     }
 }

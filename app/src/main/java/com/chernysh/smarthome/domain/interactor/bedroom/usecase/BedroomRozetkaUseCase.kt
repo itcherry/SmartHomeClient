@@ -1,10 +1,11 @@
 package com.chernysh.smarthome.domain.interactor.bedroom.usecase
 
-import com.chernysh.smarthome.domain.Method
-import com.chernysh.smarthome.domain.SingleUseCase
+import com.chernysh.smarthome.data.exception.NoConnectivityException
+import com.chernysh.smarthome.domain.model.Method
+import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.repository.BedroomRepository
-import io.reactivex.Single
-import io.reactivex.SingleTransformer
+import io.reactivex.Observable
+import io.reactivex.ObservableTransformer
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -15,16 +16,22 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomRozetkaUseCase @Inject constructor(singleTransformer: SingleTransformer<Any, Any>,
-                                                compositeDisposable: CompositeDisposable,
-                                                private val rozetkaRepository: BedroomRepository) :
-    SingleUseCase<Boolean, BedroomRozetkaUseCase.Data>(singleTransformer, compositeDisposable) {
-
-    override fun buildUseCaseSingle(params: Data): Single<Boolean> =
+class BedroomRozetkaUseCase @Inject constructor(private val rozetkaRepository: BedroomRepository) {
+    fun processBedroomRozetka(params: Data): Observable<BooleanViewState> =
         when (params.method) {
             Method.GET -> rozetkaRepository.getRozetkaState()
             Method.SET -> rozetkaRepository.setRozetkaState(params.value).toSingle().map { params.value }
         }
+            .toObservable()
+            .map<BooleanViewState> { BooleanViewState.DataState(it) }
+            .startWith { BooleanViewState.LoadingState }
+            .onErrorReturn {
+                if (it is NoConnectivityException) {
+                    BooleanViewState.ConnectivityErrorState
+                } else {
+                    BooleanViewState.ErrorState(it)
+                }
+            }
 
     data class Data(val method: Method, val value: Boolean = false)
 }

@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.25.4'
+        classpath 'io.fabric.tools:gradle:1.26.1'
     }
 }
 
@@ -96,6 +96,9 @@ dependencies {
         transitive = true;
     }
 
+    //MVI
+    compile 'com.hannesdorfmann.mosby3:mvi:3.1.1'
+
     //Android
     implementation "com.android.support:support-v4:$support_version"
     implementation "com.android.support:appcompat-v7:$support_version"
@@ -105,7 +108,7 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
     //Networking
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"

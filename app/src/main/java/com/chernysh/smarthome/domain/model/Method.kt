@@ -1,4 +1,4 @@
-package com.chernysh.smarthome.domain
+package com.chernysh.smarthome.domain.model
 
 /**
  * Enum that contains methods of manipulating with lights or rozetka states
