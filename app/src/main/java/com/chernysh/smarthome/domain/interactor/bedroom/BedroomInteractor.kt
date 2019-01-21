@@ -37,8 +37,7 @@ import javax.inject.Inject
 class BedroomInteractor @Inject constructor(
     private val bedroomTemperatureHumidityUseCase: BedroomTemperatureHumidityUseCase,
     private val bedroomLightsUseCase: BedroomLightsUseCase,
-    private val bedroomRozetkaUseCase: BedroomRozetkaUseCase,
-    private val temperatureHumidityRepository: TemperatureHumidityRepository) {
+    private val bedroomRozetkaUseCase: BedroomRozetkaUseCase) {
 
     fun onTemperatureHumidityObservable() = bedroomTemperatureHumidityUseCase.getTemperatureHumidity()
 
