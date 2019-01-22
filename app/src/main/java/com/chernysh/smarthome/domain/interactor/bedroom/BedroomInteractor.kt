@@ -1,5 +1,13 @@
 package com.chernysh.smarthome.domain.interactor.bedroom
 
+import com.chernysh.smarthome.domain.model.Method
+import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomLightsUseCase
+import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomRozetkaUseCase
+import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomTemperatureHumidityUseCase
+import com.chernysh.smarthome.domain.model.TemperatureHumidityData
+import com.chernysh.smarthome.domain.repository.TemperatureHumidityRepository
+import javax.inject.Inject
+
 /**
  * Copyright 2018. Andrii Chernysh
  *
@@ -20,11 +28,33 @@ package com.chernysh.smarthome.domain.interactor.bedroom
  */
 
 /**
- * TODO add description here
+ * Interactor that manipulates data within bedroom
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomInteractor {
+class BedroomInteractor @Inject constructor(
+    private val bedroomTemperatureHumidityUseCase: BedroomTemperatureHumidityUseCase,
+    private val bedroomLightsUseCase: BedroomLightsUseCase,
+    private val bedroomRozetkaUseCase: BedroomRozetkaUseCase) {
+
+    fun onTemperatureHumidityObservable() = bedroomTemperatureHumidityUseCase.getTemperatureHumidity()
+
+    fun getLightsStateObservable() = bedroomLightsUseCase.processBedroomLights(BedroomLightsUseCase.Data(Method.GET))
+
+    fun enableLightsObservable() =
+        bedroomLightsUseCase.processBedroomLights(BedroomLightsUseCase.Data(Method.SET, true))
+
+    fun disableLightsObservable() =
+        bedroomLightsUseCase.processBedroomLights(BedroomLightsUseCase.Data(Method.SET, false))
+
+    fun getRozetkaStateObservable() =
+        bedroomRozetkaUseCase.processBedroomRozetka(BedroomRozetkaUseCase.Data(Method.GET))
+
+    fun enableRozetkaObservable() =
+        bedroomRozetkaUseCase.processBedroomRozetka(BedroomRozetkaUseCase.Data(Method.SET, true))
+
+    fun disableRozetkaObservable() =
+        bedroomRozetkaUseCase.processBedroomRozetka(BedroomRozetkaUseCase.Data(Method.SET, false))
 }
