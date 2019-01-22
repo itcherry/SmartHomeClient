@@ -37,7 +37,7 @@ import javax.inject.Inject
  */
 class SmartHomeFirebaseInstanceIdService : FirebaseInstanceIdService(), HasServiceInjector {
     //@Inject internal var mPreferenceManager: PreferenceManager? = null
-    @Inject internal var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>? = null
+    @Inject lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
     //@Inject internal var mFirebaseBindTokenInteractor: FirebaseBindTokenInteractor? = null
 
     // Якщо ще не залогінився, тоді записуємо в PreferenceManager;                                  +

@@ -24,6 +24,7 @@ import com.chernysh.smarthome.data.repository.RepositoryModule
 import com.chernysh.smarthome.di.AppModule
 import com.chernysh.smarthome.di.RxModule
 import com.chernysh.smarthome.di.scope.ApplicationScope
+import com.chernysh.smarthome.utils.logging.LoggingModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -36,7 +37,7 @@ import dagger.android.support.AndroidSupportInjectionModule
  */
 @ApplicationScope
 @Component(
-    modules = [AndroidSupportInjectionModule::class, AppModule::class, RepositoryModule::class, RxModule::class]
+    modules = [AndroidSupportInjectionModule::class, AppModule::class, RepositoryModule::class, RxModule::class, LoggingModule::class]
 )
 interface AppComponent : AndroidInjector<SmartHomeApplication> {
     @Component.Builder
