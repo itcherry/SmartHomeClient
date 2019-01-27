@@ -32,7 +32,7 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomInteractor @Inject constructor(
+class SafetyInteractor @Inject constructor(
     private val temperatureHumidityOutsideUseCase: TemperatureHumidityOutsideUseCase,
     private val alarmUseCase: AlarmUseCase,
     private val boilerUseCase: BoilerUseCase,
