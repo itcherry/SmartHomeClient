@@ -99,7 +99,7 @@ dependencies {
     }
 
     //MVI
-    compile 'com.hannesdorfmann.mosby3:mvi:3.1.1'
+    implementation 'com.hannesdorfmann.mosby3:mvi:3.1.1'
 
     //Android
     implementation "com.android.support:support-v4:$support_version"
