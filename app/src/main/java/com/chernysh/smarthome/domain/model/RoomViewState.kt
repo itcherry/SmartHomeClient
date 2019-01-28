@@ -1,9 +1,4 @@
-package com.chernysh.smarthome.presentation.bedroom
-
-import com.chernysh.smarthome.domain.model.RoomViewState
-import com.chernysh.smarthome.presentation.base.BaseView
-import com.hannesdorfmann.mosby3.mvp.MvpView
-import io.reactivex.Observable
+package com.chernysh.smarthome.domain.model
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -25,21 +20,12 @@ import io.reactivex.Observable
  */
 
 /**
- * View and Presenter interfaces contract for
- * bedroom presentation
+ * Class that describes view state of some room, that contains rozetka, lights and temperature
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-interface BedroomContract {
-    interface View: BaseView, MvpView {
-        fun setLightsStateIntent(): Observable<Boolean>
-        fun setRozetkaStateIntent(): Observable<Boolean>
-        fun render(state: RoomViewState)
-    }
-
-    interface Presenter {
-
-    }
-}
+data class RoomViewState(val lightsViewState: BooleanViewState,
+                         val rozetkaViewState:BooleanViewState,
+                         val temperatureHumidityViewState: TemperatureHumidityViewState)

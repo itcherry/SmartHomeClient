@@ -1,12 +1,9 @@
 package com.chernysh.smarthome.presentation.bedroom
 
-import com.chernysh.smarthome.di.qualifier.SchedulerIO
-import com.chernysh.smarthome.di.qualifier.SchedulerUI
 import com.chernysh.smarthome.domain.interactor.bedroom.BedroomInteractor
-import com.chernysh.smarthome.domain.model.BooleanViewState
-import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
-import io.reactivex.Observable
-import io.reactivex.Scheduler
+import com.chernysh.smarthome.domain.model.RoomViewState
+import com.chernysh.smarthome.presentation.base.BasePresenter
+import io.reactivex.ObservableTransformer
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -38,19 +35,17 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class BedroomPresenter @Inject constructor(private val bedroomInteractor: BedroomInteractor,
-                                           @SchedulerIO private val ioScheduler: Scheduler,
-                                           @SchedulerUI private val uiScheduler: Scheduler) :
-    MviBasePresenter<BedroomContract.View, BooleanViewState>() {
+                                           schedulersTransformer: ObservableTransformer<Any, Any>) :
+    BasePresenter<BedroomContract.View, RoomViewState>(schedulersTransformer) {
 
     @Override
     override fun bindIntents() {
-        setLightsIntent()
-        setRozetkaIntent()
+        val lightsIntent = getLightsIntent()
+        val rozetkaIntent = getRozetkaIntent()
+        val temperatureIntent = getTemperatureIntent()
     }
 
-    private fun setLightsIntent() {
-        val lightsIntent: Observable<BooleanViewState> = intent(BedroomContract.View::setLightsStateIntent)
-            .subscribeOn(ioScheduler)
+    private fun getLightsIntent() = intent(BedroomContract.View::setLightsStateIntent)
             .debounce(400, TimeUnit.MILLISECONDS)
             .switchMap {
                 if (it) {
@@ -59,14 +54,10 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
                     bedroomInteractor.disableLightsObservable()
                 }
             }
-            .observeOn(uiScheduler)
+            .compose(applySchedulers())
 
-        subscribeViewState(lightsIntent, BedroomContract.View::renderLight)
-    }
 
-    private fun setRozetkaIntent() {
-        val rozetkaIntent: Observable<BooleanViewState> = intent(BedroomContract.View::setRozetkaStateIntent)
-            .subscribeOn(ioScheduler)
+    private fun getRozetkaIntent() = intent(BedroomContract.View::setRozetkaStateIntent)
             .debounce(400, TimeUnit.MILLISECONDS)
             .switchMap {
                 if (it) {
@@ -75,8 +66,14 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
                     bedroomInteractor.disableRozetkaObservable()
                 }
             }
-            .observeOn(uiScheduler)
+            .compose(applySchedulers())
 
-        subscribeViewState(rozetkaIntent, BedroomContract.View::renderRozetka)
-    }
+    private fun getTemperatureIntent() = intent { viewResumedObservable }
+            .debounce(400, TimeUnit.MILLISECONDS)
+            .switchMap {
+                bedroomInteractor.onTemperatureHumidityObservable()
+                    .map { RoomViewState() }
+            }
+            .compose(applySchedulers())
+
 }
