@@ -111,7 +111,7 @@ platform :android do
 
     puts("token: #{ENV["TELEGRAM_TOKEN"]}; chat_id: #{ENV["TELEGRAM_CHAT_ID"]}")
     uri = URI.parse("https://api.telegram.org/bot#{ENV["TELEGRAM_TOKEN"]}/sendMessage")
-    response = Net::HTTP.post_form(uri, {:chat_id => ENV["TELEGRAM_TOKEN"], :text => message, :parse_mode => "Markdown"})
+    response = Net::HTTP.post_form(uri, {:chat_id => ENV["TELEGRAM_CHAT_ID"], :text => message, :parse_mode => "Markdown"})
   end
 end
 
