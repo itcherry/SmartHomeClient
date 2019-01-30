@@ -19,8 +19,8 @@ platform :android do
 
   desc "Initialize telegram credentials"
   lane :set_telegram_creds do |options|
-    @TELEGRAM_TOKEN = options[:token]
-    @TELEGRAM_CHAT_ID = options[:chat_id]
+    ENV["TELEGRAM_TOKEN"] = options[:token]
+    ENV["TELEGRAM_CHAT_ID"] = options[:chat_id]
     telegramMessage("Test")
   end
 
@@ -109,9 +109,9 @@ platform :android do
   def telegramMessage(message)
     require 'net/http'
 
-    puts("token: #{@TELEGRAM_TOKEN}; chat_id: #{@TELEGRAM_CHAT_ID}")
-    uri = URI.parse("https://api.telegram.org/bot#{@TELEGRAM_TOKEN}/sendMessage")
-    response = Net::HTTP.post_form(uri, {:chat_id => @TELEGRAM_CHAT_ID, :text => message, :parse_mode => "Markdown"})
+    puts("token: #{ENV["TELEGRAM_TOKEN"]}; chat_id: #{ENV["TELEGRAM_CHAT_ID"]}")
+    uri = URI.parse("https://api.telegram.org/bot#{ENV["TELEGRAM_TOKEN"]}/sendMessage")
+    response = Net::HTTP.post_form(uri, {:chat_id => ENV["TELEGRAM_TOKEN"], :text => message, :parse_mode => "Markdown"})
   end
 end
 
