@@ -29,6 +29,7 @@ platform :android do
   lane :build do
     increment_version_code(app_project_dir: '**/app')
     gradle(task: "--stacktrace assemble", build_type: "Debug")
+    telegramMessage("Test")
   end
 
   desc "Runs all the tests"
@@ -96,6 +97,7 @@ platform :android do
   end
 
   error do |lane, exception|
+    puts("On error")
     telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} *FAILED* during #{ENV['CIRCLE_JOB']} Circle Ci job _#{ENV['CIRCLE_JOB']}_.
                      Build info: *#{buildInfo}*.
                      Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
@@ -108,6 +110,7 @@ platform :android do
   def telegramMessage(message)
     require 'net/http'
 
+    puts("token: #{TELEGRAM_TOKEN}; chat_id: #{TELEGRAM_CHAT_ID}")
     uri = URI.parse("https://api.telegram.org/bot#{TELEGRAM_TOKEN}/sendMessage")
     response = Net::HTTP.post_form(uri, {:chat_id => TELEGRAM_CHAT_ID, :text => message, :parse_mode => "Markdown"})
   end
