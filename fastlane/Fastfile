@@ -23,6 +23,7 @@ platform :android do
   lane :set_telegram_creds do |options|
     TELEGRAM_TOKEN = options[:token]
     TELEGRAM_CHAT_ID = options[:chat_id]
+    telegramMessage("Test")
   end
 
   desc "Build debug version of application with incrementing version code of app"
