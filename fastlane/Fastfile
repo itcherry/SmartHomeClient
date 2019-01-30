@@ -97,7 +97,6 @@ platform :android do
     *Circle Ci job*: #{ENV['CIRCLE_JOB']}.
     *Branch:* #{ENV['CIRCLE_BRANCH']}
     *Build info:* #{buildInfo}.
-    *Error:* #{exception}
 
     _Additional info here:_ #{ENV['CIRCLE_BUILD_URL']}")
   end
