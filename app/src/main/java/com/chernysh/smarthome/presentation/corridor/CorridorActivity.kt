@@ -1,4 +1,4 @@
-package com.chernysh.smarthome.domain.model
+package com.chernysh.smarthome.presentation.corridor
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -20,15 +20,11 @@ package com.chernysh.smarthome.domain.model
  */
 
 /**
- * Class that describes which device sent state update
+ * TODO add description here
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-sealed class RoomPartialViewState {
-    data class RozetkaState(val state: BooleanViewState): RoomPartialViewState()
-    data class LightsState(val state: BooleanViewState): RoomPartialViewState()
-    data class LightsAndRozetkaState(val lightsState: BooleanViewState, val rozetkaState: BooleanViewState): RoomPartialViewState()
-    data class TemperatureHumidityState(val state: TemperatureHumidityViewState): RoomPartialViewState()
+class CorridorActivity {
 }

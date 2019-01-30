@@ -16,7 +16,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class BedroomRozetkaUseCase @Inject constructor(private val bedroomRepository: BedroomRepository) {
-    fun processBedroomRozetka(params: Data): Observable<RoomPartialViewState> =
+    fun processBedroomRozetka(params: Data): Observable<RoomPartialViewState.RozetkaState> =
         when (params.method) {
             Method.GET -> bedroomRepository.getRozetkaState()
             Method.SET -> bedroomRepository.setRozetkaState(params.value).toSingle().map { params.value }

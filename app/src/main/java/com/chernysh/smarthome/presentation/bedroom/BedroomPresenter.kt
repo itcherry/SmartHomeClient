@@ -8,6 +8,7 @@ import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import com.chernysh.smarthome.presentation.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.functions.BiFunction
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -47,8 +48,9 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
         val lightsIntent = getChangeLightsStateIntent()
         val rozetkaIntent = getChangeRozetkaStateIntent()
         val temperatureIntent = getTemperatureIntent()
+        val refreshDataIntent = getRefreshDataIntent()
 
-        val allIntents = Observable.merge(lightsIntent, rozetkaIntent, temperatureIntent)
+        val allIntents = Observable.merge(lightsIntent, rozetkaIntent, temperatureIntent, refreshDataIntent)
         val initialState =
             RoomViewState(BooleanViewState.LoadingState, BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState)
         val stateObservable = allIntents.scan(initialState, this::reducer)
@@ -86,11 +88,23 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
         }
         .compose(applySchedulers())
 
+    private fun getRefreshDataIntent() = intent(BedroomContract.View::refreshDataIntent)
+        .mergeWith(viewResumedObservable)
+        .switchMap {
+            Observable.zip(bedroomInteractor.getLightsStateObservable(), bedroomInteractor.getRozetkaStateObservable(),
+                BiFunction { lightsState: RoomPartialViewState.LightsState, rozetkaState: RoomPartialViewState.RozetkaState ->
+                    RoomPartialViewState.LightsAndRozetkaState(lightsState.state, rozetkaState.state)
+                })
+        }
+        .compose(applySchedulers())
+
     private fun reducer(previousState: RoomViewState, changes: RoomPartialViewState): RoomViewState {
         return when (changes) {
             is RoomPartialViewState.LightsState -> previousState.copy(lightsViewState = changes.state)
             is RoomPartialViewState.RozetkaState -> previousState.copy(rozetkaViewState = changes.state)
             is RoomPartialViewState.TemperatureHumidityState -> previousState.copy(temperatureHumidityViewState = changes.state)
+            is RoomPartialViewState.LightsAndRozetkaState ->
+                previousState.copy(lightsViewState = changes.lightsState, rozetkaViewState = changes.rozetkaState)
         }
     }
 }

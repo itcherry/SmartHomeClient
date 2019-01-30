@@ -1,4 +1,9 @@
-package com.chernysh.smarthome.domain.model
+package com.chernysh.smarthome.presentation.corridor
+
+import com.chernysh.smarthome.di.scope.ActivityScope
+import com.chernysh.smarthome.presentation.bedroom.BedroomContract
+import dagger.Binds
+import dagger.Module
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -20,15 +25,16 @@ package com.chernysh.smarthome.domain.model
  */
 
 /**
- * Class that describes which device sent state update
+ * Module that provides fragments, presenters
+ * and other instances for corridor presentations
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-sealed class RoomPartialViewState {
-    data class RozetkaState(val state: BooleanViewState): RoomPartialViewState()
-    data class LightsState(val state: BooleanViewState): RoomPartialViewState()
-    data class LightsAndRozetkaState(val lightsState: BooleanViewState, val rozetkaState: BooleanViewState): RoomPartialViewState()
-    data class TemperatureHumidityState(val state: TemperatureHumidityViewState): RoomPartialViewState()
+@Module
+interface CorridorModule {
+    @ActivityScope
+    @Binds
+    fun bindPresenter(corridorPresenter: CorridorPresenter): CorridorContract.Presenter
 }
