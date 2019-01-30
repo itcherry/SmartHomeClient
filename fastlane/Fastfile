@@ -93,12 +93,13 @@ platform :android do
   end
 
   error do |lane, exception|
-    telegramMessage(" *Build №#{ENV['CIRCLE_BUILD_NUM']}*: FAILED
-                      *Circle Ci job*: #{ENV['CIRCLE_JOB']}.
-                      *Branch:* #{ENV['CIRCLE_BRANCH']}.
-                      *Build info:* #{buildInfo}.
-                      *Error:* #{exception}.
-                      _Additional info here:_ #{ENV['CIRCLE_BUILD_URL']}")
+    telegramMessage("<b>Build №#{ENV['CIRCLE_BUILD_NUM']}</b>: FAILED
+    <b>Circle Ci job</b>: #{ENV['CIRCLE_JOB']}.
+    <b>Branch:</b> #{ENV['CIRCLE_BRANCH']}.
+    <b>Build info:</b> #{buildInfo}.
+    <b>Error</b>: #{exception.to_s}
+
+    <i>Additional info here:</i> #{ENV['CIRCLE_BUILD_URL']}")
   end
 
   def buildInfo
