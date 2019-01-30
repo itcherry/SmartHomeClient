@@ -93,9 +93,12 @@ platform :android do
   end
 
   error do |lane, exception|
-    telegramMessage("Build № #{ENV['CIRCLE_BUILD_NUM']} *FAILED* during #{ENV['CIRCLE_JOB']} Circle Ci job _#{ENV['CIRCLE_JOB']}_.
-                     Build info: *#{buildInfo}*.
-                     Additional info here: #{ENV['CIRCLE_BUILD_URL']}")
+    telegramMessage(" *Build №#{ENV['CIRCLE_BUILD_NUM']}*: FAILED
+                      *Circle Ci job*: #{ENV['CIRCLE_JOB']}.
+                      *Branch:* #{ENV['CIRCLE_BRANCH']}.
+                      *Build info:* #{buildInfo}.
+                      *Error:* #{exception}.
+                      _Additional info here:_ #{ENV['CIRCLE_BUILD_URL']}")
   end
 
   def buildInfo
