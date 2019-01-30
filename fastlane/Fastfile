@@ -52,7 +52,6 @@ platform :android do
       apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
     )
 
-    telegramMessage("Test text")
     telegramMessage("Android #{options[:type]} build *№ #{ENV['CIRCLE_BUILD_NUM']}* was successfully signed and analyzed.
                        *Circle Ci job:* #{ENV['CIRCLE_JOB']}.
                        *Build info:* #{buildInfo}.\n
@@ -98,7 +97,7 @@ platform :android do
     *Circle Ci job*: #{ENV['CIRCLE_JOB']}.
     *Branch:* #{ENV['CIRCLE_BRANCH']}
     *Build info:* #{buildInfo}.
-    *Error:* ${exception}
+    *Error:* #{exception}
 
     _Additional info here:_ #{ENV['CIRCLE_BUILD_URL']}")
   end
