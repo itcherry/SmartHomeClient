@@ -1,12 +1,11 @@
 package com.chernysh.smarthome.domain.interactor.bedroom.usecase
 
 import com.chernysh.smarthome.data.exception.NoConnectivityException
-import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.model.BooleanViewState
+import com.chernysh.smarthome.domain.model.Method
+import com.chernysh.smarthome.domain.model.RoomPartialViewState
 import com.chernysh.smarthome.domain.repository.BedroomRepository
 import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -17,7 +16,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class BedroomLightsUseCase @Inject constructor(private val bedroomRepository: BedroomRepository) {
-    fun processBedroomLights(params: Data): Observable<BooleanViewState> =
+    fun processBedroomLights(params: Data): Observable<RoomPartialViewState> =
         when (params.method) {
             Method.GET -> bedroomRepository.getLightState()
             Method.SET -> bedroomRepository.setLightState(params.value).toSingle().map { params.value }
@@ -32,6 +31,7 @@ class BedroomLightsUseCase @Inject constructor(private val bedroomRepository: Be
                     BooleanViewState.ErrorState(it)
                 }
             }
+            .map { RoomPartialViewState.LightsState(it) }
 
 
     data class Data(val method: Method, val value: Boolean = false)

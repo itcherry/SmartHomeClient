@@ -20,12 +20,14 @@ package com.chernysh.smarthome.domain.model
  */
 
 /**
- * Class that describes view state of some room, that contains rozetka, lights and temperature
+ * Class that describes which device sent state update
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-data class RoomViewState(val lightsViewState: BooleanViewState,
-                         val rozetkaViewState: BooleanViewState,
-                         val temperatureHumidityViewState: TemperatureHumidityViewState)
+sealed class RoomPartialViewState {
+    data class RozetkaState(val state: BooleanViewState): RoomPartialViewState()
+    data class LightsState(val state: BooleanViewState): RoomPartialViewState()
+    data class TemperatureHumidityState(val state: TemperatureHumidityViewState): RoomPartialViewState()
+}

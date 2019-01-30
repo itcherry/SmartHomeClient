@@ -1,8 +1,12 @@
 package com.chernysh.smarthome.presentation.bedroom
 
 import com.chernysh.smarthome.domain.interactor.bedroom.BedroomInteractor
+import com.chernysh.smarthome.domain.model.BooleanViewState
+import com.chernysh.smarthome.domain.model.RoomPartialViewState
 import com.chernysh.smarthome.domain.model.RoomViewState
+import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import com.chernysh.smarthome.presentation.base.BasePresenter
+import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -40,40 +44,53 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
 
     @Override
     override fun bindIntents() {
-        val lightsIntent = getLightsIntent()
-        val rozetkaIntent = getRozetkaIntent()
+        val lightsIntent = getChangeLightsStateIntent()
+        val rozetkaIntent = getChangeRozetkaStateIntent()
         val temperatureIntent = getTemperatureIntent()
+
+        val allIntents = Observable.merge(lightsIntent, rozetkaIntent, temperatureIntent)
+        val initialState =
+            RoomViewState(BooleanViewState.LoadingState, BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState)
+        val stateObservable = allIntents.scan(initialState, this::reducer)
+
+        subscribeViewState(stateObservable, BedroomContract.View::render);
     }
 
-    private fun getLightsIntent() = intent(BedroomContract.View::setLightsStateIntent)
-            .debounce(400, TimeUnit.MILLISECONDS)
-            .switchMap {
-                if (it) {
-                    bedroomInteractor.enableLightsObservable()
-                } else {
-                    bedroomInteractor.disableLightsObservable()
-                }
+    private fun getChangeLightsStateIntent() = intent(BedroomContract.View::setLightsStateIntent)
+        .debounce(400, TimeUnit.MILLISECONDS)
+        .switchMap {
+            if (it) {
+                bedroomInteractor.enableLightsObservable()
+            } else {
+                bedroomInteractor.disableLightsObservable()
             }
-            .compose(applySchedulers())
+        }
+        .compose(applySchedulers())
 
 
-    private fun getRozetkaIntent() = intent(BedroomContract.View::setRozetkaStateIntent)
-            .debounce(400, TimeUnit.MILLISECONDS)
-            .switchMap {
-                if (it) {
-                    bedroomInteractor.enableRozetkaObservable()
-                } else {
-                    bedroomInteractor.disableRozetkaObservable()
-                }
+    private fun getChangeRozetkaStateIntent() = intent(BedroomContract.View::setRozetkaStateIntent)
+        .debounce(400, TimeUnit.MILLISECONDS)
+        .switchMap {
+            if (it) {
+                bedroomInteractor.enableRozetkaObservable()
+            } else {
+                bedroomInteractor.disableRozetkaObservable()
             }
-            .compose(applySchedulers())
+        }
+        .compose(applySchedulers())
 
     private fun getTemperatureIntent() = intent { viewResumedObservable }
-            .debounce(400, TimeUnit.MILLISECONDS)
-            .switchMap {
-                bedroomInteractor.onTemperatureHumidityObservable()
-                    .map { RoomViewState() }
-            }
-            .compose(applySchedulers())
+        .debounce(400, TimeUnit.MILLISECONDS)
+        .switchMap {
+            bedroomInteractor.onTemperatureHumidityObservable()
+        }
+        .compose(applySchedulers())
 
+    private fun reducer(previousState: RoomViewState, changes: RoomPartialViewState): RoomViewState {
+        return when (changes) {
+            is RoomPartialViewState.LightsState -> previousState.copy(lightsViewState = changes.state)
+            is RoomPartialViewState.RozetkaState -> previousState.copy(rozetkaViewState = changes.state)
+            is RoomPartialViewState.TemperatureHumidityState -> previousState.copy(temperatureHumidityViewState = changes.state)
+        }
+    }
 }
