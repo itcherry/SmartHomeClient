@@ -23,7 +23,7 @@
                 android:value="${fabric_token}" />
 
         <!-- Activities -->
-        <activity android:name=".presentation.MainActivity">
+        <activity android:name=".presentation.flat.FlatActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

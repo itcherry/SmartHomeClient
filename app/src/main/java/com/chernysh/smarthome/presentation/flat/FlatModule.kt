@@ -1,4 +1,10 @@
-package com.chernysh.smarthome.di
+package com.chernysh.smarthome.presentation.flat
+
+import com.chernysh.smarthome.di.scope.ActivityScope
+import com.chernysh.smarthome.presentation.bedroom.BedroomContract
+import com.chernysh.smarthome.presentation.bedroom.BedroomPresenter
+import dagger.Binds
+import dagger.Module
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -19,16 +25,17 @@ package com.chernysh.smarthome.di
  * limitations under the License.
  */
 
-import dagger.Module
-
 /**
- * Dagger-Android module that binds all needed activities
+ * Module that provides fragments, presenters
+ * and other instances for main flat activity presentations
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
+ *         developed by <u>Transcendensoft</u>
+ *         especially for Zhk Dinastija
  */
 @Module
-interface ActivityBindingModule {
-    /*@ActivityScope
-    @ContributesAndroidInjector(modules = MainActivityModule::class)
-    fun mainActivity(): FlatActivity*/
+interface FlatModule {
+    @ActivityScope
+    @Binds
+    fun bindPresenter(flatPresenter: FlatPresenter): FlatContract.Presenter
 }

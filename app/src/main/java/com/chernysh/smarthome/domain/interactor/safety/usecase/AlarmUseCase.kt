@@ -2,7 +2,9 @@ package com.chernysh.smarthome.domain.interactor.safety.usecase
 
 import com.chernysh.smarthome.data.exception.NoConnectivityException
 import com.chernysh.smarthome.domain.model.BooleanViewState
+import com.chernysh.smarthome.domain.model.FlatPartialViewState
 import com.chernysh.smarthome.domain.model.Method
+import com.chernysh.smarthome.domain.model.RoomPartialViewState
 import com.chernysh.smarthome.domain.repository.AlarmRepository
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -15,7 +17,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class AlarmUseCase @Inject constructor(private val alarmRepository: AlarmRepository) {
-    fun processAlarmState(params: Data): Observable<BooleanViewState> =
+    fun processAlarmState(params: Data): Observable<FlatPartialViewState.AlarmState> =
         when (params.method) {
             Method.GET -> alarmRepository.getState()
             Method.SET -> alarmRepository.setState(params.value).toSingle().map { params.value }
@@ -30,6 +32,7 @@ class AlarmUseCase @Inject constructor(private val alarmRepository: AlarmReposit
                     BooleanViewState.ErrorState(it)
                 }
             }
+            .map { FlatPartialViewState.AlarmState(it) }
 
 
     data class Data(val method: Method, val value: Boolean = false)

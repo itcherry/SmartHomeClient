@@ -41,7 +41,7 @@ abstract class AppModule {
     abstract fun bindContext(smartHomeApplication: SmartHomeApplication): Context
 
     /*@Binds
-    abstract fun bindBaseActivity(mainActivity: MainActivity): DaggerAppCompatActivity*/
+    abstract fun bindBaseActivity(mainActivity: FlatActivity): DaggerAppCompatActivity*/
 
     @Module
     companion object {

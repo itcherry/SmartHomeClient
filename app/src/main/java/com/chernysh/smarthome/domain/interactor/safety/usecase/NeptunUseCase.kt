@@ -2,6 +2,7 @@ package com.chernysh.smarthome.domain.interactor.safety.usecase
 
 import com.chernysh.smarthome.data.exception.NoConnectivityException
 import com.chernysh.smarthome.domain.model.BooleanViewState
+import com.chernysh.smarthome.domain.model.FlatPartialViewState
 import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.repository.BoilerRepository
 import com.chernysh.smarthome.domain.repository.NeptunRepository
@@ -16,7 +17,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class NeptunUseCase @Inject constructor(private val neptunRepository: NeptunRepository) {
-    fun getNeptunState(): Observable<BooleanViewState> =
+    fun getNeptunState(): Observable<FlatPartialViewState.NeptunState> =
         neptunRepository.getState()
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }
@@ -28,6 +29,7 @@ class NeptunUseCase @Inject constructor(private val neptunRepository: NeptunRepo
                     BooleanViewState.ErrorState(it)
                 }
             }
+            .map { FlatPartialViewState.NeptunState(it) }
 
     data class Data(val method: Method, val value: Boolean = false)
 }
