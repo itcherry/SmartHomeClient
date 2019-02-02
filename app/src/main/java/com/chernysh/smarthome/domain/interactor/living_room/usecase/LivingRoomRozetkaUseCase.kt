@@ -3,6 +3,7 @@ package com.chernysh.smarthome.domain.interactor.living_room.usecase
 import com.chernysh.smarthome.data.exception.NoConnectivityException
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.Method
+import com.chernysh.smarthome.domain.model.RoomPartialWithoutLightsViewState
 import com.chernysh.smarthome.domain.repository.LivingRoomRepository
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class LivingRoomRozetkaUseCase @Inject constructor(private val livingRoomRepository: LivingRoomRepository) {
-    fun processLivingRoomRozetka(params: Data): Observable<BooleanViewState> =
+    fun processLivingRoomRozetka(params: Data): Observable<RoomPartialWithoutLightsViewState> =
         when (params.method) {
             Method.GET -> livingRoomRepository.getRozetkaState()
             Method.SET -> livingRoomRepository.setRozetkaState(params.value).toSingle().map { params.value }
@@ -30,6 +31,7 @@ class LivingRoomRozetkaUseCase @Inject constructor(private val livingRoomReposit
                     BooleanViewState.ErrorState(it)
                 }
             }
+            .map { RoomPartialWithoutLightsViewState.RozetkaState(it) }
 
     data class Data(val method: Method, val value: Boolean = false)
 }
