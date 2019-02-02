@@ -1,4 +1,8 @@
-package com.chernysh.smarthome.presentation.bedroom
+package com.chernysh.smarthome.presentation.kitchen
+
+import com.chernysh.smarthome.di.scope.ActivityScope
+import dagger.Binds
+import dagger.Module
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -20,12 +24,16 @@ package com.chernysh.smarthome.presentation.bedroom
  */
 
 /**
- * Activity for displaying bedroom device states.
+ * Module that provides fragments, presenters
+ * and other instances for kitchen presentations
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomActivity{
-
+@Module
+interface KitchenModule {
+    @ActivityScope
+    @Binds
+    fun bindPresenter(kitchenPresenter: KitchenPresenter): KitchenContract.Presenter
 }

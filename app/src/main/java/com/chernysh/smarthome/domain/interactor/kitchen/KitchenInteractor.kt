@@ -3,7 +3,6 @@ package com.chernysh.smarthome.domain.interactor.kitchen
 import com.chernysh.smarthome.domain.interactor.kitchen.usecase.KitchenLightsUseCase
 import com.chernysh.smarthome.domain.interactor.kitchen.usecase.KitchenTemperatureHumidityUseCase
 import com.chernysh.smarthome.domain.model.Method
-import com.chernysh.smarthome.domain.repository.TemperatureHumidityRepository
 import javax.inject.Inject
 
 /**
@@ -14,8 +13,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class KitchenInteractor @Inject constructor(private val kitchenLightsUseCase: KitchenLightsUseCase,
-                                            private val kitchenTemperatureHumidityUseCase: KitchenTemperatureHumidityUseCase,
-                                            private val temperatureHumidityRepository: TemperatureHumidityRepository) {
+                                            private val kitchenTemperatureHumidityUseCase: KitchenTemperatureHumidityUseCase) {
     fun onTemperatureHumidityObservable() = kitchenTemperatureHumidityUseCase.getTemperatureHumidity()
 
     fun getLightsStateObservable() = kitchenLightsUseCase.processKitchenLights(KitchenLightsUseCase.Data(Method.GET))

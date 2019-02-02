@@ -20,7 +20,7 @@ package com.chernysh.smarthome.presentation.corridor
  */
 
 /**
- * TODO add description here
+ * Activity for displaying corridor device states.
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>

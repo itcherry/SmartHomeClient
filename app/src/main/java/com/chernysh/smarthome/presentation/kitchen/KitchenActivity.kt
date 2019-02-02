@@ -1,4 +1,4 @@
-package com.chernysh.smarthome.presentation.bedroom
+package com.chernysh.smarthome.presentation.kitchen
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -20,12 +20,11 @@ package com.chernysh.smarthome.presentation.bedroom
  */
 
 /**
- * Activity for displaying bedroom device states.
+ * Activity for displaying kitchen device states.
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomActivity{
-
+class KitchenActivity {
 }

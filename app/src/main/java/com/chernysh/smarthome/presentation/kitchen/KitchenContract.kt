@@ -1,4 +1,9 @@
-package com.chernysh.smarthome.presentation.bedroom
+package com.chernysh.smarthome.presentation.kitchen
+
+import com.chernysh.smarthome.domain.model.RoomWithoutRozetkaViewState
+import com.chernysh.smarthome.presentation.base.BaseView
+import com.hannesdorfmann.mosby3.mvp.MvpView
+import io.reactivex.Observable
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -20,12 +25,21 @@ package com.chernysh.smarthome.presentation.bedroom
  */
 
 /**
- * Activity for displaying bedroom device states.
+ * View and Presenter interfaces contract for
+ * kitchen presentation
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomActivity{
+interface KitchenContract{
+    interface View : BaseView, MvpView {
+        fun setLightsStateIntent(): Observable<Boolean>
+        fun refreshDataIntent(): Observable<Any>
+        fun render(state: RoomWithoutRozetkaViewState)
+    }
 
+    interface Presenter {
+
+    }
 }

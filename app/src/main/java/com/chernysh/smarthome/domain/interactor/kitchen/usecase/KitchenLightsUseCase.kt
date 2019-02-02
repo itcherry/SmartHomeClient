@@ -3,6 +3,7 @@ package com.chernysh.smarthome.domain.interactor.kitchen.usecase
 import com.chernysh.smarthome.data.exception.NoConnectivityException
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.Method
+import com.chernysh.smarthome.domain.model.RoomPartialWithoutRozetkaViewState
 import com.chernysh.smarthome.domain.repository.KitchenRepository
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class KitchenLightsUseCase @Inject constructor(private val kitchenRepository: KitchenRepository) {
-    fun processKitchenLights(params: Data): Observable<BooleanViewState> =
+    fun processKitchenLights(params: Data): Observable<RoomPartialWithoutRozetkaViewState> =
         when (params.method) {
             Method.GET -> kitchenRepository.getLightState()
             Method.SET -> kitchenRepository.setLightState(params.value).toSingle().map { params.value }
@@ -30,6 +31,7 @@ class KitchenLightsUseCase @Inject constructor(private val kitchenRepository: Ki
                     BooleanViewState.ErrorState(it)
                 }
             }
+            .map { RoomPartialWithoutRozetkaViewState.LightsState(it) }
 
 
     data class Data(val method: Method, val value: Boolean = false)

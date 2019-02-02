@@ -1,4 +1,4 @@
-package com.chernysh.smarthome.presentation.bedroom
+package com.chernysh.smarthome.domain.model
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -20,12 +20,13 @@ package com.chernysh.smarthome.presentation.bedroom
  */
 
 /**
- * Activity for displaying bedroom device states.
+ * Class that describes which device sent state update
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomActivity{
-
+sealed class RoomPartialWithoutRozetkaViewState {
+    data class LightsState(val state: BooleanViewState): RoomPartialWithoutRozetkaViewState()
+    data class TemperatureHumidityState(val state: TemperatureHumidityViewState): RoomPartialWithoutRozetkaViewState()
 }
