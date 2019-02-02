@@ -29,7 +29,7 @@ import javax.inject.Inject
  */
 
 /**
- * Implementation of bedroom presenter.
+ * Implementation of flat presenter.
  * Here are work with server to process flat main events
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com

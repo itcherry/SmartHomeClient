@@ -28,7 +28,7 @@ import javax.inject.Inject
  */
 
 /**
- * Implementation of bedroom presenter.
+ * Implementation of kitchen presenter.
  * Here are work with server to process kitchen events
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com

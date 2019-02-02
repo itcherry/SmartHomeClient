@@ -28,8 +28,8 @@ import javax.inject.Inject
  */
 
 /**
- * Implementation of bedroom presenter.
- * Here are work with server to process bedroom events
+ * Implementation of living room presenter.
+ * Here are work with server to process living room events
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
