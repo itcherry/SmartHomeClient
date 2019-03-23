@@ -21,6 +21,7 @@ repositories {
     mavenCentral()
     google()
     maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://jitpack.io" }
 }
 
 ext {
@@ -39,7 +40,7 @@ android {
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.chernysh.smarthome"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "0.0.1"
@@ -150,6 +151,9 @@ dependencies {
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+
+    // View
+    implementation 'com.github.Triggertrap:SeekArc:v1.1'
 
     //Tests
     testImplementation 'junit:junit:4.12'
