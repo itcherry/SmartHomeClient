@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SmartHome</string>
+    <string name="server_error">Помилка серверу</string>
+    <string name="network_error">Відсутній інтернет</string>
 
     <!-- Actions -->
     <string name="action_loading">Завантаження</string>
@@ -11,4 +13,13 @@
     <string name="temperature_humidity_socket_disconnected">Відключено від серверу</string>
     <string name="temperature_humidity_socket_reconnecting">Підключаємось до серверу</string>
 
+    <!-- Lights panel -->
+    <string name="lights_title">Освітлення</string>
+
+    <!-- Rozette panel -->
+    <string name="rozette_title">Розетки</string>
+
+    <!-- States -->
+    <string name="state_enabled">Увімкнено</string>
+    <string name="state_disabled">Вимкнено</string>
 </resources>
