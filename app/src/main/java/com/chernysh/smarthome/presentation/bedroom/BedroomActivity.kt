@@ -1,5 +1,16 @@
 package com.chernysh.smarthome.presentation.bedroom
 
+import android.os.Bundle
+import com.chernysh.smarthome.R
+import com.chernysh.smarthome.domain.model.RoomViewState
+import com.chernysh.smarthome.presentation.base.BaseActivity
+import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
+import com.jakewharton.rxbinding2.widget.RxCheckedTextView
+import com.jakewharton.rxbinding2.widget.RxCompoundButton
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_bedroom.*
+import kotlinx.android.synthetic.main.layout_element.*
+
 /**
  * Copyright 2018. Andrii Chernysh
  *
@@ -26,6 +37,20 @@ package com.chernysh.smarthome.presentation.bedroom
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomActivity{
+class BedroomActivity : BaseActivity<BedroomContract.View, BedroomPresenter>(), BedroomContract.View {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_bedroom)
+    }
+
+    override fun setLightsStateIntent(): Observable<Boolean> = evLight.setElementStateIntent()
+
+    override fun setRozetkaStateIntent(): Observable<Boolean> = evRozette.setElementStateIntent()
+
+    override fun render(state: RoomViewState) {
+        evLight.render(state.lightsViewState)
+        evRozette.render(state.rozetkaViewState)
+        cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
+    }
 
 }

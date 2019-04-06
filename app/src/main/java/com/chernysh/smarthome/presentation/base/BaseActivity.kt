@@ -38,8 +38,9 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  * Developed by <u>Transcendensoft</u>
  */
-abstract class BaseActivity<V : MvpView, P : BasePresenter<V, *>>(private val presenter: P) : MviActivity<V, P>(), BaseView {
+abstract class BaseActivity<V : MvpView, P : BasePresenter<V, *>>() : MviActivity<V, P>(), BaseView {
     private var mProgressDialog: ProgressDialog? = null
+    protected lateinit var presenter: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

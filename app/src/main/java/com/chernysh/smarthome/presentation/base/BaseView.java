@@ -46,8 +46,6 @@ public interface BaseView extends MvpView {
 
     void showLongToastMessage(@StringRes int messageRes);
 
-    boolean isNetworkConnected();
-
     void handleKeyboard(KeyboardUtils.KeyboardState state, @Nullable EditText editText);
 
     void showLoadingDialog();

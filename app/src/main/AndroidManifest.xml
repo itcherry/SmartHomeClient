@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
           package="com.chernysh.smarthome">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
             android:allowBackup="true"
@@ -18,16 +18,19 @@
         <!-- Meta data -->
         <meta-data
                 android:name="android.max_aspect"
-                android:value="ratio_float" />
+                android:value="ratio_float"/>
         <meta-data
                 android:name="io.fabric.ApiKey"
-                android:value="${fabric_token}" />
+                android:value="${fabric_token}"/>
         <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts"/>
 
         <!-- Activities -->
-        <activity android:name=".presentation.flat.FlatActivity">
+        <activity android:name=".presentation.flat.FlatActivity"
+                  android:screenOrientation="sensorPortrait"
+                  android:exported="false"
+                  android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -35,16 +38,21 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.bedroom.BedroomActivity"
+                  android:screenOrientation="sensorPortrait"
+                  android:exported="false"
+                  android:theme="@style/AppTheme"/>
+
         <!-- Service -->
         <!-- Firebase Notifications -->
         <service android:name=".data.network.service.firebase.SmartHomeFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
         <service android:name=".data.network.service.firebase.SmartHomeFirebaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 

@@ -36,7 +36,6 @@ interface BedroomContract {
     interface View: BaseView, MvpView {
         fun setLightsStateIntent(): Observable<Boolean>
         fun setRozetkaStateIntent(): Observable<Boolean>
-        fun refreshDataIntent(): Observable<Any>
         fun render(state: RoomViewState)
     }
 

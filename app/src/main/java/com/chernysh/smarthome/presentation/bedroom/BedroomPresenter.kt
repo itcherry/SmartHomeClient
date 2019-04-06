@@ -59,7 +59,7 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
     }
 
     private fun getChangeLightsStateIntent() = intent(BedroomContract.View::setLightsStateIntent)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
                 bedroomInteractor.enableLightsObservable()
@@ -71,7 +71,7 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
 
 
     private fun getChangeRozetkaStateIntent() = intent(BedroomContract.View::setRozetkaStateIntent)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
                 bedroomInteractor.enableRozetkaObservable()
@@ -82,14 +82,13 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
         .compose(applySchedulers())
 
     private fun getTemperatureIntent() = intent { viewResumedObservable }
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             bedroomInteractor.onTemperatureHumidityObservable()
         }
         .compose(applySchedulers())
 
-    private fun getRefreshDataIntent() = intent(BedroomContract.View::refreshDataIntent)
-        .mergeWith(viewResumedObservable)
+    private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap {
             Observable.zip(bedroomInteractor.getLightsStateObservable(), bedroomInteractor.getRozetkaStateObservable(),
                 BiFunction { lightsState: RoomPartialViewState.LightsState, rozetkaState: RoomPartialViewState.RozetkaState ->
