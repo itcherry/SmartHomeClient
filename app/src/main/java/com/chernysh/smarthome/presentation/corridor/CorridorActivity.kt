@@ -1,5 +1,17 @@
 package com.chernysh.smarthome.presentation.corridor
 
+import android.os.Bundle
+import com.chernysh.smarthome.R
+import com.chernysh.smarthome.domain.model.BooleanViewState
+import com.chernysh.smarthome.domain.model.RoomViewState
+import com.chernysh.smarthome.presentation.base.BaseActivity
+import com.chernysh.smarthome.presentation.bedroom.BedroomContract
+import com.chernysh.smarthome.presentation.bedroom.BedroomPresenter
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_bedroom.cvTemperatureHumidityCard
+import kotlinx.android.synthetic.main.activity_bedroom.evLight
+import kotlinx.android.synthetic.main.activity_bedroom.evRozette
+
 /**
  * Copyright 2018. Andrii Chernysh
  *
@@ -26,5 +38,17 @@ package com.chernysh.smarthome.presentation.corridor
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class CorridorActivity {
+class CorridorActivity: BaseActivity<CorridorContract.View, CorridorPresenter>(), CorridorContract.View {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_corridor)
+    }
+
+    override fun setLightsStateIntent(): Observable<Boolean> = evLight.setElementStateIntent()
+
+
+    override fun render(state: BooleanViewState) {
+        evLight.render(state)
+    }
 }

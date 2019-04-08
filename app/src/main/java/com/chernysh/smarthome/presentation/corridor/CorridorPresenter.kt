@@ -50,7 +50,7 @@ class CorridorPresenter @Inject constructor(private val corridorInteractor: Corr
     }
 
     private fun getChangeLightsStateIntent() = intent(CorridorContract.View::setLightsStateIntent)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
                 corridorInteractor.enableLightsObservable()
@@ -60,8 +60,7 @@ class CorridorPresenter @Inject constructor(private val corridorInteractor: Corr
         }
         .compose(applySchedulers())
 
-    private fun getRefreshDataIntent() = intent(CorridorContract.View::refreshDataIntent)
-        .mergeWith(viewResumedObservable)
+    private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap { corridorInteractor.getLightsStateObservable() }
         .compose(applySchedulers())
 }

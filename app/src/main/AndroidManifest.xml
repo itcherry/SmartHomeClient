@@ -43,6 +43,11 @@
                   android:exported="false"
                   android:theme="@style/AppTheme"/>
 
+        <activity android:name=".presentation.corridor.CorridorActivity"
+            android:screenOrientation="sensorPortrait"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
+
         <!-- Service -->
         <!-- Firebase Notifications -->
         <service android:name=".data.network.service.firebase.SmartHomeFirebaseMessagingService">

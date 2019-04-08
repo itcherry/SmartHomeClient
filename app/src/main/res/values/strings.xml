@@ -22,4 +22,11 @@
     <!-- States -->
     <string name="state_enabled">Увімкнено</string>
     <string name="state_disabled">Вимкнено</string>
+
+    <!-- Rooms -->
+    <string name="title_bedroom">Спальня</string>
+    <string name="title_corridor">Коридор</string>
+    <string name="title_living_room">Вітальня</string>
+    <string name="title_kitchen">Кухня</string>
+
 </resources>

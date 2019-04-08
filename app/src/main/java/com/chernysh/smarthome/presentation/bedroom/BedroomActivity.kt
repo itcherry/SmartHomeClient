@@ -4,12 +4,8 @@ import android.os.Bundle
 import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.RoomViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
-import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
-import com.jakewharton.rxbinding2.widget.RxCheckedTextView
-import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_bedroom.*
-import kotlinx.android.synthetic.main.layout_element.*
 
 /**
  * Copyright 2018. Andrii Chernysh
