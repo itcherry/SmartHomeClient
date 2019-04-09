@@ -1,5 +1,13 @@
 package com.chernysh.smarthome.presentation.kitchen
 
+import android.os.Bundle
+import com.chernysh.smarthome.R
+import com.chernysh.smarthome.domain.model.RoomWithoutRozetkaViewState
+import com.chernysh.smarthome.presentation.base.BaseActivity
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_bedroom.cvTemperatureHumidityCard
+import kotlinx.android.synthetic.main.activity_bedroom.evLight
+
 /**
  * Copyright 2018. Andrii Chernysh
  *
@@ -26,5 +34,18 @@ package com.chernysh.smarthome.presentation.kitchen
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class KitchenActivity {
+class KitchenActivity : BaseActivity<KitchenContract.View, KitchenPresenter>(), KitchenContract.View {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_kitchen)
+  }
+
+  override fun setLightsStateIntent(): Observable<Boolean> = evLight.setElementStateIntent()
+
+  override fun render(state: RoomWithoutRozetkaViewState) {
+    evLight.render(state.lightsViewState)
+    cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
+  }
+
 }

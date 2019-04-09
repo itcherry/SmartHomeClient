@@ -35,7 +35,6 @@ import io.reactivex.Observable
 interface KitchenContract{
     interface View : BaseView, MvpView {
         fun setLightsStateIntent(): Observable<Boolean>
-        fun refreshDataIntent(): Observable<Any>
         fun render(state: RoomWithoutRozetkaViewState)
     }
 

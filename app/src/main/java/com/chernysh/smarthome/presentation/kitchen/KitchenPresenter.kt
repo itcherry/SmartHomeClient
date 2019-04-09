@@ -54,7 +54,7 @@ class KitchenPresenter @Inject constructor(private val kitchenInteractor: Kitche
     }
 
     private fun getChangeLightsStateIntent() = intent(KitchenContract.View::setLightsStateIntent)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
                 kitchenInteractor.enableLightsObservable()
@@ -66,14 +66,13 @@ class KitchenPresenter @Inject constructor(private val kitchenInteractor: Kitche
 
 
     private fun getTemperatureIntent() = intent { viewResumedObservable }
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             kitchenInteractor.onTemperatureHumidityObservable()
         }
         .compose(applySchedulers())
 
-    private fun getRefreshDataIntent() = intent(KitchenContract.View::refreshDataIntent)
-        .mergeWith(viewResumedObservable)
+    private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap { kitchenInteractor.getLightsStateObservable() }
         .compose(applySchedulers())
 

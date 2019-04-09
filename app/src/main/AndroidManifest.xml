@@ -44,9 +44,14 @@
                   android:theme="@style/AppTheme"/>
 
         <activity android:name=".presentation.corridor.CorridorActivity"
-            android:screenOrientation="sensorPortrait"
-            android:exported="false"
-            android:theme="@style/AppTheme"/>
+                  android:screenOrientation="sensorPortrait"
+                  android:exported="false"
+                  android:theme="@style/AppTheme"/>
+
+        <activity android:name=".presentation.kitchen.KitchenActivity"
+                  android:screenOrientation="sensorPortrait"
+                  android:exported="false"
+                  android:theme="@style/AppTheme"/>
 
         <!-- Service -->
         <!-- Firebase Notifications -->
