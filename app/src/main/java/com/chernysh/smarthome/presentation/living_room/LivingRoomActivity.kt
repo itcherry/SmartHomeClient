@@ -1,5 +1,13 @@
 package com.chernysh.smarthome.presentation.living_room
 
+import android.os.Bundle
+import com.chernysh.smarthome.R
+import com.chernysh.smarthome.domain.model.RoomPartialWithoutLightsViewState
+import com.chernysh.smarthome.domain.model.RoomWithoutLightsViewState
+import com.chernysh.smarthome.presentation.base.BaseActivity
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_living_room.*
+
 /**
  * Copyright 2018. Andrii Chernysh
  *
@@ -26,5 +34,17 @@ package com.chernysh.smarthome.presentation.living_room
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class LivingRoomActivity {
+class LivingRoomActivity : BaseActivity<LivingRoomContract.View, LivingRoomPresenter>(), LivingRoomContract.View {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_living_room)
+    }
+
+    override fun setRozetkaStateIntent(): Observable<Boolean> = evRozette.setElementStateIntent()
+
+    override fun render(state: RoomWithoutLightsViewState) {
+        evRozette.render(state.rozetkaViewState)
+        cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
+    }
+
 }

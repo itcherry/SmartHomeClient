@@ -1,68 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-          package="com.chernysh.smarthome">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.chernysh.smarthome">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:name=".SmartHomeApplication"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            tools:replace="android:icon">
+        android:name=".SmartHomeApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
 
         <!-- Meta data -->
         <meta-data
-                android:name="android.max_aspect"
-                android:value="ratio_float"/>
+            android:name="android.max_aspect"
+            android:value="ratio_float" />
         <meta-data
-                android:name="io.fabric.ApiKey"
-                android:value="${fabric_token}"/>
+            android:name="io.fabric.ApiKey"
+            android:value="${fabric_token}" />
         <meta-data
-                android:name="preloaded_fonts"
-                android:resource="@array/preloaded_fonts"/>
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <!-- Activities -->
-        <activity android:name=".presentation.flat.FlatActivity"
-                  android:screenOrientation="sensorPortrait"
-                  android:exported="false"
-                  android:theme="@style/AppTheme">
+        <activity
+            android:name=".presentation.flat.FlatActivity"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.bedroom.BedroomActivity"
-                  android:screenOrientation="sensorPortrait"
-                  android:exported="false"
-                  android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".presentation.bedroom.BedroomActivity"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme" />
 
-        <activity android:name=".presentation.corridor.CorridorActivity"
-                  android:screenOrientation="sensorPortrait"
-                  android:exported="false"
-                  android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".presentation.corridor.CorridorActivity"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme" />
 
-        <activity android:name=".presentation.kitchen.KitchenActivity"
-                  android:screenOrientation="sensorPortrait"
-                  android:exported="false"
-                  android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".presentation.kitchen.KitchenActivity"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".presentation.living_room.LivingRoomActivity"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme" />
 
         <!-- Service -->
         <!-- Firebase Notifications -->
         <service android:name=".data.network.service.firebase.SmartHomeFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service android:name=".data.network.service.firebase.SmartHomeFirebaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 

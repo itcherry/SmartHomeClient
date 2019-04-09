@@ -35,7 +35,6 @@ import io.reactivex.Observable
 interface LivingRoomContract{
     interface View: BaseView, MvpView {
         fun setRozetkaStateIntent(): Observable<Boolean>
-        fun refreshDataIntent(): Observable<Any>
         fun render(state: RoomWithoutLightsViewState)
     }
 

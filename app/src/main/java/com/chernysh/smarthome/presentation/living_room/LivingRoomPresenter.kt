@@ -54,7 +54,7 @@ class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: 
     }
 
     private fun getChangeRozetkaStateIntent() = intent(LivingRoomContract.View::setRozetkaStateIntent)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
                 livingRoomInteractor.enableRozetkaObservable()
@@ -65,14 +65,13 @@ class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: 
         .compose(applySchedulers())
 
     private fun getTemperatureIntent() = intent { viewResumedObservable }
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             livingRoomInteractor.onTemperatureHumidityObservable()
         }
         .compose(applySchedulers())
 
-    private fun getRefreshDataIntent() = intent(LivingRoomContract.View::refreshDataIntent)
-        .mergeWith(viewResumedObservable)
+    private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap { livingRoomInteractor.getRozetkaStateObservable() }
         .compose(applySchedulers())
 

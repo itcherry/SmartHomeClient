@@ -8,9 +8,7 @@ import com.chernysh.smarthome.presentation.base.BaseActivity
 import com.chernysh.smarthome.presentation.bedroom.BedroomContract
 import com.chernysh.smarthome.presentation.bedroom.BedroomPresenter
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_bedroom.cvTemperatureHumidityCard
-import kotlinx.android.synthetic.main.activity_bedroom.evLight
-import kotlinx.android.synthetic.main.activity_bedroom.evRozette
+import kotlinx.android.synthetic.main.activity_bedroom.*
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -43,6 +41,10 @@ class CorridorActivity: BaseActivity<CorridorContract.View, CorridorPresenter>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_corridor)
+
+        fabMenu.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun setLightsStateIntent(): Observable<Boolean> = evLight.setElementStateIntent()

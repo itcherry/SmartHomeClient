@@ -37,6 +37,10 @@ class BedroomActivity : BaseActivity<BedroomContract.View, BedroomPresenter>(), 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bedroom)
+
+        fabMenu.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun setLightsStateIntent(): Observable<Boolean> = evLight.setElementStateIntent()
