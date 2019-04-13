@@ -29,9 +29,6 @@ package com.chernysh.smarthome.domain.model
 sealed class LoginViewState {
     object LoadingState : LoginViewState()
     object SuccessState : LoginViewState()
-    object LoginNotValidState: LoginViewState()
-    object PasswordNotValidState: LoginViewState()
-    object NoSuchLoginState: LoginViewState()
     object PasswordIncorrectState: LoginViewState()
     data class ErrorState(val error: Throwable) : LoginViewState()
     object ConnectivityErrorState : LoginViewState()

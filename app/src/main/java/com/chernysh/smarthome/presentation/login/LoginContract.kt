@@ -35,14 +35,9 @@ import io.reactivex.Observable
  */
 interface LoginContract{
     interface View: BaseView, MvpView {
-        fun submitIntent(): Observable<Pair<String, String>>
-        fun validateLogin(): Observable<String>
-        fun validatePassword(): Observable<String>
-
+        fun submitIntent(): Observable<String>
         fun render(state: LoginViewState)
     }
 
-    interface Presenter {
-
-    }
+    interface Presenter
 }
