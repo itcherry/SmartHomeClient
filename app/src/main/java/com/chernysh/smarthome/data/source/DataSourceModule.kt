@@ -32,44 +32,48 @@ import dagger.Module
  */
 @Module
 interface DataSourceModule {
-    @Binds
-    @ApplicationScope
-    fun provideTemperatureHumiditySocketDataSource(
-        dataSource: TemperatureHumiditySocketDataSource): TemperatureHumidityDataSource
+  @Binds
+  @ApplicationScope
+  fun provideTemperatureHumiditySocketDataSource(
+    dataSource: TemperatureHumiditySocketDataSource): TemperatureHumidityDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideAlarmApiDataSource(dataSource: AlarmApiDataSource): AlarmDataSource
+  @Binds
+  @ApplicationScope
+  fun provideAlarmApiDataSource(dataSource: AlarmApiDataSource): AlarmDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideBedroomApiDataSource(dataSource: BedroomApiDataSource): BedroomDataSource
+  @Binds
+  @ApplicationScope
+  fun provideBedroomApiDataSource(dataSource: BedroomApiDataSource): BedroomDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideBoilerApiDataSource(dataSource: BoilerApiDataSource): BoilerDataSource
+  @Binds
+  @ApplicationScope
+  fun provideBoilerApiDataSource(dataSource: BoilerApiDataSource): BoilerDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideCorridorApiDataSource(dataSource: CorridorApiDataSource): CorridorDataSource
+  @Binds
+  @ApplicationScope
+  fun provideCorridorApiDataSource(dataSource: CorridorApiDataSource): CorridorDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideDoorApiDataSource(dataSource: DoorApiDataSource): DoorDataSource
+  @Binds
+  @ApplicationScope
+  fun provideDoorApiDataSource(dataSource: DoorApiDataSource): DoorDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideKitchenApiDataSource(dataSource: KitchenApiDataSource): KitchenDataSource
+  @Binds
+  @ApplicationScope
+  fun provideKitchenApiDataSource(dataSource: KitchenApiDataSource): KitchenDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideLivingRoomApiDataSource(dataSource: LivingRoomApiDataSource): LivingRoomDataSource
+  @Binds
+  @ApplicationScope
+  fun provideLivingRoomApiDataSource(dataSource: LivingRoomApiDataSource): LivingRoomDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideNeptunApiDataSource(dataSource: NeptunApiDataSource): NeptunDataSource
+  @Binds
+  @ApplicationScope
+  fun provideNeptunApiDataSource(dataSource: NeptunApiDataSource): NeptunDataSource
 
-    @Binds
-    @ApplicationScope
-    fun provideFirebaseIdApiDataSource(dataSource: FirebaseIdApiDataSource): FirebaseIdDataSource
+  @Binds
+  @ApplicationScope
+  fun provideFirebaseIdApiDataSource(dataSource: FirebaseIdApiDataSource): FirebaseIdDataSource
+
+  @Binds
+  @ApplicationScope
+  fun provideLoginApiDataSource(dataSource: LoginApiDataSource): LoginDataSource
 }
