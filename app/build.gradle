@@ -155,6 +155,7 @@ dependencies {
 
     // View
     implementation 'com.github.Triggertrap:SeekArc:v1.1'
+    implementation 'com.github.antoxa2584x:PinCodeView:1.3.0'
 
     //Tests
     testImplementation 'junit:junit:4.12'
