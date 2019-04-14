@@ -46,8 +46,12 @@ class LoginPresenter @Inject constructor(private val loginInteractor: LoginInter
     subscribeViewState(getSubmitLoginStateIntent(), LoginContract.View::render);
   }
 
-  private fun getSubmitLoginStateIntent() = intent(LoginContract.View::submitIntent)
+  private fun getSubmitLoginStateIntent() = intent(LoginContract.View::pinCodeIntent)
     .debounce(200, TimeUnit.MILLISECONDS)
     .switchMap { loginInteractor.authUser(it) }
     .compose(applySchedulers())
+
+  companion object {
+    private const val PIN_CODE_LENGTH = 4
+  }
 }

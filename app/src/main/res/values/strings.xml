@@ -32,5 +32,15 @@
     <!-- login -->
     <string name="login_chernysh_home_title">Chernysh\nDynastija Home</string>
     <string name="login_enter_pin">Пін код або Fingerprint</string>
+    <string name="login_number_1">1</string>
+    <string name="login_number_2">2</string>
+    <string name="login_number_3">3</string>
+    <string name="login_number_4">4</string>
+    <string name="login_number_5">5</string>
+    <string name="login_number_6">6</string>
+    <string name="login_number_7">7</string>
+    <string name="login_number_8">8</string>
+    <string name="login_number_9">9</string>
+    <string name="login_number_0">0</string>
 
 </resources>
