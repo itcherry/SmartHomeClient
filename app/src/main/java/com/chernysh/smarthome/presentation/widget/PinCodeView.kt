@@ -18,62 +18,84 @@ import com.chernysh.smarthome.utils.dpToPx
  * If you have any questions, please write: andrii.chernysh@uptech.team
  */
 class PinCodeView @JvmOverloads constructor(
-    context: Context, attributeSet: AttributeSet? = null,
-    defStyleAttr: Int = 0, defStyleRes: Int = 0
+  context: Context, attributeSet: AttributeSet? = null,
+  defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr, defStyleRes) {
-    init {
-        orientation = LinearLayout.HORIZONTAL
-        gravity = Gravity.CENTER
+  init {
+    orientation = LinearLayout.HORIZONTAL
+    gravity = Gravity.CENTER
 
-        addCircles()
+    addCircles()
+  }
+
+  private fun addCircles() {
+    for (i in 0..PIN_CODE_LENGTH) {
+      addView(View(context).apply {
+        layoutParams = getCircleLayoutParams()
+        background = AppCompatResources.getDrawable(context, R.drawable.pin_code_outer_bg)
+      })
     }
+  }
 
-    private fun addCircles() {
-        for (i in 0..PIN_CODE_LENGTH) {
-            addView(View(context).apply {
-                layoutParams = getCircleLayoutParams()
-                background = AppCompatResources.getDrawable(context, R.drawable.pin_code_outer_bg)
-            })
-        }
+  private fun getCircleLayoutParams() =
+    LayoutParams(56.dpToPx(context), 56.dpToPx(context))
+      .apply {
+        marginStart = 4.dpToPx(context)
+        marginEnd = 4.dpToPx(context)
+      }
+
+  fun setText(text: String) {
+    val length = if (text.length > PIN_CODE_LENGTH) PIN_CODE_LENGTH else text.length
+
+    fillActiveCirclesWithColor(length)
+    unfillNotNeededCircles(length)
+  }
+
+  private fun unfillNotNeededCircles(length: Int) {
+    if (PIN_CODE_LENGTH != length) {
+      for (i in (length + 1)..PIN_CODE_LENGTH) {
+        getChildAt(i).background = AppCompatResources.getDrawable(context, R.drawable.pin_code_outer_bg)
+      }
     }
+  }
 
-    private fun getCircleLayoutParams() =
-        LayoutParams(56.dpToPx(context), 56.dpToPx(context))
-            .apply {
-                marginStart = 4.dpToPx(context)
-                marginEnd = 4.dpToPx(context)
-            }
-
-    fun setText(text: String) {
-        val length = if (text.length > PIN_CODE_LENGTH) PIN_CODE_LENGTH else text.length
-
-        fillActiveCirclesWithColor(length)
-        unfillNotNeededCircles(length)
+  private fun fillActiveCirclesWithColor(length: Int) {
+    for (i in 0..length) {
+      getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
     }
+  }
 
-    private fun unfillNotNeededCircles(length: Int) {
-        if (PIN_CODE_LENGTH != length) {
-            for (i in (length + 1)..PIN_CODE_LENGTH) {
-                background = AppCompatResources.getDrawable(context, R.drawable.pin_code_outer_bg)
-            }
-        }
+  fun renderError() {
+    for (i in 0..childCount) {
+      getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.textRed))
     }
+  }
 
-    private fun fillActiveCirclesWithColor(length: Int) {
-        for (i in 0..length) {
-            getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
-        }
-    }
+  fun renderSuccess() {
+    isEnabled = true
 
-    fun renderError() {
-        for (i in 0..childCount) {
-            getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.textRed))
-        }
+    for (i in 0..childCount) {
+      getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.successGreen))
     }
+  }
 
-    fun renderSuccess() {
-        for (i in 0..childCount) {
-            getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.successGreen))
-        }
+  fun clear() {
+    for (i in 0..childCount) {
+      getChildAt(i).background = AppCompatResources.getDrawable(context, R.drawable.pin_code_outer_bg)
     }
+  }
+
+  override fun setEnabled(enabled: Boolean) {
+    super.setEnabled(enabled)
+
+    if (enabled) {
+      for (i in 0..childCount) {
+        getChildAt(i).alpha = 1.0f
+      }
+    } else {
+      for (i in 0..childCount) {
+        getChildAt(i).alpha = 0.6f
+      }
+    }
+  }
 }

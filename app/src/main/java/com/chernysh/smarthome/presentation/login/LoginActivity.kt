@@ -58,20 +58,28 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
     return Observable.merge(listOf(btn1Observable, btn2Observable, btn3Observable,
       btn4Observable, btn5Observable, btn6Observable, btn7Observable,
       btn8Observable, btn9Observable, btn0Observable, btnBackspaceObservable))
+      .reduce { t1: String, t2: String -> if (t2.isBlank()) t1.dropLast(1) else t1 + t2 }
+      .toObservable()
+      .doOnNext { pinCode.setText(it) }
   }
 
   override fun render(state: LoginViewState) {
     when (state) {
       is LoginViewState.LoadingState -> renderLoading()
-      is LoginViewState.SuccessState -> renderSuccess()
-      is LoginViewState.PasswordIncorrectState -> renderPasswordIncorrect()
+      is LoginViewState.SuccessState -> pinCode.renderSuccess()
+      is LoginViewState.PasswordIncorrectState -> pinCode.renderError()
       is LoginViewState.ConnectivityErrorState -> renderConnectivityError()
-      is LoginViewState.ErrorState -> renderError(state.error)
+      is LoginViewState.ErrorState -> pinCode.renderError()
     }
   }
 
   private fun renderLoading(){
     pbLoginLoading.visibility = View.VISIBLE
+    pinCode.isEnabled = false
   }
 
+  private fun renderConnectivityError() {
+    showSnackError(R.string.network_error)
+    pinCode.clear()
+  }
 }

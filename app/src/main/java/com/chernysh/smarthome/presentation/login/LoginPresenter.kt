@@ -43,8 +43,6 @@ class LoginPresenter @Inject constructor(private val loginInteractor: LoginInter
   }
 
   private fun getSubmitLoginStateIntent() = intent(LoginContract.View::pinCodeIntent)
-    .reduce { t1: String, t2: String -> if (t2.isBlank()) t1.dropLast(1) else t1 + t2 }
-    .toObservable()
     .filter { it.length == PIN_CODE_LENGTH }
     .switchMap { loginInteractor.authUser(it) }
     .compose(applySchedulers())
