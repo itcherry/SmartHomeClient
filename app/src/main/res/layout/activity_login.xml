@@ -77,7 +77,7 @@
         app:layout_constraintStart_toStartOf="@id/tvPasswordTitle"
         app:layout_constraintTop_toBottomOf="@id/tvPasswordTitle" />
 
-    <com.goldenpie.devs.pincodeview.PinCodeView
+    <com.chernysh.smarthome.presentation.widget.PinCodeView
         android:id="@+id/pinCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -88,15 +88,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPasswordTitle"
-        app:layout_constraintVertical_bias="0.060000002"
-        app:pcv_pin_error_color="@color/textRed"
-        app:pcv_pin_inner_alpha="1"
-        app:pcv_pin_inner_color="@color/windowBackground"
-        app:pcv_pin_length="4"
-        app:pcv_pin_outer_color="@color/textSecondaryLight"
-        app:pcv_pin_tint_inner="true"
-        app:pcv_pin_tint_outer="true"
-        app:pcv_pin_type="unlock" />
+        app:layout_constraintVertical_bias="0.060000002" />
 
     <ProgressBar
         android:id="@+id/pbLoginLoading"
@@ -273,18 +265,18 @@
         app:layout_constraintTop_toBottomOf="@id/btn7" />
 
     <ImageView
-        android:id="@+id/btnRemove"
+        android:id="@+id/btnBackspace"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:background="@drawable/light_grey_fab"
-        app:srcCompat="@drawable/ic_backspace"
-        android:padding="12dp"
         android:fontFamily="sans-serif-light"
+        android:padding="12dp"
         android:text="@string/login_number_0"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/btn0"
         app:layout_constraintEnd_toEndOf="@id/btn9"
         app:layout_constraintStart_toStartOf="@id/btn9"
         app:layout_constraintTop_toTopOf="@id/btn0"
-        app:layout_constraintBottom_toBottomOf="@id/btn0"/>
+        app:srcCompat="@drawable/ic_backspace" />
 </android.support.constraint.ConstraintLayout>

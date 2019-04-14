@@ -1,6 +1,7 @@
 package com.chernysh.smarthome.domain.interactor.login
 
 import com.chernysh.smarthome.data.exception.NoConnectivityException
+import com.chernysh.smarthome.data.exception.SmartHomeApiException
 import com.chernysh.smarthome.data.source.DataPolicy
 import com.chernysh.smarthome.domain.model.LoginViewState
 import com.chernysh.smarthome.domain.repository.LoginRepository
@@ -18,10 +19,18 @@ class LoginInteractor @Inject constructor(private val loginRepository: LoginRepo
       .map<LoginViewState> { LoginViewState.SuccessState }
       .startWith { LoginViewState.LoadingState }
       .onErrorReturn {
-        if (it is NoConnectivityException) {
-          LoginViewState.ConnectivityErrorState
-        } else {
-          LoginViewState.ErrorState(it)
+        when (it) {
+          is NoConnectivityException -> LoginViewState.ConnectivityErrorState
+          is SmartHomeApiException -> if (it.serverErrorCode == INCORRECT_PASSWORD_ERROR_ID) {
+            LoginViewState.PasswordIncorrectState
+          } else {
+            LoginViewState.ErrorState(it)
+          }
+          else -> LoginViewState.ErrorState(it)
         }
       }
+
+  companion object {
+    private const val INCORRECT_PASSWORD_ERROR_ID = 1
+  }
 }

@@ -33,6 +33,13 @@
             android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme">
+        </activity>
+
+        <activity
+            android:name=".presentation.login.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/ThemeMainTranslucentToolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

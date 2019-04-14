@@ -1,13 +1,9 @@
 package com.chernysh.smarthome.presentation.login
 
-import com.chernysh.smarthome.domain.interactor.living_room.LivingRoomInteractor
 import com.chernysh.smarthome.domain.interactor.login.LoginInteractor
 import com.chernysh.smarthome.domain.model.*
 import com.chernysh.smarthome.presentation.base.BasePresenter
-import com.chernysh.smarthome.presentation.living_room.LivingRoomContract
-import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -47,11 +43,9 @@ class LoginPresenter @Inject constructor(private val loginInteractor: LoginInter
   }
 
   private fun getSubmitLoginStateIntent() = intent(LoginContract.View::pinCodeIntent)
-    .debounce(200, TimeUnit.MILLISECONDS)
+    .reduce { t1: String, t2: String -> if (t2.isBlank()) t1.dropLast(1) else t1 + t2 }
+    .toObservable()
+    .filter { it.length == PIN_CODE_LENGTH }
     .switchMap { loginInteractor.authUser(it) }
     .compose(applySchedulers())
-
-  companion object {
-    private const val PIN_CODE_LENGTH = 4
-  }
 }
