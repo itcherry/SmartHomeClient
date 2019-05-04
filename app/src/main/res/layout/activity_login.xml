@@ -261,7 +261,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@id/btn8"
-        app:layout_constraintStart_toStartOf="btn8"
+        app:layout_constraintStart_toStartOf="@id/btn8"
         app:layout_constraintTop_toBottomOf="@id/btn7" />
 
     <ImageView

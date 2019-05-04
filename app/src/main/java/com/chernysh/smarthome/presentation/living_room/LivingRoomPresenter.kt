@@ -37,7 +37,7 @@ import javax.inject.Inject
  */
 class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: LivingRoomInteractor,
                                               schedulersTransformer: ObservableTransformer<Any, Any>) :
-    BasePresenter<LivingRoomContract.View, RoomWithoutLightsViewState>(schedulersTransformer) {
+    BasePresenter<LivingRoomContract.View, RoomWithoutLightsViewState>(schedulersTransformer), LivingRoomContract.Presenter {
 
     @Override
     override fun bindIntents() {

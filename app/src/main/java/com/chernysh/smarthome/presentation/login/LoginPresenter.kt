@@ -35,7 +35,7 @@ import javax.inject.Inject
  */
 class LoginPresenter @Inject constructor(private val loginInteractor: LoginInteractor,
                                          schedulersTransformer: ObservableTransformer<Any, Any>) :
-  BasePresenter<LoginContract.View, LoginViewState>(schedulersTransformer) {
+  BasePresenter<LoginContract.View, LoginViewState>(schedulersTransformer), LoginContract.Presenter {
 
   @Override
   override fun bindIntents() {

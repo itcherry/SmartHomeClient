@@ -38,7 +38,7 @@ import javax.inject.Inject
  */
 class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInteractor,
                                         schedulersTransformer: ObservableTransformer<Any, Any>) :
-    BasePresenter<FlatContract.View, FlatViewState>(schedulersTransformer) {
+    BasePresenter<FlatContract.View, FlatViewState>(schedulersTransformer), FlatContract.Presenter {
 
     @Override
     override fun bindIntents() {

@@ -37,7 +37,7 @@ import javax.inject.Inject
  */
 class CorridorPresenter @Inject constructor(private val corridorInteractor: CorridorInteractor,
                                            schedulersTransformer: ObservableTransformer<Any, Any>) :
-    BasePresenter<CorridorContract.View, BooleanViewState>(schedulersTransformer) {
+    BasePresenter<CorridorContract.View, BooleanViewState>(schedulersTransformer), CorridorContract.Presenter {
 
     @Override
     override fun bindIntents() {
