@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">SmartHome</string>
     <string name="server_error">Помилка серверу</string>
+    <string name="server_error_with_message">Помилка серверу: %1$s</string>
     <string name="network_error">Відсутній інтернет</string>
 
     <!-- Actions -->
-    <string name="action_loading">Завантаження</string>
+    <string name="action_loading">Завантажуємо&#8230;</string>
+    <string name="action_yes">Так</string>
+    <string name="action_no">Ні</string>
 
     <!-- Temperature and humidity card -->
     <string name="temperature_text">%1$f &#8451;</string>
@@ -12,6 +15,7 @@
     <string name="temperature_humidity_generic_error">Відбулась помилка при отриманні даних.</string>
     <string name="temperature_humidity_socket_disconnected">Відключено від серверу</string>
     <string name="temperature_humidity_socket_reconnecting">Підключаємось до серверу</string>
+    <string name="temperature_humidity_no_data">Немає даних</string>
 
     <!-- Lights panel -->
     <string name="lights_title">Освітлення</string>
@@ -43,4 +47,14 @@
     <string name="login_number_9">9</string>
     <string name="login_number_0">0</string>
 
+    <!-- flat -->
+    <string name="flat_control_panel">Панель керування</string>
+    <string name="flat_alarm">Сирена</string>
+    <string name="flat_boiler">Бойлер</string>
+    <string name="flat_door">Двері</string>
+    <string name="flat_netun">Нептун</string>
+    <string name="flat_outside_of_flat">За межами квартири:</string>
+
+    <string name="flat_alert_dialog_title">Увімкнути сирену?</string>
+    <string name="flat_alert_dialog_text">Не потрібно просто так гратись з сиреною. Може прийти злий сусід та наваляти тобі. Якщо ж ти впевнений в тому, що в квартиру увірвався злодій, хутчіше тисни на ТАК!!</string>
 </resources>
