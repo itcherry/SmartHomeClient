@@ -22,7 +22,7 @@ class PinCodeView @JvmOverloads constructor(
   defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr, defStyleRes) {
   init {
-    orientation = LinearLayout.HORIZONTAL
+    orientation = HORIZONTAL
     gravity = Gravity.CENTER
 
     addCircles()
