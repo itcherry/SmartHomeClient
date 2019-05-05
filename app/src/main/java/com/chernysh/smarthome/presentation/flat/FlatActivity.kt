@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
+import android.view.ViewTreeObserver
+import android.widget.AbsoluteLayout
 import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.FlatViewState
@@ -15,6 +17,8 @@ import com.chernysh.smarthome.presentation.corridor.CorridorActivity
 import com.chernysh.smarthome.presentation.kitchen.KitchenActivity
 import com.chernysh.smarthome.presentation.living_room.LivingRoomActivity
 import com.chernysh.smarthome.utils.Notification
+import com.chernysh.smarthome.utils.dpToPx
+import com.chernysh.smarthome.utils.expandClickArea
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import io.reactivex.Observable
@@ -28,6 +32,64 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flat)
+
+        initButtons()
+    }
+
+    private fun initButtons() {
+        val viewTreeObserver = flatPlanView.viewTreeObserver
+        if (viewTreeObserver.isAlive) {
+            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    flatPlanView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                    val xStart = 32.dpToPx(this@FlatActivity)
+                    val xEnd = flatPlanView.measuredWidth - 32.dpToPx(this@FlatActivity)
+                    val yStart = 100.dpToPx(this@FlatActivity)
+                    val yEnd = flatPlanView.measuredHeight - 100.dpToPx(this@FlatActivity)
+
+                    val flatWidth = xEnd - xStart
+                    val flatHeight = yEnd - yStart
+
+                    initKitchenButton(xStart, yStart, flatHeight)
+                    initLivingRoomButton(xStart, flatWidth, yStart, flatHeight)
+                    initBedroomButton(xEnd, flatWidth, yStart, flatHeight)
+                    initCorridorButton(xStart, flatWidth, yStart, flatHeight)
+                }
+            })
+        }
+    }
+
+    private fun initCorridorButton(xStart: Int, flatWidth: Int, yStart: Int, flatHeight: Int) {
+        btnCorridor.layoutParams = (btnCorridor.layoutParams as AbsoluteLayout.LayoutParams).apply {
+            x = xStart + (flatWidth / 5.8f).toInt()
+            y = yStart + (4.6f * flatHeight / 7).toInt()
+        }
+        btnCorridor.expandClickArea(alFlatPlan, (flatHeight / 6.7f).toInt(), (flatHeight / 6.7f).toInt(), flatWidth / 5, 12.dpToPx(this@FlatActivity))
+    }
+
+    private fun initBedroomButton(xEnd: Int, flatWidth: Int, yStart: Int, flatHeight: Int) {
+        btnBedroom.layoutParams = (btnBedroom.layoutParams as AbsoluteLayout.LayoutParams).apply {
+            x = xEnd - (flatWidth / 4)
+            y = yStart + (2.7f * flatHeight / 6).toInt()
+        }
+        btnBedroom.expandClickArea(alFlatPlan, (flatHeight / 7f).toInt(), (flatHeight / 7f).toInt(), 20.dpToPx(this@FlatActivity), 20.dpToPx(this@FlatActivity))
+    }
+
+    private fun initLivingRoomButton(xStart: Int, flatWidth: Int, yStart: Int, flatHeight: Int) {
+        btnLivingRoom.layoutParams = (btnLivingRoom.layoutParams as AbsoluteLayout.LayoutParams).apply {
+            x = xStart + (flatWidth / 2.3f).toInt()
+            y = yStart + (flatHeight / 3.5f).toInt()
+        }
+        btnLivingRoom.expandClickArea(alFlatPlan, (flatHeight / 3.5f).toInt(), (flatHeight / 3.5f).toInt(), 12.dpToPx(this@FlatActivity), 16.dpToPx(this@FlatActivity))
+    }
+
+    private fun initKitchenButton(xStart: Int, yStart: Int, flatHeight: Int) {
+        btnKitchen.layoutParams = (btnKitchen.layoutParams as AbsoluteLayout.LayoutParams).apply {
+            x = xStart + 18.dpToPx(this@FlatActivity)
+            y = yStart + flatHeight / 5
+        }
+        btnKitchen.expandClickArea(alFlatPlan, flatHeight / 5, flatHeight / 8, 18.dpToPx(this@FlatActivity), 18.dpToPx(this@FlatActivity))
     }
 
     override fun openBedroomActivity(): Observable<Any> = RxView.clicks(btnBedroom)
