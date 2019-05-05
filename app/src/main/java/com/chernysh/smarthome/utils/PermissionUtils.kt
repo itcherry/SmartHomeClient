@@ -6,9 +6,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 
 /**
  * Utility class that processes runtime permissions
@@ -154,14 +154,14 @@ object PermissionUtils {
     /**
      * Requests permissions to be granted to this application.
      */
-    fun requestAllPermissions(fragment: Fragment, permissions: Array<String>, requestCode: Int) {
+    fun requestAllPermissions(fragment: androidx.fragment.app.Fragment, permissions: Array<String>, requestCode: Int) {
         if (isMNC) {
             internalRequestPermissions(fragment, permissions, requestCode)
         }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private fun internalRequestPermissions(fragment: Fragment?, permissions: Array<String>, requestCode: Int) {
+    private fun internalRequestPermissions(fragment: androidx.fragment.app.Fragment?, permissions: Array<String>, requestCode: Int) {
         if (fragment == null) {
             throw IllegalArgumentException("Given activity is null.")
         }

@@ -7,15 +7,15 @@ package com.google.firebase.messaging;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import com.google.android.gms.internal.zzegn;
 import com.google.android.gms.internal.zzehl;
 import com.google.android.gms.internal.zzehm;
 import com.google.android.gms.measurement.AppMeasurement;
-import java.lang.reflect.InvocationTargetException;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;

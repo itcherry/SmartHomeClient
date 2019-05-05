@@ -2,8 +2,8 @@ package com.chernysh.smarthome.presentation.widget
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.support.annotation.DrawableRes
-import android.support.graphics.drawable.VectorDrawableCompat
+import androidx.annotation.DrawableRes
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout

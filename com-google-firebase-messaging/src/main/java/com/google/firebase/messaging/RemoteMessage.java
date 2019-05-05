@@ -8,9 +8,8 @@ package com.google.firebase.messaging;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable.Creator;
-import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 

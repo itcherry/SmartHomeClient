@@ -21,7 +21,7 @@ package com.chernysh.smarthome.presentation.base
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import android.view.View
 import android.widget.EditText
 import com.chernysh.smarthome.R
