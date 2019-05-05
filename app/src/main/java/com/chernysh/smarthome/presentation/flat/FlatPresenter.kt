@@ -38,7 +38,7 @@ import javax.inject.Inject
  */
 class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInteractor,
                                         schedulersTransformer: ObservableTransformer<Any, Any>) :
-    BasePresenter<FlatContract.View, FlatViewState>(schedulersTransformer) {
+    BasePresenter<FlatContract.View, FlatViewState>(schedulersTransformer), FlatContract.Presenter {
 
     @Override
     override fun bindIntents() {
@@ -85,7 +85,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     }
 
     private fun getChangeAlarmStateIntent() = intent(FlatContract.View::acceptedAlarmIntent)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
                 safetyInteractor.enableAlarmObservable()
@@ -97,7 +97,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
 
 
     private fun getChangeBoilerStateIntent() = intent(FlatContract.View::setBoilerStateIntent)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
                 safetyInteractor.enableBoilerObservable()
@@ -108,7 +108,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         .compose(applySchedulers())
 
     private fun getChangeDoorStateIntent() = intent(FlatContract.View::setDoorStateIntent)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
                 safetyInteractor.enableDoorObservable()
@@ -119,14 +119,13 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         .compose(applySchedulers())
 
     private fun getTemperatureIntent() = intent { viewResumedObservable }
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             safetyInteractor.onTemperatureHumidityObservable()
         }
         .compose(applySchedulers())
 
-    private fun getRefreshDataIntent() = intent(FlatContract.View::refreshDataIntent)
-        .mergeWith(viewResumedObservable)
+    private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap {
             Observable.zip(safetyInteractor.getAlarmStateObservable(), safetyInteractor.getBoilerStateObservable(),
                 safetyInteractor.getDoorStateObservable(), safetyInteractor.getNeptunStateObservable(),
@@ -153,27 +152,27 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     }
 
     private fun getShowAlarmDialogIntent() = intent(FlatContract.View::showAlarmDialog)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .compose(applySchedulers())
         .map { FlatViewState.ShowAlarmDialogClicked }
 
     private fun getOpenBedroomIntent() = intent(FlatContract.View::openBedroomActivity)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .compose(applySchedulers())
         .map { FlatViewState.BedroomClicked }
 
     private fun getOpenKitchenIntent() = intent(FlatContract.View::openKitchenActivity)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .compose(applySchedulers())
         .map { FlatViewState.KitchenClicked }
 
     private fun getOpenCorridorIntent() = intent(FlatContract.View::openCorridorActivity)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .compose(applySchedulers())
         .map { FlatViewState.CorridorClicked }
 
     private fun getOpenLivingRoomIntent() = intent(FlatContract.View::openLivingRoomActivity)
-        .debounce(400, TimeUnit.MILLISECONDS)
+        .debounce(200, TimeUnit.MILLISECONDS)
         .compose(applySchedulers())
         .map { FlatViewState.LivingRoomClicked }
 }

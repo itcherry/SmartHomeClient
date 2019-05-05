@@ -33,43 +33,47 @@ import dagger.Module
  */
 @Module(includes = [DataSourceModule::class])
 interface RepositoryModule {
-    @Binds
-    @ApplicationScope
-    fun bindTemperatureHumidityRepository(temperatureHumidityRepository: TemperatureHumidityRepositoryImpl): TemperatureHumidityRepository
+  @Binds
+  @ApplicationScope
+  fun bindTemperatureHumidityRepository(temperatureHumidityRepository: TemperatureHumidityRepositoryImpl): TemperatureHumidityRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideAlarmRepository(repository: AlarmRepositoryImpl): AlarmRepository
+  @Binds
+  @ApplicationScope
+  fun provideAlarmRepository(repository: AlarmRepositoryImpl): AlarmRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideBedroomRepository(repository: BedroomRepositoryImpl): BedroomRepository
+  @Binds
+  @ApplicationScope
+  fun provideBedroomRepository(repository: BedroomRepositoryImpl): BedroomRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideBoilerRepository(repository: BoilerRepositoryImpl): BoilerRepository
+  @Binds
+  @ApplicationScope
+  fun provideBoilerRepository(repository: BoilerRepositoryImpl): BoilerRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideCorridorRepository(repository: CorridorRepositoryImpl): CorridorRepository
+  @Binds
+  @ApplicationScope
+  fun provideCorridorRepository(repository: CorridorRepositoryImpl): CorridorRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideDoorRepository(repository: DoorRepositoryImpl): DoorRepository
+  @Binds
+  @ApplicationScope
+  fun provideDoorRepository(repository: DoorRepositoryImpl): DoorRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideKitchenRepository(repository: KitchenRepositoryImpl): KitchenRepository
+  @Binds
+  @ApplicationScope
+  fun provideKitchenRepository(repository: KitchenRepositoryImpl): KitchenRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideLivingRoomRepository(repository: LivingRoomRepositoryImpl): LivingRoomRepository
+  @Binds
+  @ApplicationScope
+  fun provideLivingRoomRepository(repository: LivingRoomRepositoryImpl): LivingRoomRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideNeptunRepository(repository: NeptunRepositoryImpl): NeptunRepository
+  @Binds
+  @ApplicationScope
+  fun provideNeptunRepository(repository: NeptunRepositoryImpl): NeptunRepository
 
-    @Binds
-    @ApplicationScope
-    fun provideFirebaseIdRepositorye(repository: FirebaseIdRepositoryImpl): FirebaseIdRepository
+  @Binds
+  @ApplicationScope
+  fun provideFirebaseIdRepository(repository: FirebaseIdRepositoryImpl): FirebaseIdRepository
+
+  @Binds
+  @ApplicationScope
+  fun provideLoginRepository(repository: LoginRepositoryImpl): LoginRepository
 }

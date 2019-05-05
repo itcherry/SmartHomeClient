@@ -37,7 +37,6 @@ interface FlatContract {
         fun acceptedAlarmIntent(): Observable<Boolean>
         fun setBoilerStateIntent(): Observable<Boolean>
         fun setDoorStateIntent(): Observable<Boolean>
-        fun refreshDataIntent(): Observable<Any>
         fun render(state: FlatViewState)
 
         fun openBedroomActivity(): Observable<Any>
@@ -45,10 +44,7 @@ interface FlatContract {
         fun openLivingRoomActivity(): Observable<Any>
         fun openCorridorActivity(): Observable<Any>
         fun showAlarmDialog(): Observable<Any>
-        fun renderClick(state: FlatClickViewState)
     }
 
-    interface Presenter {
-
-    }
+    interface Presenter
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <AbsoluteLayout
+        android:id="@+id/alFlatPlan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.chernysh.smarthome.presentation.widget.FlatPlanView
+            android:id="@+id/flatPlanView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/btnKitchen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="52dp"
+            android:layout_y="211dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/title_kitchen"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnBedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="289dp"
+            android:layout_y="325dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:rotation="270"
+            android:text="@string/title_bedroom"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnLivingRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="182dp"
+            android:layout_y="266dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/title_living_room"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnCorridor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="91dp"
+            android:layout_y="415dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:rotation="270"
+            android:text="@string/title_corridor"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+    </AbsoluteLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tvHumidity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawableStart="@drawable/ic_humidity"
+        android:drawablePadding="16dp"
+        android:gravity="center_vertical|start"
+        android:textColor="@color/textPrimary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        tools:text="35%" />
+
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawableStart="@drawable/ic_thermometer"
+        android:drawablePadding="16dp"
+        android:gravity="center_vertical|start"
+        android:textColor="@color/textPrimary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/tvHumidity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        tools:text="18.2" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/flat_outside_of_flat"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvTemperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+</android.support.constraint.ConstraintLayout>

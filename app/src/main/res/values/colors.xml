@@ -19,4 +19,7 @@
     <color name="textRed">#D32F2F</color>
     <color name="textDarkRed">#AD2201</color>
     <color name="textDisabled">#55000000</color>
+
+    <color name="successGreen">#9af43b</color>
+
 </resources>

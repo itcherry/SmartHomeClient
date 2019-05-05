@@ -33,16 +33,13 @@ import io.reactivex.Observable
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-interface LoginContract{
-    interface View: BaseView, MvpView {
-        fun submitIntent(): Observable<Pair<String, String>>
-        fun validateLogin(): Observable<String>
-        fun validatePassword(): Observable<String>
+interface LoginContract {
+  interface View : BaseView, MvpView {
+    fun pinCodeIntent(): Observable<String>
+    fun render(state: LoginViewState)
+  }
 
-        fun render(state: LoginViewState)
-    }
-
-    interface Presenter {
-
-    }
+  interface Presenter
 }
+
+const val PIN_CODE_LENGTH = 4
