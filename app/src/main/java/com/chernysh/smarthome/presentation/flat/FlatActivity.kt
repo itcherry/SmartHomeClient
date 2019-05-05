@@ -15,10 +15,12 @@ import com.chernysh.smarthome.presentation.corridor.CorridorActivity
 import com.chernysh.smarthome.presentation.kitchen.KitchenActivity
 import com.chernysh.smarthome.presentation.living_room.LivingRoomActivity
 import com.chernysh.smarthome.utils.Notification
+import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_flat.*
+import kotlinx.android.synthetic.main.layout_flat_main.*
 
 class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContract.View {
     private val turnOnAlarmSubject: PublishSubject<Boolean> = PublishSubject.create()
@@ -28,21 +30,13 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
         setContentView(R.layout.activity_flat)
     }
 
-    override fun openBedroomActivity(): Observable<Any> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun openBedroomActivity(): Observable<Any> = RxView.clicks(btnBedroom)
 
-    override fun openKitchenActivity(): Observable<Any> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun openKitchenActivity(): Observable<Any> = RxView.clicks(btnKitchen)
 
-    override fun openLivingRoomActivity(): Observable<Any> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun openLivingRoomActivity(): Observable<Any> = RxView.clicks(btnLivingRoom)
 
-    override fun openCorridorActivity(): Observable<Any> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun openCorridorActivity(): Observable<Any> = RxView.clicks(btnCorridor)
 
     override fun setBoilerStateIntent(): Observable<Boolean> = RxCompoundButton.checkedChanges(switchBoiler)
 
