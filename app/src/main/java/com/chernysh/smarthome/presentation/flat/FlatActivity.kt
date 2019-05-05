@@ -3,10 +3,10 @@ package com.chernysh.smarthome.presentation.flat
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.AbsoluteLayout
+import androidx.appcompat.app.AlertDialog
 import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.FlatViewState
