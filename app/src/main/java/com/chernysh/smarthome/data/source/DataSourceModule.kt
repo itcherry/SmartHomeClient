@@ -19,6 +19,7 @@ package com.chernysh.smarthome.data.source
  * limitations under the License.
  */
 
+import com.chernysh.smarthome.data.cache.UserCacheDataSource
 import com.chernysh.smarthome.data.network.source.*
 import com.chernysh.smarthome.di.scope.ApplicationScope
 import com.transcendensoft.hedbanz.data.source.FirebaseIdDataSource
@@ -76,4 +77,8 @@ interface DataSourceModule {
   @Binds
   @ApplicationScope
   fun provideLoginApiDataSource(dataSource: LoginApiDataSource): LoginDataSource
+
+  @Binds
+  @ApplicationScope
+  fun provideUserDataSource(dataSource: UserCacheDataSource): UserDataSource
 }

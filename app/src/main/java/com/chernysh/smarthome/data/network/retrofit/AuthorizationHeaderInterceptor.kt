@@ -1,6 +1,7 @@
-package com.transcendensoft.hedbanz.data.network.retrofit
+package com.chernysh.smarthome.data.network.retrofit
 
 import android.preference.PreferenceManager
+import com.chernysh.smarthome.data.source.UserDataSource
 import com.chernysh.smarthome.di.scope.ApplicationScope
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -32,23 +33,19 @@ import javax.inject.Inject
  */
 @ApplicationScope
 class AuthorizationHeaderInterceptor @Inject constructor(
-        private val preferenceManager: PreferenceManager
+    private val userDataSource: UserDataSource
 ) : Interceptor {
-    var sessionToken: String? = null
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        /*if(!mPreferenceManager.authorizationToken.isNullOrEmpty()){
-            sessionToken = mPreferenceManager.authorizationToken
-        }*/ //TODO
-
-        return if (sessionToken.isNullOrEmpty()) {
+        return if (userDataSource.getToken().isNullOrBlank()) {
             chain.proceed(chain.request())
         } else {
             val newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $sessionToken")
-                    .build()
+                .addHeader("Authorization", "Bearer ${userDataSource.getToken()}")
+                .build()
             chain.proceed(newRequest)
         }
     }
+
 }

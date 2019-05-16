@@ -8,5 +8,5 @@ import io.reactivex.Maybe
  */
 interface LoginDataSource {
   fun authUser(pin: String): Maybe<Any>
-  fun savePinToProtectedStorage()
+  fun saveTokenToProtectedStorage(token: String)
 }

@@ -21,8 +21,8 @@ class LoginRepositoryImpl @Inject constructor(
     }
   }
 
-  override fun savePinCode(pinCode: String) {
-    throw UnsupportedOperationException()
+  override fun saveJwtToken(token: String) {
+    loginApiDataSource.saveTokenToProtectedStorage(token)
   }
 
 }

@@ -21,10 +21,10 @@ package com.chernysh.smarthome.data.network
 
 import android.content.Context
 import com.chernysh.smarthome.BuildConfig
+import com.chernysh.smarthome.data.network.retrofit.AuthorizationHeaderInterceptor
 import com.chernysh.smarthome.data.network.retrofit.ConnectivityInterceptor
 import com.chernysh.smarthome.di.qualifier.ApplicationContext
 import com.chernysh.smarthome.di.scope.ApplicationScope
-import com.transcendensoft.hedbanz.data.network.retrofit.AuthorizationHeaderInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache

@@ -10,5 +10,5 @@ import io.reactivex.Single
  */
 interface LoginRepository {
   fun authUser(pinCode: String, dataPolicy: DataPolicy): Maybe<Any>
-  fun savePinCode(pinCode: String)
+  fun saveJwtToken(token: String)
 }
