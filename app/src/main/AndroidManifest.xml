@@ -38,7 +38,6 @@
 
         <activity
                 android:name=".presentation.login.LoginActivity"
-                android:exported="false"
                 android:screenOrientation="sensorPortrait"
                 android:theme="@style/ThemeMainTranslucentToolbar">
             <intent-filter>

@@ -29,6 +29,9 @@ import com.chernysh.smarthome.utils.AndroidUtils
 import com.chernysh.smarthome.utils.KeyboardUtils
 import com.hannesdorfmann.mosby3.mvi.MviActivity
 import com.hannesdorfmann.mosby3.mvp.MvpView
+import javax.inject.Inject
+import dagger.android.AndroidInjection
+
 
 /**
  * It is base activity for all activities in application.
@@ -40,9 +43,10 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
  */
 abstract class BaseActivity<V : MvpView, P : BasePresenter<V, *>>() : MviActivity<V, P>(), BaseView {
     private var mProgressDialog: ProgressDialog? = null
-    protected lateinit var presenter: P
+    @Inject protected lateinit var presenter: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState)
 
         initProgressDialog()

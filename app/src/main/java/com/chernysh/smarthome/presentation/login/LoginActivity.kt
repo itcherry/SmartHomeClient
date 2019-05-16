@@ -36,7 +36,6 @@ import kotlinx.android.synthetic.main.activity_login.*
  *         especially for Zhk Dinastija
  */
 class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginContract.View {
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
