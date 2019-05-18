@@ -41,7 +41,7 @@ import javax.inject.Inject
  */
 class BedroomPresenter @Inject constructor(private val bedroomInteractor: BedroomInteractor,
                                            schedulersTransformer: ObservableTransformer<Any, Any>) :
-    BasePresenter<BedroomContract.View, RoomViewState>(schedulersTransformer), BedroomContract.Presenter {
+    BasePresenter<BedroomContract.View, RoomViewState>(), BedroomContract.Presenter {
 
     @Override
     override fun bindIntents() {
@@ -67,7 +67,6 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
                 bedroomInteractor.disableLightsObservable()
             }
         }
-        .compose(applySchedulers())
 
 
     private fun getChangeRozetkaStateIntent() = intent(BedroomContract.View::setRozetkaStateIntent)
@@ -79,14 +78,12 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
                 bedroomInteractor.disableRozetkaObservable()
             }
         }
-        .compose(applySchedulers())
 
     private fun getTemperatureIntent() = intent { viewResumedObservable }
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             bedroomInteractor.onTemperatureHumidityObservable()
         }
-        .compose(applySchedulers())
 
     private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap {
@@ -95,7 +92,6 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
                     RoomPartialViewState.LightsAndRozetkaState(lightsState.state, rozetkaState.state)
                 })
         }
-        .compose(applySchedulers())
 
     private fun reducer(previousState: RoomViewState, changes: RoomPartialViewState): RoomViewState {
         return when (changes) {

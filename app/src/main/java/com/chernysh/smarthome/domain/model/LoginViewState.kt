@@ -32,4 +32,5 @@ sealed class LoginViewState {
     object PasswordIncorrectState: LoginViewState()
     data class ErrorState(val error: Throwable) : LoginViewState()
     object ConnectivityErrorState : LoginViewState()
+    object EmptyState: LoginViewState()
 }

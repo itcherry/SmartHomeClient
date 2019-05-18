@@ -10,99 +10,102 @@
         android:id="@+id/tvChernyshTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/calligraffitti"
+        android:gravity="bottom"
         android:text="@string/login_chernysh_home_title"
         android:textColor="@color/windowBackground"
         android:textSize="32sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.08" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/ivHome"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivHome"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvChernyshTitle"
-        app:layout_constraintEnd_toEndOf="@id/tvChernyshTitle"
-        app:layout_constraintHorizontal_bias=".9"
-        app:layout_constraintStart_toStartOf="@id/tvChernyshTitle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".35"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvChernyshTitle"
+        app:layout_constraintEnd_toStartOf="@+id/tvChernyshTitle"
+        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_house_without_thermometer" />
 
-    <View
-        android:id="@+id/viewPinCodeBackground"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPinCodeContainer"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/white_rect_login_form"
-        android:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/pbLoginLoading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvPasswordTitle"
-        app:layout_constraintVertical_bias="0.45"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@id/tvChernyshTitle">
 
-    <TextView
-        android:id="@+id/tvPasswordTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="start"
-        android:paddingStart="8dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="8dp"
-        android:text="@string/login_enter_pin"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
-        android:translationZ="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvChernyshTitle"
-        app:layout_constraintVertical_bias="0.04" />
+        <TextView
+            android:id="@+id/tvPasswordTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="start"
+            android:paddingStart="8dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="8dp"
+            android:text="@string/login_enter_pin"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.04" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/colorPrimary"
-        android:translationZ="16dp"
-        app:layout_constraintEnd_toEndOf="@id/tvPasswordTitle"
-        app:layout_constraintStart_toStartOf="@id/tvPasswordTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvPasswordTitle" />
+        <View
+            android:id="@+id/viewPasswordTitleUnderline"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@id/tvPasswordTitle"
+            app:layout_constraintStart_toStartOf="@id/tvPasswordTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvPasswordTitle" />
 
-    <com.chernysh.smarthome.presentation.widget.PinCodeView
-        android:id="@+id/pinCode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:translationZ="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPasswordTitle"
-        app:layout_constraintVertical_bias="0.060000002" />
+        <com.chernysh.smarthome.presentation.widget.PinCodeView
+            android:id="@+id/pinCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewPasswordTitleUnderline" />
 
-    <ProgressBar
-        android:id="@+id/pbLoginLoading"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary"
-        android:indeterminateTintMode="src_atop"
-        android:translationZ="16dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/viewPinCodeBackground"
-        app:layout_constraintStart_toStartOf="@id/viewPinCodeBackground"
-        app:layout_constraintTop_toBottomOf="@id/pinCode" />
+        <ProgressBar
+            android:id="@+id/pbLoginLoading"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimaryDark"
+            android:indeterminateTintMode="src_atop"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pinCode" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ImageView
         android:id="@+id/ivFingerprint"
@@ -119,7 +122,7 @@
         android:id="@+id/btn1"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/light_grey_fab"
         android:fontFamily="sans-serif-light"
         android:text="@string/login_number_1"
@@ -128,8 +131,8 @@
         app:layout_constraintEnd_toStartOf="@+id/btn2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/viewPinCodeBackground"
-        app:layout_constraintTop_toBottomOf="@+id/viewPinCodeBackground" />
+        app:layout_constraintStart_toStartOf="@+id/clPinCodeContainer"
+        app:layout_constraintTop_toBottomOf="@+id/clPinCodeContainer" />
 
     <Button
         android:id="@+id/btn2"
@@ -156,7 +159,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn2"
-        app:layout_constraintEnd_toEndOf="@+id/viewPinCodeBackground"
+        app:layout_constraintEnd_toEndOf="@+id/clPinCodeContainer"
         app:layout_constraintStart_toEndOf="@+id/btn2"
         app:layout_constraintTop_toTopOf="@+id/btn2" />
 
@@ -173,7 +176,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btn5"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/viewPinCodeBackground"
+        app:layout_constraintStart_toStartOf="@+id/clPinCodeContainer"
         app:layout_constraintTop_toBottomOf="@+id/btn1" />
 
     <Button
@@ -201,7 +204,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn5"
-        app:layout_constraintEnd_toEndOf="@+id/viewPinCodeBackground"
+        app:layout_constraintEnd_toEndOf="@+id/clPinCodeContainer"
         app:layout_constraintStart_toEndOf="@+id/btn5"
         app:layout_constraintTop_toTopOf="@+id/btn5" />
 
@@ -218,7 +221,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btn8"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/viewPinCodeBackground"
+        app:layout_constraintStart_toStartOf="@+id/clPinCodeContainer"
         app:layout_constraintTop_toBottomOf="@+id/btn6" />
 
     <Button
@@ -246,7 +249,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn8"
-        app:layout_constraintEnd_toEndOf="@+id/viewPinCodeBackground"
+        app:layout_constraintEnd_toEndOf="@+id/clPinCodeContainer"
         app:layout_constraintStart_toEndOf="@+id/btn8"
         app:layout_constraintTop_toTopOf="@+id/btn8" />
 

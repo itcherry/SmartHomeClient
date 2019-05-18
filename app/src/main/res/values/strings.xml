@@ -34,7 +34,7 @@
     <string name="title_kitchen">Кухня</string>
 
     <!-- login -->
-    <string name="login_chernysh_home_title">Chernysh\nDynastija Home</string>
+    <string name="login_chernysh_home_title">Chernysh Home</string>
     <string name="login_enter_pin">Пін код або Fingerprint</string>
     <string name="login_number_1">1</string>
     <string name="login_number_2">2</string>

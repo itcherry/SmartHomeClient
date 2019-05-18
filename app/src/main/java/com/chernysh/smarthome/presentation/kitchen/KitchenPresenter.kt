@@ -37,7 +37,7 @@ import javax.inject.Inject
  */
 class KitchenPresenter @Inject constructor(private val kitchenInteractor: KitchenInteractor,
                                            schedulersTransformer: ObservableTransformer<Any, Any>) :
-    BasePresenter<KitchenContract.View, RoomWithoutRozetkaViewState>(schedulersTransformer), KitchenContract.Presenter {
+    BasePresenter<KitchenContract.View, RoomWithoutRozetkaViewState>(), KitchenContract.Presenter {
 
     @Override
     override fun bindIntents() {
@@ -62,7 +62,6 @@ class KitchenPresenter @Inject constructor(private val kitchenInteractor: Kitche
                 kitchenInteractor.disableLightsObservable()
             }
         }
-        .compose(applySchedulers())
 
 
     private fun getTemperatureIntent() = intent { viewResumedObservable }
@@ -70,11 +69,9 @@ class KitchenPresenter @Inject constructor(private val kitchenInteractor: Kitche
         .switchMap {
             kitchenInteractor.onTemperatureHumidityObservable()
         }
-        .compose(applySchedulers())
 
     private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap { kitchenInteractor.getLightsStateObservable() }
-        .compose(applySchedulers())
 
     private fun reducer(previousState: RoomWithoutRozetkaViewState, changes: RoomPartialWithoutRozetkaViewState):
             RoomWithoutRozetkaViewState {

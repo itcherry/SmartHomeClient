@@ -32,8 +32,7 @@ import io.reactivex.subjects.PublishSubject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-abstract class BasePresenter<V : MvpView?, VS>(private val schedulersTransformer: ObservableTransformer<Any, Any>) :
-    MviBasePresenter<V, VS>() {
+abstract class BasePresenter<V : MvpView?, VS> : MviBasePresenter<V, VS>() {
     private val onViewResumedObserver = PublishSubject.create<Any>()
     private val onViewCreatedObserver = PublishSubject.create<Any>()
     private val onViewDestroyedObserver = PublishSubject.create<Any>()
@@ -58,10 +57,5 @@ abstract class BasePresenter<V : MvpView?, VS>(private val schedulersTransformer
 
     fun onViewPaused() {
         onViewPausedObserver.onNext(Unit)
-    }
-
-    @SuppressWarnings("unchecked")
-    protected fun <S> applySchedulers(): ObservableTransformer<S, S> {
-        return schedulersTransformer as ObservableTransformer<S, S>
     }
 }

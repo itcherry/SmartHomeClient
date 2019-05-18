@@ -37,7 +37,7 @@ import javax.inject.Inject
  */
 class CorridorPresenter @Inject constructor(private val corridorInteractor: CorridorInteractor,
                                            schedulersTransformer: ObservableTransformer<Any, Any>) :
-    BasePresenter<CorridorContract.View, BooleanViewState>(schedulersTransformer), CorridorContract.Presenter {
+    BasePresenter<CorridorContract.View, BooleanViewState>(), CorridorContract.Presenter {
 
     @Override
     override fun bindIntents() {
@@ -58,9 +58,7 @@ class CorridorPresenter @Inject constructor(private val corridorInteractor: Corr
                 corridorInteractor.disableLightsObservable()
             }
         }
-        .compose(applySchedulers())
 
     private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap { corridorInteractor.getLightsStateObservable() }
-        .compose(applySchedulers())
 }

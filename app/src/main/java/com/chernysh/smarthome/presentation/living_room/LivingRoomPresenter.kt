@@ -37,7 +37,7 @@ import javax.inject.Inject
  */
 class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: LivingRoomInteractor,
                                               schedulersTransformer: ObservableTransformer<Any, Any>) :
-    BasePresenter<LivingRoomContract.View, RoomWithoutLightsViewState>(schedulersTransformer), LivingRoomContract.Presenter {
+    BasePresenter<LivingRoomContract.View, RoomWithoutLightsViewState>(), LivingRoomContract.Presenter {
 
     @Override
     override fun bindIntents() {
@@ -62,18 +62,15 @@ class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: 
                 livingRoomInteractor.disableRozetkaObservable()
             }
         }
-        .compose(applySchedulers())
 
     private fun getTemperatureIntent() = intent { viewResumedObservable }
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             livingRoomInteractor.onTemperatureHumidityObservable()
         }
-        .compose(applySchedulers())
 
     private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap { livingRoomInteractor.getRozetkaStateObservable() }
-        .compose(applySchedulers())
 
     private fun reducer(previousState: RoomWithoutLightsViewState,
                         changes: RoomPartialWithoutLightsViewState): RoomWithoutLightsViewState {

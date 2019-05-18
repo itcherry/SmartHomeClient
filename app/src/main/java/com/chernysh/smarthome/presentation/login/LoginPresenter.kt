@@ -35,18 +35,15 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class LoginPresenter @Inject constructor(private val loginInteractor: LoginInteractor,
-                                         schedulersTransformer: ObservableTransformer<Any, Any>) :
-  BasePresenter<LoginContract.View, LoginViewState>(schedulersTransformer), LoginContract.Presenter {
+class LoginPresenter @Inject constructor(private val loginInteractor: LoginInteractor) :
+        BasePresenter<LoginContract.View, LoginViewState>(), LoginContract.Presenter {
 
-  @Override
-  override fun bindIntents() {
-    subscribeViewState(getSubmitLoginStateIntent(), LoginContract.View::render);
-  }
+    @Override
+    override fun bindIntents() {
+        subscribeViewState(getSubmitLoginStateIntent(), LoginContract.View::render);
+    }
 
-  private fun getSubmitLoginStateIntent() = intent(LoginContract.View::pinCodeIntent)
-    .subscribeOn(Schedulers.io())
-    .filter { it.length == PIN_CODE_LENGTH }
-    .switchMap { loginInteractor.authUser(it) }
-    .observeOn(AndroidSchedulers.mainThread())
+    private fun getSubmitLoginStateIntent() = intent(LoginContract.View::pinCodeIntent)
+            .filter { it.length == PIN_CODE_LENGTH }
+            .switchMap { loginInteractor.authUser(it) }
 }
