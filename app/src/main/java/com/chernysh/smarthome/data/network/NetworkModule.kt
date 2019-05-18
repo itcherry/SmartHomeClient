@@ -21,10 +21,11 @@ package com.chernysh.smarthome.data.network
 
 import android.content.Context
 import com.chernysh.smarthome.BuildConfig
+import com.chernysh.smarthome.data.network.retrofit.AuthorizationHeaderInterceptor
 import com.chernysh.smarthome.data.network.retrofit.ConnectivityInterceptor
 import com.chernysh.smarthome.di.qualifier.ApplicationContext
 import com.chernysh.smarthome.di.scope.ApplicationScope
-import com.transcendensoft.hedbanz.data.network.retrofit.AuthorizationHeaderInterceptor
+import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -59,6 +60,12 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
+    fun provideChuckInterceptor(@ApplicationContext context: Context): ChuckInterceptor {
+        return ChuckInterceptor(context)
+    }
+
+    @Provides
+    @ApplicationScope
     fun provideCacheFile(@ApplicationContext context: Context): File {
         val cacheFile = File(context.cacheDir, "okhttp_cache")
         cacheFile.mkdirs()
@@ -77,9 +84,11 @@ class NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         headerInterceptor: AuthorizationHeaderInterceptor,
         connectivityInterceptor: ConnectivityInterceptor,
+        chuckInterceptor: ChuckInterceptor,
         cache: Cache
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(chuckInterceptor)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(headerInterceptor)
             .addInterceptor(connectivityInterceptor)

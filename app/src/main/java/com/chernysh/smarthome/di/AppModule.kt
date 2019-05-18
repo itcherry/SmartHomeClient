@@ -22,6 +22,7 @@ package com.chernysh.smarthome.di
 import android.app.Application
 import android.content.Context
 import com.chernysh.smarthome.SmartHomeApplication
+import com.chernysh.smarthome.data.network.ApiServiceModule
 import com.chernysh.smarthome.di.qualifier.ApplicationContext
 import dagger.Binds
 import dagger.Module
@@ -33,7 +34,7 @@ import ua.andrii.chernysh.rxsockets.data.network.SocketServiceModule
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  */
-@Module(includes = [SocketServiceModule::class, ActivityBindingModule::class])
+@Module(includes = [SocketServiceModule::class, ApiServiceModule::class, ActivityBindingModule::class])
 abstract class AppModule {
 
     @Binds

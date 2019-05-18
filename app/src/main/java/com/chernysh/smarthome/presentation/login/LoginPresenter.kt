@@ -4,6 +4,8 @@ import com.chernysh.smarthome.domain.interactor.login.LoginInteractor
 import com.chernysh.smarthome.domain.model.*
 import com.chernysh.smarthome.presentation.base.BasePresenter
 import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -43,7 +45,8 @@ class LoginPresenter @Inject constructor(private val loginInteractor: LoginInter
   }
 
   private fun getSubmitLoginStateIntent() = intent(LoginContract.View::pinCodeIntent)
+    .subscribeOn(Schedulers.io())
     .filter { it.length == PIN_CODE_LENGTH }
     .switchMap { loginInteractor.authUser(it) }
-    .compose(applySchedulers())
+    .observeOn(AndroidSchedulers.mainThread())
 }

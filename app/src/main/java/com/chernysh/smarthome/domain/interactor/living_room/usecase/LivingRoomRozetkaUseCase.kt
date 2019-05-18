@@ -23,7 +23,7 @@ class LivingRoomRozetkaUseCase @Inject constructor(private val livingRoomReposit
         }
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }
-            .startWith { BooleanViewState.LoadingState }
+            .startWith(BooleanViewState.LoadingState)
             .onErrorReturn {
                 if (it is NoConnectivityException) {
                     BooleanViewState.ConnectivityErrorState

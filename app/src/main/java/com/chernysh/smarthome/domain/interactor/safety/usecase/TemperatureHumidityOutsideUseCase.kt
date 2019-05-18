@@ -29,7 +29,7 @@ class TemperatureHumidityOutsideUseCase @Inject constructor(
         ))
             .doOnSubscribe { temperatureHumidityRepository.connect() }
             .doOnDispose { temperatureHumidityRepository.disconnect() }
-            .startWith { TemperatureHumidityViewState.NoDataState }
+            .startWith(TemperatureHumidityViewState.NoDataState)
             .onErrorReturn { TemperatureHumidityViewState.ErrorState(it) }
             .map { FlatPartialViewState.TemperatureHumidityState(it) }
 }

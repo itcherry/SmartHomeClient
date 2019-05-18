@@ -29,7 +29,7 @@ class PinCodeView @JvmOverloads constructor(
   }
 
   private fun addCircles() {
-    for (i in 0..PIN_CODE_LENGTH) {
+    for (i in 0 until PIN_CODE_LENGTH) {
       addView(View(context).apply {
         layoutParams = getCircleLayoutParams()
         background = AppCompatResources.getDrawable(context, R.drawable.pin_code_outer_bg)
@@ -47,40 +47,38 @@ class PinCodeView @JvmOverloads constructor(
   fun setText(text: String) {
     val length = if (text.length > PIN_CODE_LENGTH) PIN_CODE_LENGTH else text.length
 
-    fillActiveCirclesWithColor(length)
     unfillNotNeededCircles(length)
+    fillActiveCirclesWithColor(length)
   }
 
   private fun unfillNotNeededCircles(length: Int) {
-    if (PIN_CODE_LENGTH != length) {
-      for (i in (length + 1)..PIN_CODE_LENGTH) {
+      for (i in 0 until PIN_CODE_LENGTH) {
         getChildAt(i).background = AppCompatResources.getDrawable(context, R.drawable.pin_code_outer_bg)
       }
-    }
   }
 
   private fun fillActiveCirclesWithColor(length: Int) {
-    for (i in 0..length) {
-      getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+    for (i in 0 until length) {
+      getChildAt(i).background = AppCompatResources.getDrawable(context, R.drawable.pin_code_inner_bg_filled)
     }
   }
 
   fun renderError() {
-    for (i in 0..childCount) {
-      getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.textRed))
+    for (i in 0 until childCount) {
+      getChildAt(i).background = AppCompatResources.getDrawable(context, R.drawable.pin_code_inner_bg_error)
     }
   }
 
   fun renderSuccess() {
     isEnabled = true
 
-    for (i in 0..childCount) {
-      getChildAt(i).setBackgroundColor(ContextCompat.getColor(context, R.color.successGreen))
+    for (i in 0 until childCount) {
+      getChildAt(i).background = AppCompatResources.getDrawable(context, R.drawable.pin_code_inner_bg_success)
     }
   }
 
   fun clear() {
-    for (i in 0..childCount) {
+    for (i in 0 until childCount) {
       getChildAt(i).background = AppCompatResources.getDrawable(context, R.drawable.pin_code_outer_bg)
     }
   }
@@ -89,11 +87,11 @@ class PinCodeView @JvmOverloads constructor(
     super.setEnabled(enabled)
 
     if (enabled) {
-      for (i in 0..childCount) {
+      for (i in 0 until childCount) {
         getChildAt(i).alpha = 1.0f
       }
     } else {
-      for (i in 0..childCount) {
+      for (i in 0 until childCount) {
         getChildAt(i).alpha = 0.6f
       }
     }

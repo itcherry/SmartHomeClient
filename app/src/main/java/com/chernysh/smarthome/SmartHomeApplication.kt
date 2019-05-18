@@ -6,13 +6,14 @@ import com.chernysh.smarthome.utils.logging.CrashReportingTree
 import com.crashlytics.android.Crashlytics
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
+import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import javax.inject.Inject
 
-class SmartHomeApplication : DaggerApplication(), HasServiceInjector {
+class SmartHomeApplication : DaggerApplication(), HasServiceInjector, HasActivityInjector {
     @Inject lateinit var mDebugTimberTree: Timber.DebugTree
     @Inject lateinit var mReleaseTimberTree: CrashReportingTree
 

@@ -56,14 +56,6 @@ class SocketServiceModule {
 
     @Provides
     @ApplicationScope
-    fun provideGson(): Gson {
-        return GsonBuilder()
-                .setLenient()
-                .create()
-    }
-
-    @Provides
-    @ApplicationScope
     fun provideSocketLoggingInterceptor(): SocketLoggingInterceptor {
         return object : SocketLoggingInterceptor {
             override fun logInfo(message: String) {

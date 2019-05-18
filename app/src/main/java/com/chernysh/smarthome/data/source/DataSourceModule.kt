@@ -19,7 +19,9 @@ package com.chernysh.smarthome.data.source
  * limitations under the License.
  */
 
+import com.chernysh.smarthome.data.cache.UserCacheDataSource
 import com.chernysh.smarthome.data.network.source.*
+import com.chernysh.smarthome.data.network.source.SocketDataSource
 import com.chernysh.smarthome.di.scope.ApplicationScope
 import com.transcendensoft.hedbanz.data.source.FirebaseIdDataSource
 import dagger.Binds
@@ -39,41 +41,45 @@ interface DataSourceModule {
 
   @Binds
   @ApplicationScope
-  fun provideAlarmApiDataSource(dataSource: AlarmApiDataSource): AlarmDataSource
+  fun provideAlarmApiDataSource(dataSource: AlarmApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideBedroomApiDataSource(dataSource: BedroomApiDataSource): BedroomDataSource
+  fun provideBedroomApiDataSource(dataSource: BedroomApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideBoilerApiDataSource(dataSource: BoilerApiDataSource): BoilerDataSource
+  fun provideBoilerApiDataSource(dataSource: BoilerApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideCorridorApiDataSource(dataSource: CorridorApiDataSource): CorridorDataSource
+  fun provideCorridorApiDataSource(dataSource: CorridorApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideDoorApiDataSource(dataSource: DoorApiDataSource): DoorDataSource
+  fun provideDoorApiDataSource(dataSource: DoorApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideKitchenApiDataSource(dataSource: KitchenApiDataSource): KitchenDataSource
+  fun provideKitchenApiDataSource(dataSource: KitchenApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideLivingRoomApiDataSource(dataSource: LivingRoomApiDataSource): LivingRoomDataSource
+  fun provideLivingRoomApiDataSource(dataSource: LivingRoomApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideNeptunApiDataSource(dataSource: NeptunApiDataSource): NeptunDataSource
+  fun provideNeptunApiDataSource(dataSource: NeptunApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideFirebaseIdApiDataSource(dataSource: FirebaseIdApiDataSource): FirebaseIdDataSource
+  fun provideFirebaseIdApiDataSource(dataSource: FirebaseIdApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
-  fun provideLoginApiDataSource(dataSource: LoginApiDataSource): LoginDataSource
+  fun provideLoginApiDataSource(dataSource: LoginApiDataSource): ApiDataSource
+
+  @Binds
+  @ApplicationScope
+  fun provideUserDataSource(dataSource: UserCacheDataSource): UserDataSource
 }

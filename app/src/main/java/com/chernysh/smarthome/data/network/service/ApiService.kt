@@ -19,7 +19,9 @@ package com.chernysh.smarthome.data.network.service
  * limitations under the License.
  */
 
+import com.chernysh.smarthome.data.model.UserRequest
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -99,5 +101,5 @@ interface ApiService {
 
   /* Login */
   @POST("user")
-  fun authUser(@Body pin: Pair<String, String>): Maybe<Any>
+  fun authUser(@Body user: UserRequest): Observable<Any>
 }

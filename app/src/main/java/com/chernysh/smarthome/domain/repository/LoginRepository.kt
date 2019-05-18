@@ -2,6 +2,7 @@ package com.chernysh.smarthome.domain.repository
 
 import com.chernysh.smarthome.data.source.DataPolicy
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 
 /**
@@ -9,6 +10,6 @@ import io.reactivex.Single
  * If you have any questions, please write: andrii.chernysh@uptech.team
  */
 interface LoginRepository {
-  fun authUser(pinCode: String, dataPolicy: DataPolicy): Maybe<Any>
-  fun savePinCode(pinCode: String)
+  fun authUser(pinCode: String, dataPolicy: DataPolicy): Observable<Any>
+  fun saveJwtToken(token: String)
 }

@@ -36,7 +36,6 @@ import kotlinx.android.synthetic.main.activity_login.*
  *         especially for Zhk Dinastija
  */
 class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginContract.View {
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
@@ -58,8 +57,7 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
     return Observable.merge(listOf(btn1Observable, btn2Observable, btn3Observable,
       btn4Observable, btn5Observable, btn6Observable, btn7Observable,
       btn8Observable, btn9Observable, btn0Observable, btnBackspaceObservable))
-      .reduce { t1: String, t2: String -> if (t2.isBlank()) t1.dropLast(1) else t1 + t2 }
-      .toObservable()
+      .scan { t1: String, t2: String -> if (t2.isBlank()) t1.dropLast(1) else t1 + t2 }
       .doOnNext { pinCode.setText(it) }
   }
 
