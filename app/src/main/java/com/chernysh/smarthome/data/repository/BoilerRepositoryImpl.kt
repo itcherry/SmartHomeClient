@@ -36,7 +36,7 @@ import javax.inject.Inject
 class BoilerRepositoryImpl @Inject constructor(
     private val boilerApiDataSource: BoilerApiDataSource
 ) : BoilerRepository {
-    override fun setState(isEnabled: Boolean): Maybe<Any> = boilerApiDataSource.setState(isEnabled)
+    override fun setState(isEnabled: Boolean): Maybe<Boolean> = boilerApiDataSource.setState(isEnabled)
 
     override fun getState(): Single<Boolean> = boilerApiDataSource.getState()
 }

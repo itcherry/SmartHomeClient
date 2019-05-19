@@ -34,11 +34,11 @@ import javax.inject.Inject
  */
 class BedroomApiDataSource @Inject constructor() :
     ApiDataSource(), BedroomDataSource {
-    override fun setRozetkaState(isEnabled: Boolean): Maybe<Any> = service.setBedroomRozetkaState(isEnabled)
+    override fun setRozetkaState(isEnabled: Boolean): Maybe<Boolean> = service.setBedroomRozetkaState(isEnabled)
 
     override fun getRozetkaState(): Single<Boolean> = service.getBedroomRozetkaState()
 
-    override fun setLightState(isEnabled: Boolean): Maybe<Any> = service.setBedroomLightState(isEnabled)
+    override fun setLightState(isEnabled: Boolean): Maybe<Boolean> = service.setBedroomLightState(isEnabled)
 
     override fun getLightState(): Single<Boolean> = service.getBedroomLightState()
 }

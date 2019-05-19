@@ -44,18 +44,27 @@ class ApiErrorHandlerFactory : Converter.Factory() {
         type: Type?, annotations: Array<Annotation>?,
         retrofit: Retrofit?
     ): Converter<ResponseBody, *>? {
-        val envelopedType = TypeToken.getParameterized(ServerResult::class.java, type!!).type
-        val delegate = retrofit!!.nextResponseBodyConverter<ServerResult<*>>(this, envelopedType, annotations!!)
 
-        return Converter { body: ResponseBody ->
-            val serverResult = delegate.convert(body)
+            val envelopedType = TypeToken.getParameterized(ServerResult::class.java, type).type
+            val delegate = retrofit!!.nextResponseBodyConverter<ServerResult<*>>(this, envelopedType, annotations!!)
 
-            if (ServerStatus.getServerStatusBasedOnString(serverResult.status ?: "error") == ServerStatus.ERROR) {
-                throw SmartHomeApiException(serverResult.serverError ?: ServerError())
+            return Converter { body: ResponseBody ->
+                if(body.contentLength() == 0L && body.contentType() == null){
+                    null
+                } else {
+                    val serverResult = delegate.convert(body)
+
+                    if (ServerStatus.getServerStatusBasedOnString(
+                            serverResult.status ?: "error"
+                        ) == ServerStatus.ERROR
+                    ) {
+                        throw SmartHomeApiException(serverResult.serverError ?: ServerError())
+                    }
+
+                    serverResult.data
+                }
             }
 
-            serverResult.data
-        }
     }
 
     companion object {

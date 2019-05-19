@@ -6,6 +6,7 @@ import com.chernysh.smarthome.domain.model.FlatPartialViewState
 import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.repository.BoilerRepository
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -19,7 +20,7 @@ class BoilerUseCase @Inject constructor(private val boilerRepository: BoilerRepo
     fun processBoilerState(params: Data): Observable<FlatPartialViewState.BoilerState> =
         when (params.method) {
             Method.GET -> boilerRepository.getState()
-            Method.SET -> boilerRepository.setState(params.value).toSingle().map { params.value }
+            Method.SET -> boilerRepository.setState(params.value).switchIfEmpty(Single.just(params.value))
         }
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }

@@ -8,6 +8,7 @@
     <string name="action_loading">Завантажуємо&#8230;</string>
     <string name="action_yes">Так</string>
     <string name="action_no">Ні</string>
+    <string name="action_reload">Перезавантажити</string>
 
     <!-- Temperature and humidity card -->
     <string name="temperature_text">%1$f &#8451;</string>
@@ -48,7 +49,7 @@
     <string name="login_number_0">0</string>
 
     <!-- flat -->
-    <string name="flat_control_panel">Панель керування</string>
+    <string name="flat_control_panel">Панель\n\t\t\t\tкерування</string>
     <string name="flat_alarm">Сирена</string>
     <string name="flat_boiler">Бойлер</string>
     <string name="flat_door">Двері</string>

@@ -31,6 +31,6 @@ import io.reactivex.Single
  *         especially for Zhk Dinastija
  */
 interface LivingRoomDataSource {
-    fun setRozetkaState(isEnabled: Boolean): Maybe<Any>
+    fun setRozetkaState(isEnabled: Boolean): Maybe<Boolean>
     fun getRozetkaState(): Single<Boolean>
 }

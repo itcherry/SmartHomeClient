@@ -7,6 +7,7 @@ import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.model.RoomPartialViewState
 import com.chernysh.smarthome.domain.repository.AlarmRepository
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -20,7 +21,7 @@ class AlarmUseCase @Inject constructor(private val alarmRepository: AlarmReposit
     fun processAlarmState(params: Data): Observable<FlatPartialViewState.AlarmState> =
         when (params.method) {
             Method.GET -> alarmRepository.getState()
-            Method.SET -> alarmRepository.setState(params.value).toSingle().map { params.value }
+            Method.SET -> alarmRepository.setState(params.value).switchIfEmpty(Single.just(params.value))
         }
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }

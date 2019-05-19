@@ -19,7 +19,7 @@ package com.chernysh.smarthome.data.network.service
  * limitations under the License.
  */
 
-import com.chernysh.smarthome.data.model.UserRequest
+import com.chernysh.smarthome.data.model.UserDto
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -42,21 +42,21 @@ interface ApiService {
 
   /* Alarm */
   @PUT("alarm")
-  fun setAlarmState(@Query("isEnable") isEnable: Boolean): Maybe<Any>
+  fun setAlarmState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
   @GET("alarm")
   fun getAlarmState(): Single<Boolean>
 
   /* Boiler */
   @PUT("boiler")
-  fun setBoilerState(@Query("isEnable") isEnable: Boolean): Maybe<Any>
+  fun setBoilerState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
   @GET("boiler")
   fun getBoilerState(): Single<Boolean>
 
   /* Door */
   @PUT("door")
-  fun setDoorState(@Query("doOpen") doOpen: Boolean): Maybe<Any>
+  fun setDoorState(@Query("doOpen") doOpen: Boolean): Maybe<Boolean>
 
   @GET("door")
   fun getDoorState(): Single<Boolean>
@@ -67,39 +67,39 @@ interface ApiService {
 
   /* Bedroom */
   @PUT("bedroom/rozetka")
-  fun setBedroomRozetkaState(@Query("isEnable") isEnable: Boolean): Maybe<Any>
+  fun setBedroomRozetkaState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
   @GET("bedroom/rozetka")
   fun getBedroomRozetkaState(): Single<Boolean>
 
   @PUT("bedroom/light")
-  fun setBedroomLightState(@Query("isEnable") isEnable: Boolean): Maybe<Any>
+  fun setBedroomLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
   @GET("bedroom/light")
   fun getBedroomLightState(): Single<Boolean>
 
   /* Corridor */
   @PUT("corridor/light")
-  fun setCorridorLightState(@Query("isEnable") isEnable: Boolean): Maybe<Any>
+  fun setCorridorLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
   @GET("corridor/light")
   fun getCorridorLightState(): Single<Boolean>
 
   /* Kitchen */
   @PUT("kitchen/light")
-  fun setKitchenLightState(@Query("isEnable") isEnable: Boolean): Maybe<Any>
+  fun setKitchenLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
   @GET("kitchen/light")
   fun getKitchenLightState(): Single<Boolean>
 
   /* Living room */
   @PUT("living-room/rozetka")
-  fun setLivingRoomRozetkaState(@Query("isEnable") isEnable: Boolean): Maybe<Any>
+  fun setLivingRoomRozetkaState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
   @GET("living-room/rozetka")
   fun getLivingRoomRozetkaState(): Single<Boolean>
 
   /* Login */
   @POST("user")
-  fun authUser(@Body user: UserRequest): Observable<Any>
+  fun authUser(@Body user: UserDto): Observable<UserDto>
 }

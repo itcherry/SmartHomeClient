@@ -24,14 +24,15 @@ import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import android.view.View
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import com.chernysh.smarthome.R
 import com.chernysh.smarthome.utils.AndroidUtils
 import com.chernysh.smarthome.utils.KeyboardUtils
+import com.chernysh.smarthome.utils.Notification
 import com.hannesdorfmann.mosby3.mvi.MviActivity
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import javax.inject.Inject
 import dagger.android.AndroidInjection
-
 
 /**
  * It is base activity for all activities in application.
@@ -43,7 +44,8 @@ import dagger.android.AndroidInjection
  */
 abstract class BaseActivity<V : MvpView, P : BasePresenter<V, *>>() : MviActivity<V, P>(), BaseView {
     private var mProgressDialog: ProgressDialog? = null
-    @Inject protected lateinit var presenter: P
+    @Inject
+    protected lateinit var presenter: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this);
@@ -82,12 +84,42 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V, *>>() : MviActivit
 
     override fun createPresenter() = presenter
 
-    override fun showSnackError(messageRes: Int) {
-        //TODO
+    override fun showNetworkSnackbarError(action: () -> Unit) {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.network_error),
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(R.string.action_reload) { action.invoke() }
+            .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+            .show()
     }
 
-    override fun showSnackError(message: String) {
-        //TODO
+    override fun showNetworkSnackbarError() {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.network_error),
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+    override fun showServerSnackbarError(action: () -> Unit) {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.server_error),
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(R.string.action_reload) { action.invoke() }
+            .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+            .show()
+    }
+
+    override fun showServerSnackbarError() {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.server_error),
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     override fun showSnackMessage(messageRes: Int) {

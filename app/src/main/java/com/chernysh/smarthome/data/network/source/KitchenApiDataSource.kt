@@ -35,7 +35,7 @@ import javax.inject.Inject
 class KitchenApiDataSource @Inject constructor() :
     ApiDataSource(), KitchenDataSource {
 
-    override fun setLightState(isEnabled: Boolean): Maybe<Any> = service.setKitchenLightState(isEnabled)
+    override fun setLightState(isEnabled: Boolean): Maybe<Boolean> = service.setKitchenLightState(isEnabled)
 
     override fun getLightState(): Single<Boolean> = service.getKitchenLightState()
 }

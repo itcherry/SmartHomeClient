@@ -5,7 +5,9 @@ import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.FlatPartialViewState
 import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.repository.BoilerRepository
+import com.chernysh.smarthome.domain.repository.DoorRepository
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -15,11 +17,11 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class DoorUseCase @Inject constructor(private val doorRepository: BoilerRepository) {
+class DoorUseCase @Inject constructor(private val doorRepository: DoorRepository) {
     fun processDoorState(params: Data): Observable<FlatPartialViewState.DoorState> =
         when (params.method) {
             Method.GET -> doorRepository.getState()
-            Method.SET -> doorRepository.setState(params.value).toSingle().map { params.value }
+            Method.SET -> doorRepository.setState(params.value).switchIfEmpty(Single.just(params.value))
         }
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }

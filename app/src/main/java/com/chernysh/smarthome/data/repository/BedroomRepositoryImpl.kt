@@ -36,11 +36,11 @@ import javax.inject.Inject
 class BedroomRepositoryImpl @Inject constructor(
     private val bedroomApiDataSource: BedroomApiDataSource
 ) : BedroomRepository {
-    override fun setRozetkaState(isEnabled: Boolean): Maybe<Any> = bedroomApiDataSource.setRozetkaState(isEnabled)
+    override fun setRozetkaState(isEnabled: Boolean): Maybe<Boolean> = bedroomApiDataSource.setRozetkaState(isEnabled)
 
     override fun getRozetkaState(): Single<Boolean> = bedroomApiDataSource.getRozetkaState()
 
-    override fun setLightState(isEnabled: Boolean): Maybe<Any> = bedroomApiDataSource.setLightState(isEnabled)
+    override fun setLightState(isEnabled: Boolean): Maybe<Boolean> = bedroomApiDataSource.setLightState(isEnabled)
 
     override fun getLightState(): Single<Boolean> = bedroomApiDataSource.getLightState()
 }

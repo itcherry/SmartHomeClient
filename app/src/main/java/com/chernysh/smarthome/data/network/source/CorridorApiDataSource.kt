@@ -34,7 +34,7 @@ import javax.inject.Inject
  */
 class CorridorApiDataSource @Inject constructor() :
     ApiDataSource(), CorridorDataSource {
-    override fun setLightState(isEnabled: Boolean): Maybe<Any> = service.setCorridorLightState(isEnabled)
+    override fun setLightState(isEnabled: Boolean): Maybe<Boolean> = service.setCorridorLightState(isEnabled)
 
     override fun getLightState(): Single<Boolean> = service.getCorridorLightState()
 }

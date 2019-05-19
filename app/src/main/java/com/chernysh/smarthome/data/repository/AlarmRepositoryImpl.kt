@@ -36,7 +36,7 @@ import javax.inject.Inject
 class AlarmRepositoryImpl @Inject constructor(
     private val alarmApiDataSource: AlarmApiDataSource
 ) : AlarmRepository {
-    override fun setState(isEnabled: Boolean): Maybe<Any> = alarmApiDataSource.setState(isEnabled)
+    override fun setState(isEnabled: Boolean): Maybe<Boolean> = alarmApiDataSource.setState(isEnabled)
 
     override fun getState(): Single<Boolean> = alarmApiDataSource.getState()
 }

@@ -32,6 +32,6 @@ import io.reactivex.Single
  *         especially for Zhk Dinastija
  */
 interface KitchenRepository {
-    fun setLightState(isEnabled: Boolean): Maybe<Any>
+    fun setLightState(isEnabled: Boolean): Maybe<Boolean>
     fun getLightState(): Single<Boolean>
 }

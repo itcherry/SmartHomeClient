@@ -36,7 +36,7 @@ import javax.inject.Inject
 class DoorRepositoryImpl @Inject constructor(
     private val doorApiDataSource: DoorApiDataSource
 ) : DoorRepository {
-    override fun setState(isEnabled: Boolean): Maybe<Any> = doorApiDataSource.setState(isEnabled)
+    override fun setState(isEnabled: Boolean): Maybe<Boolean> = doorApiDataSource.setState(isEnabled)
 
     override fun getState(): Single<Boolean> = doorApiDataSource.getState()
 }

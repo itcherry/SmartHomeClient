@@ -37,7 +37,7 @@ class CorridorRepositoryImpl @Inject constructor(
     private val corridorApiDataSource: CorridorApiDataSource
 ) : CorridorRepository {
 
-    override fun setLightState(isEnabled: Boolean): Maybe<Any> = corridorApiDataSource.setLightState(isEnabled)
+    override fun setLightState(isEnabled: Boolean): Maybe<Boolean> = corridorApiDataSource.setLightState(isEnabled)
 
     override fun getLightState(): Single<Boolean> = corridorApiDataSource.getLightState()
 }

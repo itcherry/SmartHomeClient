@@ -33,7 +33,7 @@ import javax.inject.Inject
  */
 class BoilerApiDataSource @Inject constructor() :
     ApiDataSource(), BoilerDataSource {
-    override fun setState(isEnabled: Boolean): Maybe<Any> = service.setBoilerState(isEnabled)
+    override fun setState(isEnabled: Boolean): Maybe<Boolean> = service.setBoilerState(isEnabled)
 
     override fun getState(): Single<Boolean> = service.getBoilerState()
 }

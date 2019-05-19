@@ -33,7 +33,7 @@ import javax.inject.Inject
  */
 class DoorApiDataSource @Inject constructor() :
     ApiDataSource(), DoorDataSource {
-    override fun setState(isEnabled: Boolean): Maybe<Any> = service.setDoorState(isEnabled)
+    override fun setState(isEnabled: Boolean): Maybe<Boolean> = service.setDoorState(isEnabled)
 
     override fun getState(): Single<Boolean> = service.getDoorState()
 }

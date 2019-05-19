@@ -32,9 +32,9 @@ import io.reactivex.Single
  *         especially for Zhk Dinastija
  */
 interface BedroomRepository {
-    fun setRozetkaState(isEnabled: Boolean): Maybe<Any>
+    fun setRozetkaState(isEnabled: Boolean): Maybe<Boolean>
     fun getRozetkaState(): Single<Boolean>
 
-    fun setLightState(isEnabled: Boolean): Maybe<Any>
+    fun setLightState(isEnabled: Boolean): Maybe<Boolean>
     fun getLightState(): Single<Boolean>
 }

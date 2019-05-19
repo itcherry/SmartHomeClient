@@ -37,7 +37,7 @@ class KitchenRepositoryImpl @Inject constructor(
     private val kitchenApiDataSource: KitchenApiDataSource
 ) : KitchenRepository {
 
-    override fun setLightState(isEnabled: Boolean): Maybe<Any> = kitchenApiDataSource.setLightState(isEnabled)
+    override fun setLightState(isEnabled: Boolean): Maybe<Boolean> = kitchenApiDataSource.setLightState(isEnabled)
 
     override fun getLightState(): Single<Boolean> = kitchenApiDataSource.getLightState()
 }

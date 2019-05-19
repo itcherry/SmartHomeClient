@@ -44,6 +44,7 @@ interface FlatContract {
         fun openLivingRoomActivity(): Observable<Any>
         fun openCorridorActivity(): Observable<Any>
         fun showAlarmDialog(): Observable<Any>
+        fun reloadDataObservable(): Observable<Any>
     }
 
     interface Presenter

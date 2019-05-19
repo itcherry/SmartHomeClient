@@ -147,6 +147,10 @@ dependencies {
 
     //Sockets
     implementation project(":kotlinrxsocket-1.0.0")
+    implementation('io.socket:socket.io-client:0.9.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
 
     //Utils
     implementation 'com.jakewharton.timber:timber:4.7.1'

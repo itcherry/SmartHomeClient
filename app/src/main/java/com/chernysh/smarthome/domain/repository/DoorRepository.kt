@@ -31,6 +31,6 @@ import io.reactivex.Single
  *         especially for Zhk Dinastija
  */
 interface DoorRepository {
-    fun setState(isEnabled: Boolean): Maybe<Any>
+    fun setState(isEnabled: Boolean): Maybe<Boolean>
     fun getState(): Single<Boolean>
 }

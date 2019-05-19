@@ -140,7 +140,7 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
 
 
     private fun renderConnectivityError() {
-        showSnackError(R.string.network_error)
+        showNetworkSnackbarError()
         pinCode.clear()
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.AbsoluteLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
 import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.FlatViewState
@@ -20,7 +21,6 @@ import com.chernysh.smarthome.utils.Notification
 import com.chernysh.smarthome.utils.dpToPx
 import com.chernysh.smarthome.utils.expandClickArea
 import com.jakewharton.rxbinding2.view.RxView
-import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_flat.*
@@ -28,12 +28,21 @@ import kotlinx.android.synthetic.main.layout_flat_main.*
 
 class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContract.View {
     private val turnOnAlarmSubject: PublishSubject<Boolean> = PublishSubject.create()
+    private val reloadDataSubject: PublishSubject<Any> = PublishSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flat)
 
         initButtons()
+    }
+
+    override fun onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun initButtons() {
@@ -58,6 +67,10 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
                 }
             })
         }
+
+        fabMenu.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
     }
 
     private fun initCorridorButton(xStart: Int, flatWidth: Int, yStart: Int, flatHeight: Int) {
@@ -65,7 +78,13 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             x = xStart + (flatWidth / 5.8f).toInt()
             y = yStart + (4.6f * flatHeight / 7).toInt()
         }
-        btnCorridor.expandClickArea(alFlatPlan, (flatHeight / 6.7f).toInt(), (flatHeight / 6.7f).toInt(), flatWidth / 5, 12.dpToPx(this@FlatActivity))
+        btnCorridor.expandClickArea(
+            alFlatPlan,
+            (flatHeight / 6.7f).toInt(),
+            (flatHeight / 6.7f).toInt(),
+            flatWidth / 5,
+            12.dpToPx(this@FlatActivity)
+        )
     }
 
     private fun initBedroomButton(xEnd: Int, flatWidth: Int, yStart: Int, flatHeight: Int) {
@@ -73,7 +92,13 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             x = xEnd - (flatWidth / 4)
             y = yStart + (2.7f * flatHeight / 6).toInt()
         }
-        btnBedroom.expandClickArea(alFlatPlan, (flatHeight / 7f).toInt(), (flatHeight / 7f).toInt(), 20.dpToPx(this@FlatActivity), 20.dpToPx(this@FlatActivity))
+        btnBedroom.expandClickArea(
+            alFlatPlan,
+            (flatHeight / 7f).toInt(),
+            (flatHeight / 7f).toInt(),
+            20.dpToPx(this@FlatActivity),
+            20.dpToPx(this@FlatActivity)
+        )
     }
 
     private fun initLivingRoomButton(xStart: Int, flatWidth: Int, yStart: Int, flatHeight: Int) {
@@ -81,7 +106,13 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             x = xStart + (flatWidth / 2.3f).toInt()
             y = yStart + (flatHeight / 3.5f).toInt()
         }
-        btnLivingRoom.expandClickArea(alFlatPlan, (flatHeight / 3.5f).toInt(), (flatHeight / 3.5f).toInt(), 12.dpToPx(this@FlatActivity), 16.dpToPx(this@FlatActivity))
+        btnLivingRoom.expandClickArea(
+            alFlatPlan,
+            (flatHeight / 3.5f).toInt(),
+            (flatHeight / 3.5f).toInt(),
+            12.dpToPx(this@FlatActivity),
+            16.dpToPx(this@FlatActivity)
+        )
     }
 
     private fun initKitchenButton(xStart: Int, yStart: Int, flatHeight: Int) {
@@ -89,7 +120,13 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             x = xStart + 18.dpToPx(this@FlatActivity)
             y = yStart + flatHeight / 5
         }
-        btnKitchen.expandClickArea(alFlatPlan, flatHeight / 5, flatHeight / 8, 18.dpToPx(this@FlatActivity), 18.dpToPx(this@FlatActivity))
+        btnKitchen.expandClickArea(
+            alFlatPlan,
+            flatHeight / 5,
+            flatHeight / 8,
+            18.dpToPx(this@FlatActivity),
+            18.dpToPx(this@FlatActivity)
+        )
     }
 
     override fun openBedroomActivity(): Observable<Any> = RxView.clicks(btnBedroom)
@@ -100,15 +137,16 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun openCorridorActivity(): Observable<Any> = RxView.clicks(btnCorridor)
 
-    override fun setBoilerStateIntent(): Observable<Boolean> = RxCompoundButton.checkedChanges(switchBoiler)
+    override fun setBoilerStateIntent(): Observable<Boolean> =
+        RxView.clicks(switchBoiler).map { switchBoiler.isChecked }
 
-    override fun setDoorStateIntent(): Observable<Boolean> = RxCompoundButton.checkedChanges(switchDoor)
+    override fun setDoorStateIntent(): Observable<Boolean> =
+        RxView.clicks(switchDoor).map { switchDoor.isChecked }
 
-    override fun showAlarmDialog(): Observable<Any> = RxCompoundButton
-            .checkedChanges(switchAlarm)
-            .doOnNext { if (!it) turnOnAlarmSubject.onNext(false) }
-            .filter { it }
-            .map { Notification.INSTANCE }
+    override fun showAlarmDialog(): Observable<Any> = RxView.clicks(switchAlarm)
+        .doOnNext { if (!switchAlarm.isChecked) turnOnAlarmSubject.onNext(false) }
+        .filter { switchAlarm.isChecked }
+        .map { Notification.INSTANCE }
 
     override fun acceptedAlarmIntent(): Observable<Boolean> = turnOnAlarmSubject
 
@@ -123,19 +161,22 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
         }
     }
 
+    override fun reloadDataObservable(): Observable<Any> = reloadDataSubject
+
     private fun showDialogForAlarm() {
         AlertDialog.Builder(this)
-                .setIcon(R.drawable.ic_warning)
-                .setTitle(getString(R.string.flat_alert_dialog_title))
-                .setMessage(getString(R.string.flat_alert_dialog_text))
-                .setPositiveButton(getString(R.string.action_yes)) { _: DialogInterface, _: Int ->
-                    turnOnAlarmSubject.onNext(true)
-                }
-                .setNegativeButton(getString(R.string.action_no)) { dialog: DialogInterface, _: Int ->
-                    dialog.dismiss()
-                }
-                .setCancelable(true)
-                .show()
+            .setIcon(R.drawable.ic_warning)
+            .setTitle(getString(R.string.flat_alert_dialog_title))
+            .setMessage(getString(R.string.flat_alert_dialog_text))
+            .setPositiveButton(getString(R.string.action_yes)) { _: DialogInterface, _: Int ->
+                turnOnAlarmSubject.onNext(true)
+            }
+            .setNegativeButton(getString(R.string.action_no)) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                switchAlarm.isChecked = false
+            }
+            .setCancelable(true)
+            .show()
     }
 
     private fun renderSafetyViewState(state: FlatViewState.SafetyViewState) {
@@ -163,12 +204,11 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
         when (state) {
             is BooleanViewState.ErrorState -> {
-                showSnackError(getString(R.string.server_error_with_message, state.error.message
-                        ?: ""))
+                showServerSnackbarError { reloadDataSubject.onNext(Notification.INSTANCE) }
                 switchBoiler.isChecked = !switchBoiler.isChecked
             }
             is BooleanViewState.ConnectivityErrorState -> {
-                showSnackError(getString(R.string.network_error))
+                showNetworkSnackbarError { reloadDataSubject.onNext(Notification.INSTANCE) }
                 switchBoiler.isChecked = !switchBoiler.isChecked
             }
             is BooleanViewState.LoadingState -> switchBoiler.isEnabled = false

@@ -31,6 +31,6 @@ import io.reactivex.Single
  *         especially for Zhk Dinastija
  */
 interface CorridorDataSource {
-    fun setLightState(isEnabled: Boolean): Maybe<Any>
+    fun setLightState(isEnabled: Boolean): Maybe<Boolean>
     fun getLightState(): Single<Boolean>
 }

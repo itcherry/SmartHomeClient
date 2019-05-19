@@ -5,6 +5,7 @@ import com.chernysh.smarthome.domain.model.*
 import com.chernysh.smarthome.presentation.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function4
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -36,8 +37,7 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInteractor,
-                                        schedulersTransformer: ObservableTransformer<Any, Any>) :
+class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInteractor) :
     BasePresenter<FlatContract.View, FlatViewState>(), FlatContract.Presenter {
 
     @Override
@@ -79,7 +79,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
                 safetyStateObservable, showAlarmIntent, openBedroomIntent,
                 openKitchenIntent, openCorridorIntent, openLivingRoomIntent
             )
-        )
+        ).observeOn(AndroidSchedulers.mainThread())
 
         return stateObservable
     }
@@ -115,13 +115,12 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             }
         }
 
-    private fun getTemperatureIntent() = intent { viewResumedObservable }
-        .debounce(200, TimeUnit.MILLISECONDS)
+    private fun getTemperatureIntent() = intent { viewCreatedObservable }
         .switchMap {
             safetyInteractor.onTemperatureHumidityObservable()
         }
 
-    private fun getRefreshDataIntent() = viewResumedObservable
+    private fun getRefreshDataIntent() = Observable.merge(viewResumedObservable, intent(FlatContract.View::reloadDataObservable))
         .switchMap {
             Observable.zip(safetyInteractor.getAlarmStateObservable(), safetyInteractor.getBoilerStateObservable(),
                 safetyInteractor.getDoorStateObservable(), safetyInteractor.getNeptunStateObservable(),

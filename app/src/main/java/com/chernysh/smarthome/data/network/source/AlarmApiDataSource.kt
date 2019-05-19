@@ -33,7 +33,7 @@ import javax.inject.Inject
  */
 class AlarmApiDataSource @Inject constructor() :
     ApiDataSource(), AlarmDataSource {
-    override fun setState(isEnabled: Boolean): Maybe<Any> = service.setAlarmState(isEnabled)
+    override fun setState(isEnabled: Boolean): Maybe<Boolean> = service.setAlarmState(isEnabled)
 
     override fun getState(): Single<Boolean> = service.getAlarmState()
 }

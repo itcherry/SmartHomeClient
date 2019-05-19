@@ -34,7 +34,7 @@
                 android:name=".presentation.flat.FlatActivity"
                 android:exported="false"
                 android:screenOrientation="sensorPortrait"
-                android:theme="@style/AppTheme">
+                android:theme="@style/ThemeMainTranslucentToolbar">
         </activity>
 
         <activity
