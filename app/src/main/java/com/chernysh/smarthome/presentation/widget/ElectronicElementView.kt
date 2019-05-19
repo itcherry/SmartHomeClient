@@ -1,12 +1,12 @@
 package com.chernysh.smarthome.presentation.widget
 
 import android.content.Context
-import android.content.res.TypedArray
 import androidx.annotation.DrawableRes
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.StringRes
 import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.jakewharton.rxbinding2.view.RxView
@@ -27,18 +27,17 @@ class ElectronicElementView @JvmOverloads constructor(
 
     init {
         val view = View.inflate(getContext(), R.layout.layout_element, null)
-
         initElementType(context, attributeSet)
-
         addView(view)
+
+        ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.disabledImageRes, null))
+        tvElementName.text = context.getString(type.stringRes)
     }
 
     private fun initElementType(context: Context, attributeSet: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.ElectronicElementView)
         type = Type.values()[typedArray.getInt(R.styleable.ElectronicElementView_type, 0)]
         typedArray.recycle()
-
-        ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.disabledImageRes, null))
     }
 
     fun setElementStateIntent(): Observable<Boolean> = RxView.clicks(clElementContainer).map { !isElementEnabled }
@@ -55,12 +54,12 @@ class ElectronicElementView @JvmOverloads constructor(
     private fun renderLoading() {
         pbElementStateLoading.visibility = View.VISIBLE
         tvElementState.visibility = View.GONE
-        switchElement.isEnabled = false
+        switchElement.isChecked = false
     }
 
     private fun renderData(isEnabled: Boolean) {
         switchElement.isEnabled = true
-        switchElement.isSelected = isEnabled
+        switchElement.isChecked = isEnabled
         pbElementStateLoading.visibility = View.GONE
         tvElementState.visibility = View.VISIBLE
         tvElementState.text = getStateString(isEnabled)
@@ -97,9 +96,9 @@ class ElectronicElementView @JvmOverloads constructor(
         tvElementState.visibility = View.VISIBLE
     }
 
-    enum class Type(@DrawableRes val enabledImageRes: Int, @DrawableRes val disabledImageRes: Int) {
-        ROZETKA(R.drawable.ic_socket, R.drawable.ic_socket_dis),
-        LIGHT(R.drawable.ic_lamp, R.drawable.ic_lamp_dis);
+    enum class Type(@DrawableRes val enabledImageRes: Int, @DrawableRes val disabledImageRes: Int, @StringRes val stringRes: Int) {
+        ROZETKA(R.drawable.ic_socket, R.drawable.ic_socket_dis, R.string.rozette_title),
+        LIGHT(R.drawable.ic_lamp, R.drawable.ic_lamp_dis, R.string.lights_title);
     }
 
     private fun Type.getImageByState(isEnabled: Boolean) = if(isEnabled) enabledImageRes else disabledImageRes

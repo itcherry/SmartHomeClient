@@ -73,11 +73,13 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         val openKitchenIntent = getOpenKitchenIntent()
         val openCorridorIntent = getOpenCorridorIntent()
         val openLivingRoomIntent = getOpenLivingRoomIntent()
+        val destroyActivityIntent = getDestroyActivityIntent()
 
         val stateObservable = Observable.merge(
             listOf(
                 safetyStateObservable, showAlarmIntent, openBedroomIntent,
-                openKitchenIntent, openCorridorIntent, openLivingRoomIntent
+                openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
+                destroyActivityIntent
             )
         ).observeOn(AndroidSchedulers.mainThread())
 
@@ -130,6 +132,8 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
                 })
         }
 
+    private fun getDestroyActivityIntent() = viewDestroyedObservable.map { FlatViewState.NoActionsState }
+
     private fun reducer(previousState: FlatViewState.SafetyViewState, changes: FlatPartialViewState): FlatViewState.SafetyViewState {
         return when (changes) {
             is FlatPartialViewState.AlarmState -> previousState.copy(alarmViewState = changes.state)
@@ -142,6 +146,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
                     alarmViewState = changes.alarmState, boilerViewState = changes.boilerState,
                     doorViewState = changes.doorState, neptunViewState = changes.neptunState
                 )
+            is FlatPartialViewState.EmptyState -> previousState
         }
     }
 

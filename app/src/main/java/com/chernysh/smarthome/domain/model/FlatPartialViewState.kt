@@ -27,6 +27,7 @@ package com.chernysh.smarthome.domain.model
  *         especially for Zhk Dinastija
  */
 sealed class FlatPartialViewState {
+    object EmptyState: FlatPartialViewState()
     data class AlarmState(val state: BooleanViewState) : FlatPartialViewState()
     data class BoilerState(val state: BooleanViewState) : FlatPartialViewState()
     data class DoorState(val state: BooleanViewState) : FlatPartialViewState()

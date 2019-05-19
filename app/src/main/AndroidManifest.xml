@@ -32,7 +32,6 @@
         <!-- Activities -->
         <activity
                 android:name=".presentation.flat.FlatActivity"
-                android:exported="false"
                 android:screenOrientation="sensorPortrait"
                 android:theme="@style/ThemeMainTranslucentToolbar">
         </activity>
@@ -50,27 +49,23 @@
 
         <activity
                 android:name=".presentation.bedroom.BedroomActivity"
-                android:exported="false"
                 android:screenOrientation="sensorPortrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/ThemeMainTranslucentToolbar"/>
 
         <activity
                 android:name=".presentation.corridor.CorridorActivity"
-                android:exported="false"
                 android:screenOrientation="sensorPortrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/ThemeMainTranslucentToolbar"/>
 
         <activity
                 android:name=".presentation.kitchen.KitchenActivity"
-                android:exported="false"
                 android:screenOrientation="sensorPortrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/ThemeMainTranslucentToolbar"/>
 
         <activity
                 android:name=".presentation.living_room.LivingRoomActivity"
-                android:exported="false"
                 android:screenOrientation="sensorPortrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/ThemeMainTranslucentToolbar"/>
 
         <!-- Service -->
         <!-- Firebase Notifications -->

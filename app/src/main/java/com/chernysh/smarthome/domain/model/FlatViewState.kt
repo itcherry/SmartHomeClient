@@ -37,4 +37,5 @@ sealed class FlatViewState{
     object CorridorClicked: FlatViewState()
     object LivingRoomClicked: FlatViewState()
     object ShowAlarmDialogClicked: FlatViewState()
+    object NoActionsState: FlatViewState()
 }

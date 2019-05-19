@@ -8,6 +8,7 @@ import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import com.chernysh.smarthome.presentation.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -39,8 +40,7 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BedroomPresenter @Inject constructor(private val bedroomInteractor: BedroomInteractor,
-                                           schedulersTransformer: ObservableTransformer<Any, Any>) :
+class BedroomPresenter @Inject constructor(private val bedroomInteractor: BedroomInteractor) :
     BasePresenter<BedroomContract.View, RoomViewState>(), BedroomContract.Presenter {
 
     @Override
@@ -54,8 +54,9 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
         val initialState =
             RoomViewState(BooleanViewState.LoadingState, BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState)
         val stateObservable = allIntents.scan(initialState, this::reducer)
+            .observeOn(AndroidSchedulers.mainThread())
 
-        subscribeViewState(stateObservable, BedroomContract.View::render);
+        subscribeViewState(stateObservable, BedroomContract.View::render)
     }
 
     private fun getChangeLightsStateIntent() = intent(BedroomContract.View::setLightsStateIntent)
@@ -79,7 +80,7 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
             }
         }
 
-    private fun getTemperatureIntent() = intent { viewResumedObservable }
+    private fun getTemperatureIntent() = intent { viewCreatedObservable }
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             bedroomInteractor.onTemperatureHumidityObservable()
