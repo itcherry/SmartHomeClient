@@ -35,8 +35,7 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class CorridorPresenter @Inject constructor(private val corridorInteractor: CorridorInteractor,
-                                           schedulersTransformer: ObservableTransformer<Any, Any>) :
+class CorridorPresenter @Inject constructor(private val corridorInteractor: CorridorInteractor) :
     BasePresenter<CorridorContract.View, BooleanViewState>(), CorridorContract.Presenter {
 
     @Override
@@ -59,6 +58,6 @@ class CorridorPresenter @Inject constructor(private val corridorInteractor: Corr
             }
         }
 
-    private fun getRefreshDataIntent() = viewResumedObservable
+    private fun getRefreshDataIntent() = viewCreatedObservable
         .switchMap { corridorInteractor.getLightsStateObservable() }
 }

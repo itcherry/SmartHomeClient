@@ -137,6 +137,8 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun openCorridorActivity(): Observable<Any> = RxView.clicks(btnCorridor)
 
+    override fun initDataIntent(): Observable<Boolean> = Observable.just(true)
+
     override fun setBoilerStateIntent(): Observable<Boolean> =
         RxView.clicks(switchBoiler).map { switchBoiler.isChecked }
 

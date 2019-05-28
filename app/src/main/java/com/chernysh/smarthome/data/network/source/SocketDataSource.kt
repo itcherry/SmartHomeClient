@@ -31,7 +31,7 @@ import ua.andrii.chernysh.kotlinrxsocket.socket.RxSocketEvent
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  */
 abstract class SocketDataSource(private val rxSocket: RxSocket) : SocketDataSource {
-    override fun observableOnConnect() = rxSocket.observableOnConnect()
+    override fun observableOnConnect() =rxSocket.observableOnConnect()
     override fun observableOnDisconnect() = rxSocket.observableOnDisconnect()
     override fun observableOnReconnect() = rxSocket.observableOnReconnect()
     override fun observableOnReconnecting() = rxSocket.observableOnReconnecting()

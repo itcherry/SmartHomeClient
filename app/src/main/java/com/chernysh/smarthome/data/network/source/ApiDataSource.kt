@@ -40,6 +40,6 @@ abstract class ApiDataSource protected constructor() {
         val BASE_URL = HOST + BuildConfig.PORT_API
 
         val PORT_SOCKET = BuildConfig.PORT_SOCKET
-        val SOCKET_NSP = "home"
+        val SOCKET_NSP = "raspberry"
     }
 }

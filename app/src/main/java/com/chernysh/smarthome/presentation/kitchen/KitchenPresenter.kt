@@ -35,8 +35,7 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class KitchenPresenter @Inject constructor(private val kitchenInteractor: KitchenInteractor,
-                                           schedulersTransformer: ObservableTransformer<Any, Any>) :
+class KitchenPresenter @Inject constructor(private val kitchenInteractor: KitchenInteractor) :
     BasePresenter<KitchenContract.View, RoomWithoutRozetkaViewState>(), KitchenContract.Presenter {
 
     @Override
@@ -64,13 +63,13 @@ class KitchenPresenter @Inject constructor(private val kitchenInteractor: Kitche
         }
 
 
-    private fun getTemperatureIntent() = intent { viewResumedObservable }
+    private fun getTemperatureIntent() = intent { viewCreatedObservable }
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             kitchenInteractor.onTemperatureHumidityObservable()
         }
 
-    private fun getRefreshDataIntent() = viewResumedObservable
+    private fun getRefreshDataIntent() = viewCreatedObservable
         .switchMap { kitchenInteractor.getLightsStateObservable() }
 
     private fun reducer(previousState: RoomWithoutRozetkaViewState, changes: RoomPartialWithoutRozetkaViewState):

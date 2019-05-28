@@ -35,8 +35,7 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: LivingRoomInteractor,
-                                              schedulersTransformer: ObservableTransformer<Any, Any>) :
+class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: LivingRoomInteractor) :
     BasePresenter<LivingRoomContract.View, RoomWithoutLightsViewState>(), LivingRoomContract.Presenter {
 
     @Override
@@ -63,13 +62,13 @@ class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: 
             }
         }
 
-    private fun getTemperatureIntent() = intent { viewResumedObservable }
+    private fun getTemperatureIntent() = intent { viewCreatedObservable }
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             livingRoomInteractor.onTemperatureHumidityObservable()
         }
 
-    private fun getRefreshDataIntent() = viewResumedObservable
+    private fun getRefreshDataIntent() = viewCreatedObservable
         .switchMap { livingRoomInteractor.getRozetkaStateObservable() }
 
     private fun reducer(previousState: RoomWithoutLightsViewState,

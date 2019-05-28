@@ -27,8 +27,11 @@ class BedroomTemperatureHumidityUseCase @Inject constructor(
             temperatureHumidityRepository.onSocketError().map { TemperatureHumidityViewState.SocketErrorState(it) }
         ))
             .doOnSubscribe { temperatureHumidityRepository.connect() }
-            .doOnDispose { temperatureHumidityRepository.disconnect() }
             .startWith(TemperatureHumidityViewState.NoDataState)
             .onErrorReturn { TemperatureHumidityViewState.ErrorState(it) }
             .map { RoomPartialViewState.TemperatureHumidityState(it) }
+
+    fun disconnectSocket(){
+        temperatureHumidityRepository.disconnect()
+    }
 }

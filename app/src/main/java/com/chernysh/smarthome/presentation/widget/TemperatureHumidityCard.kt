@@ -8,6 +8,8 @@ import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.TemperatureHumidityData
 import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import kotlinx.android.synthetic.main.layout_temperature_humidity.view.*
+import java.text.Format
+import java.util.*
 
 /**
  * Created by Andrii Chernysh on 3/23/19

@@ -6,6 +6,7 @@ import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.repository.BedroomRepository
 import com.chernysh.smarthome.domain.repository.CorridorRepository
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -19,7 +20,7 @@ class CorridorLightsUseCase @Inject constructor(private val corridorRepository: 
     fun processCorridorLights(params: Data): Observable<BooleanViewState> =
         when (params.method) {
             Method.GET -> corridorRepository.getLightState()
-            Method.SET -> corridorRepository.setLightState(params.value).toSingle().map { params.value }
+            Method.SET -> corridorRepository.setLightState(params.value).switchIfEmpty(Single.just(params.value))
         }
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }

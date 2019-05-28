@@ -34,6 +34,7 @@ import io.reactivex.Observable
  */
 interface FlatContract {
     interface View : BaseView, MvpView {
+        fun initDataIntent(): Observable<Boolean>
         fun acceptedAlarmIntent(): Observable<Boolean>
         fun setBoilerStateIntent(): Observable<Boolean>
         fun setDoorStateIntent(): Observable<Boolean>

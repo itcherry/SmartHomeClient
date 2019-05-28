@@ -6,6 +6,7 @@ import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.model.RoomPartialWithoutLightsViewState
 import com.chernysh.smarthome.domain.repository.LivingRoomRepository
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -19,7 +20,7 @@ class LivingRoomRozetkaUseCase @Inject constructor(private val livingRoomReposit
     fun processLivingRoomRozetka(params: Data): Observable<RoomPartialWithoutLightsViewState> =
         when (params.method) {
             Method.GET -> livingRoomRepository.getRozetkaState()
-            Method.SET -> livingRoomRepository.setRozetkaState(params.value).toSingle().map { params.value }
+            Method.SET -> livingRoomRepository.setRozetkaState(params.value).switchIfEmpty(Single.just(params.value))
         }
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }

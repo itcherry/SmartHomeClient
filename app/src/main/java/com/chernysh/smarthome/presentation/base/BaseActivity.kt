@@ -52,6 +52,10 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V, *>>() : MviActivit
         super.onCreate(savedInstanceState)
 
         initProgressDialog()
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
         presenter.onCreate()
     }
 
