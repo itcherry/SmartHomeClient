@@ -46,7 +46,7 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
                     .setTitle(getString(R.string.logout_title))
                     .setMessage(getString(R.string.logout_message))
                     .setPositiveButton(getString(R.string.action_logout)) { _: DialogInterface, _: Int ->
-                        finish()
+                        finishAndRemoveTask()
                         System.exit(0)
                     }
                     .setNegativeButton(getString(R.string.action_stay)) { dialog: DialogInterface, _: Int ->

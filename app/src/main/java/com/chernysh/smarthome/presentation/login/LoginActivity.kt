@@ -2,17 +2,13 @@ package com.chernysh.smarthome.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.LoginViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import com.chernysh.smarthome.presentation.flat.FlatActivity
-import com.chernysh.smarthome.utils.Notification
 import com.jakewharton.rxbinding2.view.RxView
-import com.readystatesoftware.chuck.internal.ui.MainActivity
 import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -88,8 +84,10 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
                 hideLoading()
                 pinCode.renderSuccess()
 
-                startActivity(Intent(this, FlatActivity::class.java))
+                startActivity(Intent(this, FlatActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
                 overridePendingTransition(0, 0)
+                finish()
             }
             is LoginViewState.PasswordIncorrectState -> {
                 hideLoading()
@@ -137,7 +135,6 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
         pbLoginLoading.visibility = View.INVISIBLE
         pinCode.isEnabled = true
     }
-
 
     private fun renderConnectivityError() {
         showNetworkSnackbarError()
