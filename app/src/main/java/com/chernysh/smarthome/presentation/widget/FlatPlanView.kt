@@ -22,6 +22,8 @@ class FlatPlanView @kotlin.jvm.JvmOverloads constructor(
     private val outerWindowsPaint: Paint = Paint()
     private val innerWallsPaint: Paint = Paint()
     private val thinWallPaint: Paint = Paint()
+    private val adjustmentOuter = 4.dpToPx(context)
+    private val adjustmentInner = 2.dpToPx(context)
 
     init {
         outerWallsPaint.apply {
@@ -61,9 +63,9 @@ class FlatPlanView @kotlin.jvm.JvmOverloads constructor(
         val flatWidth = xEnd - xStart
         val flatHeight = yEnd - yStart
 
-        drawOuterWalls(canvas, xStart, yStart, yEnd, flatHeight, flatWidth, xEnd)
         drawOuterWindows(canvas, xStart, yStart, flatWidth, xEnd, flatHeight)
         drawInnerWalls(canvas, xStart, flatWidth, yStart, flatHeight, yEnd, xEnd)
+        drawOuterWalls(canvas, xStart, yStart, yEnd, flatHeight, flatWidth, xEnd)
     }
 
     private fun drawInnerWalls(
@@ -164,9 +166,9 @@ class FlatPlanView @kotlin.jvm.JvmOverloads constructor(
         flatWidth: Float,
         xEnd: Float
     ) {
-        canvas.drawLine(xStart, yStart, xStart, yEnd - flatHeight / 9, outerWallsPaint)
-        canvas.drawLine(xStart, yEnd - flatHeight / 9, xStart + flatWidth / 5, yEnd - flatHeight / 9, outerWallsPaint)
-        canvas.drawLine(xStart + flatWidth / 5, yEnd - flatHeight / 9, xStart + flatWidth / 5, yEnd, outerWallsPaint)
+        canvas.drawLine(xStart - adjustmentOuter, yStart, xStart, yEnd - flatHeight / 9 + adjustmentOuter, outerWallsPaint)
+        canvas.drawLine(xStart, yEnd - flatHeight / 9, xStart + flatWidth / 5 + adjustmentOuter, yEnd - flatHeight / 9, outerWallsPaint)
+        canvas.drawLine(xStart + flatWidth / 5, yEnd - flatHeight / 9, xStart + flatWidth / 5, yEnd + adjustmentOuter, outerWallsPaint)
         canvas.drawLine(
             xStart + flatWidth / 5,
             yEnd,
@@ -177,7 +179,7 @@ class FlatPlanView @kotlin.jvm.JvmOverloads constructor(
         canvas.drawLine(
             xStart + flatWidth / 2.8f,
             yEnd,
-            xStart + flatWidth / 2.8f + 16.dpToPx(context),
+            xStart + flatWidth / 2.8f + 16.dpToPx(context) + adjustmentOuter,
             yEnd,
             outerWallsPaint
         )
@@ -185,21 +187,21 @@ class FlatPlanView @kotlin.jvm.JvmOverloads constructor(
             xStart + flatWidth / 2.8f + 16.dpToPx(context),
             yEnd,
             xStart + flatWidth / 2.8f + 16.dpToPx(context),
-            yEnd - (2.5f * flatHeight / 9),
+            yEnd - (2.5f * flatHeight / 9)- adjustmentOuter,
             outerWallsPaint
         )
         canvas.drawLine(
             xStart + flatWidth / 2.8f + 16.dpToPx(context),
             yEnd - (2.5f * flatHeight / 9),
-            xEnd,
+            xEnd + adjustmentOuter,
             yEnd - (2.5f * flatHeight / 9),
             outerWallsPaint
         )
-        canvas.drawLine(xEnd, yEnd - (2.5f * flatHeight / 9), xEnd, yStart + (1.7f * flatHeight / 6), outerWallsPaint)
+        canvas.drawLine(xEnd, yEnd - (2.5f * flatHeight / 9), xEnd, yStart + (1.7f * flatHeight / 6) - adjustmentOuter, outerWallsPaint)
         canvas.drawLine(
             xEnd,
             yStart + (1.7f * flatHeight / 6),
-            xEnd - (flatWidth / 4),
+            xEnd - (flatWidth / 4) - adjustmentOuter,
             yStart + (1.7f * flatHeight / 6),
             outerWallsPaint
         )
@@ -207,13 +209,13 @@ class FlatPlanView @kotlin.jvm.JvmOverloads constructor(
             xEnd - (flatWidth / 4),
             yStart + (1.7f * flatHeight / 6),
             xEnd - (flatWidth / 4),
-            yStart + flatHeight / 7,
+            yStart + flatHeight / 7 - adjustmentOuter,
             outerWallsPaint
         )
         canvas.drawLine(
             xEnd - (flatWidth / 4f),
             yStart + flatHeight / 7,
-            xEnd - (flatWidth / 4f) - (flatWidth / 7.5f),
+            xEnd - (flatWidth / 4f) - (flatWidth / 7.5f) - adjustmentOuter,
             yStart + flatHeight / 7,
             outerWallsPaint
         )

@@ -41,7 +41,19 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            AlertDialog.Builder(this)
+                    .setIcon(R.drawable.ic_logout)
+                    .setTitle(getString(R.string.logout_title))
+                    .setMessage(getString(R.string.logout_message))
+                    .setPositiveButton(getString(R.string.action_logout)) { _: DialogInterface, _: Int ->
+                        finish()
+                        System.exit(0)
+                    }
+                    .setNegativeButton(getString(R.string.action_stay)) { dialog: DialogInterface, _: Int ->
+                        dialog.dismiss()
+                    }
+                    .setCancelable(true)
+                    .show()
         }
     }
 

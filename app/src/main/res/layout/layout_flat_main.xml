@@ -17,6 +17,20 @@
         app:rippleColor="@color/textSecondaryLight"
         app:srcCompat="@drawable/ic_menu" />
 
+    <TextView
+            android:id="@+id/tvFlatTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/lobster"
+            android:text="@string/login_chernysh_home_title"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/fabMenu"
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.36"/>
+
     <AbsoluteLayout
         android:id="@+id/alFlatPlan"
         android:layout_width="match_parent"
@@ -34,9 +48,11 @@
             android:layout_x="52dp"
             android:layout_y="211dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="@string/title_kitchen"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnBedroom"
@@ -45,10 +61,12 @@
             android:layout_x="289dp"
             android:layout_y="325dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:rotation="270"
             android:text="@string/title_bedroom"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnLivingRoom"
@@ -57,9 +75,11 @@
             android:layout_x="182dp"
             android:layout_y="266dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="@string/title_living_room"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnCorridor"
@@ -68,10 +88,12 @@
             android:layout_x="91dp"
             android:layout_y="415dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:rotation="270"
             android:text="@string/title_corridor"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </AbsoluteLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -82,44 +104,45 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <TextView
-        android:id="@+id/tvHumidity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:drawableStart="@drawable/ic_humidity"
-        android:drawablePadding="16dp"
-        android:gravity="center_vertical|start"
-        android:textColor="@color/textPrimary"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        tools:text="35%" />
+            android:id="@+id/tvHumidity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:drawableStart="@drawable/ic_humidity"
+            android:drawablePadding="16dp"
+            android:gravity="center_vertical|start"
+            android:textColor="@color/textPrimary"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            tools:text="35%" android:fontFamily="@font/roboto_light"/>
 
     <TextView
-        android:id="@+id/tvTemperature"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:drawableStart="@drawable/ic_thermometer"
-        android:drawablePadding="16dp"
-        android:gravity="center_vertical|start"
-        android:textColor="@color/textPrimary"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/tvHumidity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        tools:text="18.2" />
+            android:id="@+id/tvTemperature"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:drawableStart="@drawable/ic_thermometer"
+            android:drawablePadding="16dp"
+            android:gravity="center_vertical|start"
+            android:textColor="@color/textPrimary"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/tvHumidity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            tools:text="18.2" android:fontFamily="@font/roboto_light"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:fontFamily="@font/alegreya_sans_sc"
         android:text="@string/flat_outside_of_flat"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"

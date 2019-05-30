@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:fontFamily="@font/architects_daughter"
+        android:fontFamily="@font/lobster"
         android:text="@string/title_living_room"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"

@@ -6,7 +6,11 @@ import com.chernysh.smarthome.domain.model.RoomPartialWithoutLightsViewState
 import com.chernysh.smarthome.domain.model.RoomWithoutLightsViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_bedroom.*
 import kotlinx.android.synthetic.main.activity_living_room.*
+import kotlinx.android.synthetic.main.activity_living_room.cvTemperatureHumidityCard
+import kotlinx.android.synthetic.main.activity_living_room.evRozette
+import kotlinx.android.synthetic.main.activity_living_room.fabMenu
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -38,6 +42,10 @@ class LivingRoomActivity : BaseActivity<LivingRoomContract.View, LivingRoomPrese
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_living_room)
+
+        fabMenu.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun setRozetkaStateIntent(): Observable<Boolean> = evRozette.setElementStateIntent()

@@ -37,7 +37,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInteractor) :
-        BasePresenter<FlatContract.View, FlatViewState>(), FlatContract.Presenter {
+    BasePresenter<FlatContract.View, FlatViewState>(), FlatContract.Presenter {
 
     @Override
     override fun bindIntents() {
@@ -55,18 +55,18 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         val refreshDataIntent = getRefreshDataIntent()
 
         val allIntents =
-                Observable.merge(listOf(alarmIntent, boilerIntent, doorIntent, temperatureIntent, refreshDataIntent))
+            Observable.merge(listOf(alarmIntent, boilerIntent, doorIntent, temperatureIntent, refreshDataIntent))
         val initialState =
-                FlatViewState.SafetyViewState(
-                        BooleanViewState.LoadingState, BooleanViewState.LoadingState, BooleanViewState.LoadingState,
-                        BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState
-                )
+            FlatViewState.SafetyViewState(
+                BooleanViewState.LoadingState, BooleanViewState.LoadingState, BooleanViewState.LoadingState,
+                BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState
+            )
 
         return allIntents.scan(initialState, this::reducer)
     }
 
     private fun getFlatViewStateObservable(
-            safetyStateObservable: Observable<FlatViewState.SafetyViewState>
+        safetyStateObservable: Observable<FlatViewState.SafetyViewState>
     ): Observable<FlatViewState> {
         val showAlarmIntent = getShowAlarmDialogIntent()
         val openBedroomIntent = getOpenBedroomIntent()
@@ -76,70 +76,71 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         val viewPausedIntent = viewPausedIntent()
 
         val stateObservable = Observable.merge(
-                listOf(
-                        safetyStateObservable, showAlarmIntent, openBedroomIntent,
-                        openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
-                        viewPausedIntent
-                )
+            listOf(
+                safetyStateObservable, showAlarmIntent, openBedroomIntent,
+                openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
+                viewPausedIntent
+            )
         ).observeOn(AndroidSchedulers.mainThread())
 
         return stateObservable
     }
 
     private fun getChangeAlarmStateIntent() = intent(FlatContract.View::acceptedAlarmIntent)
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .switchMap {
-                if (it) {
-                    safetyInteractor.enableAlarmObservable()
-                } else {
-                    safetyInteractor.disableAlarmObservable()
-                }
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .switchMap {
+            if (it) {
+                safetyInteractor.enableAlarmObservable()
+            } else {
+                safetyInteractor.disableAlarmObservable()
             }
+        }
 
 
     private fun getChangeBoilerStateIntent() = intent(FlatContract.View::setBoilerStateIntent)
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .switchMap {
-                if (it) {
-                    safetyInteractor.enableBoilerObservable()
-                } else {
-                    safetyInteractor.disableBoilerObservable()
-                }
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .switchMap {
+            if (it) {
+                safetyInteractor.enableBoilerObservable()
+            } else {
+                safetyInteractor.disableBoilerObservable()
             }
+        }
 
     private fun getChangeDoorStateIntent() = intent(FlatContract.View::setDoorStateIntent)
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .switchMap {
-                if (it) {
-                    safetyInteractor.enableDoorObservable()
-                } else {
-                    safetyInteractor.disableDoorObservable()
-                }
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .switchMap {
+            if (it) {
+                safetyInteractor.enableDoorObservable()
+            } else {
+                safetyInteractor.disableDoorObservable()
             }
+        }
 
-    private fun getTemperatureIntent() = intent(FlatContract.View::initDataIntent)
-            .switchMap { safetyInteractor.onTemperatureHumidityObservable() }
+    private fun getTemperatureIntent() = viewResumedObservable
+        .delay(500L, TimeUnit.MILLISECONDS)
+        .switchMap { safetyInteractor.onTemperatureHumidityObservable() }
 
     private fun getRefreshDataIntent() =
-            Observable.merge(intent(FlatContract.View::initDataIntent), intent(FlatContract.View::reloadDataObservable))
-                    .switchMap { allDevicesStateObservable() }
+        Observable.merge(intent(FlatContract.View::initDataIntent), intent(FlatContract.View::reloadDataObservable))
+            .switchMap { allDevicesStateObservable() }
 
     private fun allDevicesStateObservable() =
-            Observable.zip(safetyInteractor.getAlarmStateObservable(), safetyInteractor.getBoilerStateObservable(),
-                    safetyInteractor.getDoorStateObservable(), safetyInteractor.getNeptunStateObservable(),
-                    Function4 { alarmState: FlatPartialViewState.AlarmState, boilerState: FlatPartialViewState.BoilerState,
-                                doorState: FlatPartialViewState.DoorState, neptunState: FlatPartialViewState.NeptunState ->
-                        FlatPartialViewState.AllDevicesState(
-                                alarmState.state,
-                                boilerState.state,
-                                doorState.state,
-                                neptunState.state
-                        )
-                    })
+        Observable.zip(safetyInteractor.getAlarmStateObservable(), safetyInteractor.getBoilerStateObservable(),
+            safetyInteractor.getDoorStateObservable(), safetyInteractor.getNeptunStateObservable(),
+            Function4 { alarmState: FlatPartialViewState.AlarmState, boilerState: FlatPartialViewState.BoilerState,
+                        doorState: FlatPartialViewState.DoorState, neptunState: FlatPartialViewState.NeptunState ->
+                FlatPartialViewState.AllDevicesState(
+                    alarmState.state,
+                    boilerState.state,
+                    doorState.state,
+                    neptunState.state
+                )
+            })
 
     private fun reducer(
-            previousState: FlatViewState.SafetyViewState,
-            changes: FlatPartialViewState
+        previousState: FlatViewState.SafetyViewState,
+        changes: FlatPartialViewState
     ): FlatViewState.SafetyViewState {
         return when (changes) {
             is FlatPartialViewState.AlarmState -> previousState.copy(alarmViewState = changes.state)
@@ -149,33 +150,33 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             is FlatPartialViewState.TemperatureHumidityState -> previousState.copy(temperatureHumidityOutsideViewState = changes.state)
             is FlatPartialViewState.AllDevicesState ->
                 previousState.copy(
-                        alarmViewState = changes.alarmState, boilerViewState = changes.boilerState,
-                        doorViewState = changes.doorState, neptunViewState = changes.neptunState
+                    alarmViewState = changes.alarmState, boilerViewState = changes.boilerState,
+                    doorViewState = changes.doorState, neptunViewState = changes.neptunState
                 )
             is FlatPartialViewState.EmptyState -> previousState
         }
     }
 
     private fun getShowAlarmDialogIntent() = intent(FlatContract.View::showAlarmDialog)
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .map { FlatViewState.ShowAlarmDialogClicked }
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.ShowAlarmDialogClicked }
 
     private fun getOpenBedroomIntent() = intent(FlatContract.View::openBedroomActivity)
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .map { FlatViewState.BedroomClicked }
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.BedroomClicked }
 
     private fun getOpenKitchenIntent() = intent(FlatContract.View::openKitchenActivity)
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .map { FlatViewState.KitchenClicked }
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.KitchenClicked }
 
     private fun getOpenCorridorIntent() = intent(FlatContract.View::openCorridorActivity)
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .map { FlatViewState.CorridorClicked }
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.CorridorClicked }
 
     private fun getOpenLivingRoomIntent() = intent(FlatContract.View::openLivingRoomActivity)
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .map { FlatViewState.LivingRoomClicked }
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.LivingRoomClicked }
 
     private fun viewPausedIntent() = viewPausedObservable
-            .map { FlatViewState.NoActionsState }
+        .map { FlatViewState.NoActionsState }
 }
