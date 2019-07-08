@@ -73,7 +73,6 @@ platform :android do
           api_token: options[:api_token],
           build_secret: options[:build_secret],
           apk_path: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk",
-          groups:["smart-dynasty-test-group"],
           notifications: true,
           notes_path:"fastlane/changelog.txt"
         )
@@ -81,7 +80,7 @@ platform :android do
         telegramMessage("Build <b>№#{ENV['CIRCLE_BUILD_NUM']}</b> was successfully uploaded to <b>Crashlytics Beta</b>, congratulations!.
         Build info: <b>#{buildInfo}</b>")
       end
-    end
+    endq
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do |options|
