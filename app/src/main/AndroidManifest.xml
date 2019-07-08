@@ -29,7 +29,7 @@
                 android:name="preloaded_fonts"
                 android:resource="@array/preloaded_fonts" />
 
-        <!-- Activities -->
+        <!-- Activities   -->
         <activity
                 android:name=".presentation.flat.FlatActivity"
                 android:screenOrientation="sensorPortrait"
