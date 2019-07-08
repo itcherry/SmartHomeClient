@@ -64,19 +64,22 @@ platform :android do
 
   desc "Submit a new Beta Build to Crashlytics Beta"
     lane :crashlytics_beta do |options|
-      sh("cd .. && touch changelog.txt")
-      File.write("./changelog.txt", options[:notes])
-      crashlytics(
-        api_token: options[:api_token],
-        build_secret: options[:build_secret],
-        apk_path: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk",
-        groups:["smart-dynasty-test-group"],
-        notifications: true,
-        notes_path:"fastlane/changelog.txt"
-      )
+      commit = last_git_commit
+      if commit[:message].downcase.include? "[publish to beta]"
+        build_notes = "#{options[:notes]}. #{commit[:message].slice! "[publish to beta]"}. Built by #{commit[:author]}"
+        sh("cd .. && touch changelog.txt")
+        File.write("./changelog.txt", build_notes)
+        crashlytics(
+          api_token: options[:api_token],
+          build_secret: options[:build_secret],
+          apk_path: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk",
+          groups:["smart-dynasty-test-group"],
+          notifications: true,
+          notes_path:"fastlane/changelog.txt"
+        )
 
-      telegramMessage("Build <b>№#{ENV['CIRCLE_BUILD_NUM']}</b> was successfully uploaded to <b>Crashlytics Beta</b>, congratulations!.
-      Build info: <b>#{buildInfo}</b>")
+        telegramMessage("Build <b>№#{ENV['CIRCLE_BUILD_NUM']}</b> was successfully uploaded to <b>Crashlytics Beta</b>, congratulations!.
+        Build info: <b>#{buildInfo}</b>")
     end
 
   desc "Deploy a new version to the Google Play"
