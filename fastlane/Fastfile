@@ -80,7 +80,7 @@ platform :android do
         telegramMessage("Build <b>№#{ENV['CIRCLE_BUILD_NUM']}</b> was successfully uploaded to <b>Crashlytics Beta</b>, congratulations!.
         Build info: <b>#{buildInfo}</b>")
       end
-    endq
+    end
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do |options|
