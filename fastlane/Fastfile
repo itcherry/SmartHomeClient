@@ -66,7 +66,7 @@ platform :android do
     lane :crashlytics_beta do |options|
       commit = last_git_commit
       if commit[:message].downcase.include? "[testit]"
-        build_notes = "#{options[:notes]}. #{commit[:message].sub("[testit]")}. Built by #{commit[:author]}"
+        build_notes = "#{options[:notes]}. #{commit[:message].sub("[testit]", "")}. Built by #{commit[:author]}"
         sh("cd .. && touch changelog.txt")
         File.write("./changelog.txt", build_notes)
         crashlytics(
