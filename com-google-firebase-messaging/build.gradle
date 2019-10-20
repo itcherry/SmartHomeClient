@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+group='com.github.erdalceylan'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", 'HOST_LINK', '\"http://176.36.146.229\"')
+        buildConfigField("String", 'PORT_API', '\":8080/\"')
+        buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
+        buildConfigField("String", "FABRIC_TOKEN", "\"gfs2ab\"")
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.google.firebase:firebase-core:11.2.0'
+    testImplementation 'junit:junit:4.12'
+}
+
+
+

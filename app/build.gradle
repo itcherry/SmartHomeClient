@@ -1,18 +1,58 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.28.1'
+    }
+}
+
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    google()
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://jitpack.io" }
+}
+
+ext {
+    support_version = '28.0.0'
+    retrofit_version = '2.3.0'
+    rxBindingKotlinVersion = '2.2.0'
+    dagger_version = '2.15'
+    glide_version = "4.9.0"
+    firebase_version = "11.2.0"
+    constraintLayoutVersion = '1.1.3'
+    leakCanaryVersion = '1.6.3'
+}
 
 android {
     compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.chernysh.smarthome"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName "0.0.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        project.ext.set("archivesBaseName", "SmartDynasty-v" + versionName);
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+
+        buildConfigField("String", 'HOST_LINK', '\"http://192.168.43.200\"')
+        buildConfigField("String", 'PORT_API', '\":8080/\"')
+        buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
+        manifestPlaceholders = [fabric_token: FABRIC_TOKEN]
     }
     buildTypes {
         release {
@@ -20,16 +60,116 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/notice'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/license'
+    }
+    lintOptions {
+        abortOnError false
+        enable 'BackButton'
+        enable 'GradleDynamicVersion'
+        enable 'NewerVersionAvailable'
+
+        disable 'MissingTranslation'
+        disable 'InvalidPackage'
+        disable 'ExtraTranslation'
+    }
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":kotlinrxsocket-1.0.0")
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
+    // Kotlin
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //Fabric
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
+        transitive = true;
+    }
+
+    //MVI
+    implementation 'com.hannesdorfmann.mosby3:mvi:3.1.1'
+
+    //Android
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    //Networking
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+    implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
+
+    //RxJava
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingKotlinVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:$rxBindingKotlinVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxBindingKotlinVersion"
+
+    //Dagger 2
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    //Firebase
+    implementation "com.google.firebase:firebase-auth:$firebase_version"
+    implementation "com.google.android.gms:play-services-auth:$firebase_version"
+    implementation "com.google.firebase:firebase-core:$firebase_version"
+    implementation project(path: ':com-google-firebase-messaging')
+
+    //Sockets
+    implementation project(":kotlinrxsocketsclient-release")
+    implementation('io.socket:socket.io-client:0.9.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
+
+    //Utils
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
+    implementation 'com.tspoon.traceur:traceur:1.0.1'
+    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
+    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+
+    // View
+    implementation 'com.github.Triggertrap:SeekArc:v1.1'
+    implementation 'com.balysv:material-ripple:1.0.2'
+
+    //Tests
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

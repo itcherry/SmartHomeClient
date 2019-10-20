@@ -1,0 +1,120 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+  desc "Initialize telegram credentials"
+  lane :set_telegram_creds do |options|
+    ENV["TELEGRAM_TOKEN"] = options[:token]
+    ENV["TELEGRAM_CHAT_ID"] = options[:chat_id]
+  end
+
+  desc "Build debug version of application with incrementing version code of app"
+  lane :build do
+    increment_version_code(app_project_dir: 'app')
+    gradle(task: "--stacktrace assemble", build_type: "Debug")
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "--stacktrace testDebugUnitTest")
+  end
+
+  lane :sign_apk do |options|
+    gradle(task: "clean")
+    gradle(
+      task: "--stacktrace assemble",
+      build_type: options[:type],
+      properties: {
+        "android.injected.signing.store.file" => options[:keystore_path],
+        "android.injected.signing.store.password" => options[:store_password],
+        "android.injected.signing.key.alias" => options[:key_alias],
+        "android.injected.signing.key.password" => options[:key_password]
+      }
+    )
+    analyze_apk(
+      android_home: "/opt/android/sdk",
+      build_tools_version: '28.0.3',
+      apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+    )
+
+    telegramMessage("Android #{options[:type]} build *№ #{ENV['CIRCLE_BUILD_NUM']}* was successfully signed and analyzed.
+    <b>Circle Ci job:</b> #{ENV['CIRCLE_JOB']}.
+    <b>Build info:</b> #{buildInfo}.
+    <b>Package name:</b> #{lane_context[SharedValues::ANALYZE_APK_PACKAGE_NAME]}.
+    <b>Version code:</b> #{lane_context[SharedValues::ANALYZE_APK_VERSION_CODE]}.
+    <b>App name:</b> #{lane_context[SharedValues::ANALYZE_APK_APP_NAME]}.
+    <b>Minimum sdk:</b> #{lane_context[SharedValues::ANALYZE_APK_MIN_SDK]}.
+    <b>Apk size:</b> #{lane_context[SharedValues::ANALYZE_APK_SIZE]} bytes.")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+    lane :crashlytics_beta do |options|
+      commit = last_git_commit
+      if commit[:message].downcase.include? "[testit]"
+        build_notes = "#{options[:notes]}. #{commit[:message].sub("[testit]", "")}. Built by #{commit[:author]}"
+        sh("cd .. && touch changelog.txt")
+        File.write("./changelog.txt", build_notes)
+        crashlytics(
+          api_token: options[:api_token],
+          build_secret: options[:build_secret],
+          apk_path: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk",
+          notifications: true,
+          notes_path:"fastlane/changelog.txt"
+        )
+
+        telegramMessage("Build <b>№#{ENV['CIRCLE_BUILD_NUM']}</b> was successfully uploaded to <b>Crashlytics Beta</b>, congratulations!.
+        Build info: <b>#{buildInfo}</b>")
+      end
+    end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do |options|
+    supply(
+      track: "beta",
+      json_key_data: options[:json_data],
+      apk: "app/build/outputs/apk/release/SmartDynasty-v#{get_version_name(app_project_dir: '**/app')}-release.apk",
+      mapping: options[:mapping]
+    )
+
+    increment_version_name(app_project_dir: '**/app', bump_type: 'patch') # Change it when you need to make minor or major increment
+    telegramMessage( "New Android build № #{ENV['CIRCLE_BUILD_NUM']} was successfully published to Google Play beta!
+                      Congratulations! Build info: <b>#{buildInfo}</b>")
+  end
+
+  error do |lane, exception|
+    telegramMessage("<b>Build №#{ENV['CIRCLE_BUILD_NUM']}</b>: FAILED
+    <b>Circle Ci job</b>: #{ENV['CIRCLE_JOB']}.
+    <b>Branch:</b> #{ENV['CIRCLE_BRANCH']}.
+    <b>Build info:</b> #{buildInfo}.
+
+    <i>Additional info here:</i> #{ENV['CIRCLE_BUILD_URL']}")
+  end
+
+  def buildInfo
+    "Build version #{get_version_name(app_project_dir: '**/app')} (#{get_version_code(app_project_dir: '**/app')})"
+  end
+
+  def telegramMessage(message)
+    require 'net/http'
+
+    uri = URI.parse("https://api.telegram.org/bot#{ENV["TELEGRAM_TOKEN"]}/sendMessage")
+    response = Net::HTTP.post_form(uri, {:chat_id => ENV["TELEGRAM_CHAT_ID"], :text => message, :parse_mode => "HTML"})
+  end
+end
+
+

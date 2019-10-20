@@ -1,21 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.chernysh.smarthome">
+<manifest
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.chernysh.smarthome"
+        tools:ignore="GoogleAppIndexingWarning">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
+            android:name=".SmartHomeApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
+            android:usesCleartextTraffic="true"
             android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+            android:theme="@style/AppTheme"
+            tools:replace="android:icon">
+
+        <!-- Meta data -->
+        <meta-data
+                android:name="android.max_aspect"
+                android:value="ratio_float"/>
+        <meta-data
+                android:name="io.fabric.ApiKey"
+                android:value="${fabric_token}"/>
+        <meta-data
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts" />
+
+        <!-- Activities   -->
+        <activity
+                android:name=".presentation.flat.FlatActivity"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/ThemeMainTranslucentToolbar">
+        </activity>
+
+        <activity
+                android:name=".presentation.login.LoginActivity"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/ThemeMainTranslucentToolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+                android:name=".presentation.bedroom.BedroomActivity"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/ThemeMainTranslucentToolbar"/>
+
+        <activity
+                android:name=".presentation.corridor.CorridorActivity"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/ThemeMainTranslucentToolbar"/>
+
+        <activity
+                android:name=".presentation.kitchen.KitchenActivity"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/ThemeMainTranslucentToolbar"/>
+
+        <activity
+                android:name=".presentation.living_room.LivingRoomActivity"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/ThemeMainTranslucentToolbar"/>
+
+        <!-- Service -->
+        <!-- Firebase Notifications -->
+        <service android:name=".data.network.service.firebase.SmartHomeFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name=".data.network.service.firebase.SmartHomeFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <!-- Receivers -->
+        <!-- Providers -->
     </application>
 
 </manifest>
