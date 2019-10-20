@@ -68,3 +68,9 @@ lint/tmp/
 app/smarthome.jks
 app/fabric.properties
 app/release/
+
+
+.DS_Store
+app/.DS_Store
+app/fabric.properties
+app/keystore/
