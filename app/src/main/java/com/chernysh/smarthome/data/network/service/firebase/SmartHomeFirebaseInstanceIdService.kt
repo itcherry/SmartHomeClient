@@ -20,6 +20,7 @@ package com.chernysh.smarthome.data.network.service.firebase
  */
 
 import android.app.Service
+import com.chernysh.smarthome.data.prefs.SmartHomePreferences
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
 import dagger.android.AndroidInjection
@@ -36,7 +37,7 @@ import javax.inject.Inject
  * Developed by <u>Transcendensoft</u>
  */
 class SmartHomeFirebaseInstanceIdService : FirebaseInstanceIdService(), HasServiceInjector {
-    //@Inject internal var mPreferenceManager: PreferenceManager? = null
+    @Inject lateinit var preferences: SmartHomePreferences
     @Inject lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
     //@Inject internal var mFirebaseBindTokenInteractor: FirebaseBindTokenInteractor? = null
 
@@ -50,9 +51,7 @@ class SmartHomeFirebaseInstanceIdService : FirebaseInstanceIdService(), HasServi
         super.onCreate()
     }
 
-    override fun serviceInjector(): AndroidInjector<Service>? {
-        return serviceDispatchingAndroidInjector
-    }
+    override fun serviceInjector(): AndroidInjector<Service>? = serviceDispatchingAndroidInjector
 
     override fun onTokenRefresh() {
         super.onTokenRefresh()
