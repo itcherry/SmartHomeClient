@@ -28,6 +28,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import ua.andrii.chernysh.rxsockets.data.network.SocketServiceModule
+import com.chernysh.smarthome.data.prefs.SmartHomePreferences
+import com.chernysh.smarthome.di.scope.ApplicationScope
+
 
 /**
  * Dagger 2 module for DiplomaApplication
@@ -41,15 +44,19 @@ abstract class AppModule {
     @ApplicationContext
     abstract fun bindContext(smartHomeApplication: SmartHomeApplication): Context
 
-    /*@Binds
-    abstract fun bindBaseActivity(mainActivity: FlatActivity): DaggerAppCompatActivity*/
-
     @Module
     companion object {
         @Provides
         @JvmStatic
         fun provideApplication(smartHomeApplication: SmartHomeApplication): Application {
             return smartHomeApplication
+        }
+
+        @Provides
+        @ApplicationScope
+        @JvmStatic
+        fun providePreferenceManger(@ApplicationContext context: Context): SmartHomePreferences {
+            return SmartHomePreferences(context)
         }
     }
 }

@@ -27,6 +27,7 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasServiceInjector
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -52,7 +53,7 @@ class SmartHomeFirebaseMessagingService : FirebaseMessagingService(), HasService
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        //Timber.tag(TAG)
+        Timber.tag("jhk")
 
         // Check if message_received contains a notification payload.
        /* if (remoteMessage.data != null) {

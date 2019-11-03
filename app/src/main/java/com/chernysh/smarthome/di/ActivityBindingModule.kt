@@ -20,11 +20,11 @@ package com.chernysh.smarthome.di
  */
 
 import com.chernysh.smarthome.data.network.service.firebase.FirebaseInstanceIdModule
+import com.chernysh.smarthome.data.network.service.firebase.FirebaseMessagingServiceModule
 import com.chernysh.smarthome.data.network.service.firebase.SmartHomeFirebaseInstanceIdService
 import com.chernysh.smarthome.data.network.service.firebase.SmartHomeFirebaseMessagingService
 import com.chernysh.smarthome.di.scope.ActivityScope
 import com.chernysh.smarthome.di.scope.ServiceScope
-import com.chernysh.smarthome.presentation.base.BaseActivity
 import com.chernysh.smarthome.presentation.bedroom.BedroomActivity
 import com.chernysh.smarthome.presentation.bedroom.BedroomModule
 import com.chernysh.smarthome.presentation.corridor.CorridorActivity
@@ -37,7 +37,6 @@ import com.chernysh.smarthome.presentation.living_room.LivingRoomActivity
 import com.chernysh.smarthome.presentation.living_room.LivingRoomModule
 import com.chernysh.smarthome.presentation.login.LoginActivity
 import com.chernysh.smarthome.presentation.login.LoginModule
-import com.transcendensoft.hedbanz.data.network.service.firebase.FirebaseMessagingServiceModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -26,6 +26,5 @@ import io.reactivex.Maybe
  *         Developed by <u>Transcendensoft</u>
  */
 interface FirebaseIdRepository {
-    fun bindFirebaseToken(userId: Long, token: String): Maybe<Any>
-    fun unbindFirebaseToken(userId: Long): Maybe<Any>
+    fun bindFirebaseToken(token: String): Maybe<Any>
 }

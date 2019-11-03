@@ -35,10 +35,6 @@ import javax.inject.Inject
 class FirebaseIdRepositoryImpl @Inject constructor(
     private val mFirebaseIdApiDataSource: FirebaseIdApiDataSource
 ) : FirebaseIdRepository {
-    override fun bindFirebaseToken(userId: Long, token: String): Maybe<Any> =
-        mFirebaseIdApiDataSource.bindFirebaseToken(userId, token)
-
-    override fun unbindFirebaseToken(userId: Long): Maybe<Any> =
-        mFirebaseIdApiDataSource.unbindFirebaseToken(userId)
-
+    override fun bindFirebaseToken(token: String): Maybe<Any> =
+        mFirebaseIdApiDataSource.bindFirebaseToken(token)
 }

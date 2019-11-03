@@ -1,7 +1,6 @@
-package com.transcendensoft.hedbanz.data.network.service.firebase
+package com.chernysh.smarthome.data.network.service.firebase
 
 import android.content.Context
-import com.chernysh.smarthome.data.network.service.firebase.SmartHomeFirebaseMessagingService
 import com.chernysh.smarthome.di.qualifier.ServiceContext
 import dagger.Binds
 import dagger.Module

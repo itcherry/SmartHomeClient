@@ -1,18 +1,16 @@
 package com.chernysh.smarthome.domain.interactor.login
 
-import android.util.Log
 import com.chernysh.smarthome.data.exception.NoConnectivityException
 import com.chernysh.smarthome.data.exception.SmartHomeApiException
+import com.chernysh.smarthome.data.prefs.SmartHomePreferences
 import com.chernysh.smarthome.data.source.DataPolicy
+import com.chernysh.smarthome.domain.interactor.firebase.FirebaseTokenInteractor
 import com.chernysh.smarthome.domain.model.LoginViewState
 import com.chernysh.smarthome.domain.repository.LoginRepository
 import com.chernysh.smarthome.utils.hash
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import org.mindrot.jbcrypt.BCrypt
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -20,21 +18,39 @@ import javax.inject.Inject
  * Created by Andrii Chernysh on 4/14/19
  * If you have any questions, please write: andrii.chernysh@uptech.team
  */
-class LoginInteractor @Inject constructor(private val loginRepository: LoginRepository,
-                                          private val schedulersTransformer: ObservableTransformer<Any, Any>) {
+class LoginInteractor @Inject constructor(
+    private val loginRepository: LoginRepository,
+    private val firebaseTokenInteractor: FirebaseTokenInteractor,
+    private val preferences: SmartHomePreferences,
+    private val schedulersTransformer: ObservableTransformer<Any, Any>
+) {
 
     @Suppress("UNCHECKED_CAST")
     fun authUser(params: String): Observable<LoginViewState> =
-            loginRepository.authUser(params.hash(), DataPolicy.API)
-                    .map<LoginViewState> { LoginViewState.SuccessState }
-                    .startWith(LoginViewState.LoadingState)
-                    .onErrorResumeNext { throwable: Throwable ->
-                        Observable.concat(
-                                Observable.just(getErrorLoginViewState(throwable)),
-                                Observable.just(LoginViewState.EmptyState).delay(2, TimeUnit.SECONDS))
+        loginRepository.authUser(params.hash(), DataPolicy.API)
+            .map<LoginViewState> { LoginViewState.SuccessState }
+            .startWith(LoginViewState.LoadingState)
+            .onErrorResumeNext { throwable: Throwable ->
+                Observable.concat(
+                    Observable.just(getErrorLoginViewState(throwable)),
+                    Observable.just(LoginViewState.EmptyState).delay(2, TimeUnit.SECONDS)
+                )
+            }
+            .switchMap {
+                if(it !is LoginViewState.LoadingState) {
+                    if (!preferences.getFirebaseTokenBinded()) {
+                        firebaseTokenInteractor.bindFirebaseId(preferences.getFirebaseToken())
+                            .map<LoginViewState> { LoginViewState.SuccessState }
+                            .doOnError { Timber.e("Token hasn't been binded") }
+                            .onErrorResumeNext(Observable.just(LoginViewState.SuccessState))
+                    } else {
+                        Observable.just(LoginViewState.SuccessState)
                     }
-                    .compose(schedulersTransformer as ObservableTransformer<LoginViewState, LoginViewState>)
-
+                } else {
+                    Observable.just(it)
+                }
+            }
+            .compose(schedulersTransformer as ObservableTransformer<LoginViewState, LoginViewState>)
 
     private fun getErrorLoginViewState(throwable: Throwable): LoginViewState {
         return when (throwable) {

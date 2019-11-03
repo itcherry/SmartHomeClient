@@ -33,9 +33,8 @@ import retrofit2.http.*
  */
 interface ApiService {
   /* Firebase */
-  @PUT("user/{userId}/token")
-  fun bindFirebaseToken(@Path("userId") userId: Long,
-                        @Body tokenBody: Map<String, String>): Maybe<Any>
+  @PUT("user/token/{fcmToken}")
+  fun bindFirebaseToken(@Path("fcmToken") token: String): Maybe<Any>
 
   @DELETE("user/{userId}/token")
   fun unbindFirebaseToken(@Path("userId") userId: Long): Maybe<Any>

@@ -28,10 +28,5 @@ import javax.inject.Inject
  */
 class FirebaseIdApiDataSource @Inject constructor() : ApiDataSource(), FirebaseIdDataSource {
 
-    override fun unbindFirebaseToken(userId: Long): Maybe<Any> =
-        service.unbindFirebaseToken(userId)
-
-
-    override fun bindFirebaseToken(userId: Long, token: String): Maybe<Any> =
-        service.bindFirebaseToken(userId, mapOf("fcmToken" to token))
+    override fun bindFirebaseToken(token: String): Maybe<Any> = service.bindFirebaseToken(token)
 }

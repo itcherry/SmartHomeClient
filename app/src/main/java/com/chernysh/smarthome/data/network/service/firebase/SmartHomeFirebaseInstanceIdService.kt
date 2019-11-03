@@ -19,8 +19,11 @@ package com.chernysh.smarthome.data.network.service.firebase
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint
 import android.app.Service
 import com.chernysh.smarthome.data.prefs.SmartHomePreferences
+import com.chernysh.smarthome.data.source.UserDataSource
+import com.chernysh.smarthome.domain.interactor.firebase.FirebaseTokenInteractor
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
 import dagger.android.AndroidInjection
@@ -37,9 +40,14 @@ import javax.inject.Inject
  * Developed by <u>Transcendensoft</u>
  */
 class SmartHomeFirebaseInstanceIdService : FirebaseInstanceIdService(), HasServiceInjector {
-    @Inject lateinit var preferences: SmartHomePreferences
-    @Inject lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
-    //@Inject internal var mFirebaseBindTokenInteractor: FirebaseBindTokenInteractor? = null
+    @Inject
+    lateinit var preferences: SmartHomePreferences
+    @Inject
+    lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
+    @Inject
+    lateinit var userDataSource: UserDataSource
+    @Inject
+    lateinit var firebaseTokenInteractor: FirebaseTokenInteractor
 
     // Якщо ще не залогінився, тоді записуємо в PreferenceManager;                                  +
     // Інакше відразу після логіна беремо з PreferenceManager і відправляємо запит на сервер bind.  -
@@ -53,19 +61,19 @@ class SmartHomeFirebaseInstanceIdService : FirebaseInstanceIdService(), HasServi
 
     override fun serviceInjector(): AndroidInjector<Service>? = serviceDispatchingAndroidInjector
 
+    @SuppressLint("CheckResult")
     override fun onTokenRefresh() {
         super.onTokenRefresh()
-        val refreshedToken = FirebaseInstanceId.getInstance().token
+        val refreshedToken = FirebaseInstanceId.getInstance().token ?: ""
         Timber.i("Firebase token %s", refreshedToken)
 
-        /*val currentUser = mPreferenceManager!!.getUser()
-        if (currentUser == null || TextUtils.isEmpty(currentUser!!.getLogin())) {
-            mPreferenceManager!!.setFirebaseToken(refreshedToken)
-        } else {
-            mFirebaseBindTokenInteractor!!.execute(refreshedToken,
-                { mPreferenceManager!!.setFirebaseTokenBinded(true) },
-                { err -> mPreferenceManager!!.setFirebaseTokenBinded(false) })
-            mPreferenceManager!!.setFirebaseToken(refreshedToken)
-        }*/ //TODO
+        preferences.setFirebaseToken(refreshedToken)
+        if (!userDataSource.getToken().isNullOrBlank()) {
+            firebaseTokenInteractor.bindFirebaseId(refreshedToken)
+                .subscribe(
+                    { preferences.setFirebaseTokenBinded(true) },
+                    { preferences.setFirebaseTokenBinded(false) }
+                )
+        }
     }
 }
