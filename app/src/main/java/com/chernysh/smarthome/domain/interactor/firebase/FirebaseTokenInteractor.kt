@@ -14,7 +14,7 @@ class FirebaseTokenInteractor @Inject constructor(
     fun bindFirebaseId(token: String) =
         firebaseIdRepository.bindFirebaseToken(token)
             .toObservable()
-            .doOnNext {
+            .doOnComplete {
                 preferences.setFirebaseToken(token)
                 preferences.setFirebaseTokenBinded(true)
             }

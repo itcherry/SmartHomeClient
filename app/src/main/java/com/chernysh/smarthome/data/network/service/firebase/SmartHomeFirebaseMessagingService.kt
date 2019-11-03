@@ -20,6 +20,8 @@ package com.chernysh.smarthome.data.network.service.firebase
  */
 
 import android.app.Service
+import com.chernysh.smarthome.domain.model.NotificationMessageType
+import com.chernysh.smarthome.presentation.notification.NotificationManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
@@ -38,10 +40,8 @@ import javax.inject.Inject
  */
 
 class SmartHomeFirebaseMessagingService : FirebaseMessagingService(), HasServiceInjector {
-    @Inject internal lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
-    @Inject internal lateinit var mGson: Gson
-   // @Inject internal var mNotificationManger: NotificationManager? = null
-   // @Inject internal var mPreferenceManager: PreferenceManager? = null
+    @Inject lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
+    @Inject lateinit var notificationManger: NotificationManager
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -53,69 +53,34 @@ class SmartHomeFirebaseMessagingService : FirebaseMessagingService(), HasService
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Timber.tag("jhk")
-
         // Check if message_received contains a notification payload.
-       /* if (remoteMessage.data != null) {
+        if (remoteMessage.data != null) {
             val bodyMap = remoteMessage.data
             val type = Integer.parseInt(bodyMap[FIELD_TYPE]!!)
             Timber.i("FCM push. notification type:$type")
 
-            val messageType = NotificationMessageType.Companion.getTypeById(type)
+            val messageType = NotificationMessageType.getTypeById(type)
             val dataJson = bodyMap[DATA_TYPE]
             Timber.i("FCM push. data:" + dataJson!!)
 
             processNotificationMessage(messageType, dataJson)
-        }*/
+        }
     }
 
-    /*private fun processNotificationMessage(messageType: NotificationMessageType, dataJson: String?) {
-        val notificationMessage = mGson!!
-            .fromJson<NotificationMessage>(dataJson, NotificationMessage::class.java!!)
-        when (messageType) {
-            RxSocketEvent.MESSAGE -> mNotificationManger!!.notifyMessage(notificationMessage)
-            SET_WORD -> mNotificationManger!!.notifySetWord(notificationMessage)
-            GUESS_WORD -> mNotificationManger!!.notifyGuessWord(notificationMessage)
-            ASKING_QUESTION -> mNotificationManger!!.notifyAskingQuestion(notificationMessage)
-            FRIEND -> mNotificationManger!!.notifyFriendRequest(notificationMessage)
-            INVITE -> mNotificationManger!!.notifyInviteToGame(notificationMessage)
-            KICK_WARNING -> mNotificationManger!!.notifyKickWarning(notificationMessage)
-            KICKED -> {
-                mNotificationManger!!.notifyKick(notificationMessage)
-                mPreferenceManager!!.setCurrentRoomId(-1)
-                mPreferenceManager!!.setIsUserKicked(true)
-            }
-            GAME_OVER -> mNotificationManger!!.notifyGameOver(notificationMessage)
-            LAST_PLAYER -> if (notificationMessage.getRoomId() === mPreferenceManager!!.getCurrentRoomId()) {
-                mPreferenceManager!!.setIsLastUser(true)
-                val lastPlayerIntent = Intent(ACTION_LAST_USER)
-                sendBroadcast(lastPlayerIntent)
-                if (!mPreferenceManager!!.isGameEnabled()) {
-                    mNotificationManger!!.notifyLastUser(notificationMessage)
-                }
-            } else {
-                mNotificationManger!!.notifyLastUser(notificationMessage)
-            }
-            NEW_ROOM_CREATED -> {
-                val roomCreatedIntent = Intent(ACTION_ADD_NEW_ROOM)
-                sendBroadcast(roomCreatedIntent)
-            }
-            APP_NEW_VERSION -> {
-                mPreferenceManager!!.setAppNewVersion(true)
-                val newVersionAvailableIntent = Intent(ACTION_NEW_VERSION_AVAILABLE)
-                sendBroadcast(newVersionAvailableIntent)
-            }
-            UNDEFINED -> {
-            }
+    private fun processNotificationMessage(messageType: NotificationMessageType, dataJson: String?) {
+        Timber.d("messageType: ${messageType.id}, data: $dataJson")
+        when(messageType) {
+            NotificationMessageType.HIGH_CPU_TEMPERATURE -> notificationManger.notifyCpuIsTooHot(dataJson?.toInt() ?: -1)
+            NotificationMessageType.NEPTUN_ALARM -> notificationManger.notifyNeptun()
+            NotificationMessageType.SECURITY_ALARM -> notificationManger.notifySecurityAlarm()
+            NotificationMessageType.SECURITY_ENABLED -> notificationManger.notifySecurityEnabled(dataJson?.toBoolean() ?: false)
+            NotificationMessageType.FIRE_ALARM -> notificationManger.notifyFire()
+            else -> {}
         }
     }
 
     companion object {
-        private val TAG = SmartHomeFirebaseMessagingService::class.java.name
         val FIELD_TYPE = "type"
         val DATA_TYPE = "data"
-        val ACTION_ADD_NEW_ROOM = "com.hedbanz.ACTION_ADD_NEW_ROOM"
-        val ACTION_NEW_VERSION_AVAILABLE = "com.hedbanz.ACTION_NEW_VERSION_AVAILABLE"
-        val ACTION_LAST_USER = "com.hedbanz.ACTION_LAST_USER_IN_ROOM"
-    }*/
+    }
 }

@@ -27,7 +27,7 @@ class LoginInteractor @Inject constructor(
 
     @Suppress("UNCHECKED_CAST")
     fun authUser(params: String): Observable<LoginViewState> =
-        loginRepository.authUser(params.hash(), DataPolicy.API)
+        Observable.concat(loginRepository.authUser(params.hash(), DataPolicy.API), getFirebaseTokenObservable())
             .map<LoginViewState> { LoginViewState.SuccessState }
             .startWith(LoginViewState.LoadingState)
             .onErrorResumeNext { throwable: Throwable ->
@@ -35,22 +35,17 @@ class LoginInteractor @Inject constructor(
                     Observable.just(getErrorLoginViewState(throwable)),
                     Observable.just(LoginViewState.EmptyState).delay(2, TimeUnit.SECONDS)
                 )
-            }
-            .switchMap {
-                if(it !is LoginViewState.LoadingState) {
-                    if (!preferences.getFirebaseTokenBinded()) {
-                        firebaseTokenInteractor.bindFirebaseId(preferences.getFirebaseToken())
-                            .map<LoginViewState> { LoginViewState.SuccessState }
-                            .doOnError { Timber.e("Token hasn't been binded") }
-                            .onErrorResumeNext(Observable.just(LoginViewState.SuccessState))
-                    } else {
-                        Observable.just(LoginViewState.SuccessState)
-                    }
-                } else {
-                    Observable.just(it)
-                }
-            }
-            .compose(schedulersTransformer as ObservableTransformer<LoginViewState, LoginViewState>)
+            }.compose(schedulersTransformer as ObservableTransformer<LoginViewState, LoginViewState>)
+
+    private fun getFirebaseTokenObservable(): Observable<Any>? {
+        return if (!preferences.getFirebaseTokenBinded()) {
+            firebaseTokenInteractor.bindFirebaseId(preferences.getFirebaseToken())
+                .doOnError { Timber.e("Token hasn't been binded") }
+                .onErrorResumeNext(Observable.just(LoginViewState.SuccessState))
+        } else {
+            Observable.empty()
+        }
+    }
 
     private fun getErrorLoginViewState(throwable: Throwable): LoginViewState {
         return when (throwable) {

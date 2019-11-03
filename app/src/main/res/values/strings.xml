@@ -63,4 +63,26 @@
 
     <string name="logout_title">Ти серйозно?</string>
     <string name="logout_message">Невже ти хочеш вийти з цього витвору мистецтва? Твоя квартира хоч і розумна, але потребує надійного керівника&#8230;</string>
+
+    <!-- Notifications -->
+    <string name="notification_neptun_channel_title">Нептун</string>
+    <string name="notification_neptun_alarm_title">Ти топиш сусідів</string>
+    <string name="notification_neptun_alarm_message">Крани перекрито, проте варто звернути увагу на те, що було протікання води в квартирі. Необхідно це врегулювати</string>
+
+    <string name="notification_security_enabled_channel_title">Увімкнення сигналізації</string>
+    <string name="notification_security_enabled_alarm_title">Охорона</string>
+    <string name="notification_security_enabled_alarm_message">Сигналізацію увімкнено, тепер твоя квартира під захистом</string>
+    <string name="notification_security_disabled_alarm_message">Сигналізацію вимкнено, з поверненням друже!</string>
+
+    <string name="notification_security_channel_title">Сигналізація</string>
+    <string name="notification_security_alarm_title">В квартирі злодій</string>
+    <string name="notification_security_alarm_message">Друже, схоже тебе грабують. Необхідно якомога швидше розібратись з покидьками</string>
+
+    <string name="notification_fire_channel_title">Пожежа</string>
+    <string name="notification_fire_alarm_title">Пожежа</string>
+    <string name="notification_fire_alarm_message">Квартира в небезпеці, схоже щось загорілося. Бігом біжи додому і перевір що сталося. </string>
+
+    <string name="notification_cpu_channel_title">Перегрів процесору контроллера</string>
+    <string name="notification_cpu_alarm_title">Raspberry Pi страждає</string>
+    <string name="notification_cpu_alarm_message">Центральний процесор Raspberry pi перегрівся. Його температура %1$s. Негайно охолоди контролер, інакше твій будинок стане тупим.</string>
 </resources>
