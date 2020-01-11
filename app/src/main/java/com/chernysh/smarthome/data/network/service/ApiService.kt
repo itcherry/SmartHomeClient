@@ -32,73 +32,86 @@ import retrofit2.http.*
  * Developed by <u>Transcendensoft</u>
  */
 interface ApiService {
-  /* Firebase */
-  @PUT("user/token/{fcmToken}")
-  fun bindFirebaseToken(@Path("fcmToken") token: String): Maybe<Any>
+    /* Firebase */
+    @PUT("user/token/{fcmToken}")
+    fun bindFirebaseToken(@Path("fcmToken") token: String): Maybe<Any>
 
-  @DELETE("user/{userId}/token")
-  fun unbindFirebaseToken(@Path("userId") userId: Long): Maybe<Any>
+    /* Alarm */
+    @PUT("alarm")
+    fun setAlarmState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  /* Alarm */
-  @PUT("alarm")
-  fun setAlarmState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
+    @GET("alarm")
+    fun getAlarmState(): Single<Boolean>
 
-  @GET("alarm")
-  fun getAlarmState(): Single<Boolean>
+    /* Boiler */
+    @PUT("boiler")
+    fun setBoilerState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  /* Boiler */
-  @PUT("boiler")
-  fun setBoilerState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
+    @GET("boiler")
+    fun getBoilerState(): Single<Boolean>
 
-  @GET("boiler")
-  fun getBoilerState(): Single<Boolean>
+    /* Neptun */
+    @GET("neptun")
+    fun getNeptunState(): Single<Boolean>
 
-  /* Door */
-  @PUT("door")
-  fun setDoorState(@Query("doOpen") doOpen: Boolean): Maybe<Boolean>
+    /* Bedroom */
+    @PUT("bedroom/rozetka")
+    fun setBedroomRozetkaState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  @GET("door")
-  fun getDoorState(): Single<Boolean>
+    @GET("bedroom/rozetka")
+    fun getBedroomRozetkaState(): Single<Boolean>
 
-  /* Neptun */
-  @GET("neptun")
-  fun getNeptunState(): Single<Boolean>
+    @PUT("bedroom/light")
+    fun setBedroomLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  /* Bedroom */
-  @PUT("bedroom/rozetka")
-  fun setBedroomRozetkaState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
+    @GET("bedroom/light")
+    fun getBedroomLightState(): Single<Boolean>
 
-  @GET("bedroom/rozetka")
-  fun getBedroomRozetkaState(): Single<Boolean>
+    /* Corridor */
+    @PUT("corridor/light")
+    fun setCorridorLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  @PUT("bedroom/light")
-  fun setBedroomLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
+    @GET("corridor/light")
+    fun getCorridorLightState(): Single<Boolean>
 
-  @GET("bedroom/light")
-  fun getBedroomLightState(): Single<Boolean>
+    /* Kitchen */
+    @PUT("kitchen/light")
+    fun setKitchenLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  /* Corridor */
-  @PUT("corridor/light")
-  fun setCorridorLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
+    @GET("kitchen/light")
+    fun getKitchenLightState(): Single<Boolean>
 
-  @GET("corridor/light")
-  fun getCorridorLightState(): Single<Boolean>
+    /* Living room */
+    @PUT("living-room/rozetka")
+    fun setLivingRoomRozetkaState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  /* Kitchen */
-  @PUT("kitchen/light")
-  fun setKitchenLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
+    @GET("living-room/rozetka")
+    fun getLivingRoomRozetkaState(): Single<Boolean>
 
-  @GET("kitchen/light")
-  fun getKitchenLightState(): Single<Boolean>
+    @PUT("living-room/light")
+    fun setLivingRoomLightState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  /* Living room */
-  @PUT("living-room/rozetka")
-  fun setLivingRoomRozetkaState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
+    @GET("living-room/light")
+    fun getLivingRoomLightState(): Single<Boolean>
 
-  @GET("living-room/rozetka")
-  fun getLivingRoomRozetkaState(): Single<Boolean>
+    @PUT("living-room/aquarium")
+    fun setLivingRoomAquariumState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
 
-  /* Login */
-  @POST("user")
-  fun authUser(@Body user: UserDto): Observable<UserDto>
+    @GET("living-room/aquarium")
+    fun getLivingRoomAquariumState(): Single<Boolean>
+
+    /* Login */
+    @POST("user")
+    fun authUser(@Body user: UserDto): Observable<UserDto>
+
+    /* Security */
+    @GET("security")
+    fun isSecurityEnabled(): Single<Boolean>
+
+    @PUT("security")
+    fun setSecurityEnabled(@Query("doEnable") doEnable: Boolean): Maybe<Boolean>
+
+    /* Fire */
+    @GET("fire")
+    fun isFireAtHome(): Single<Boolean>
 }
