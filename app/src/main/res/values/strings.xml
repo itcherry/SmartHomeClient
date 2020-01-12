@@ -20,11 +20,10 @@
     <string name="temperature_humidity_socket_reconnecting">Підключаємось до серверу</string>
     <string name="temperature_humidity_no_data">Немає даних</string>
 
-    <!-- Lights panel -->
+    <!-- Electornic elements panel -->
     <string name="lights_title">Освітлення</string>
-
-    <!-- Rozette panel -->
     <string name="rozette_title">Розетки</string>
+    <string name="aquarium_title">Акваріум</string>
 
     <!-- States -->
     <string name="state_enabled">Увімкнено</string>

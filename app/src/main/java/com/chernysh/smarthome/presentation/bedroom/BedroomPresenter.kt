@@ -89,9 +89,9 @@ class BedroomPresenter @Inject constructor(private val bedroomInteractor: Bedroo
     private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap {
             Observable.zip(bedroomInteractor.getLightsStateObservable(), bedroomInteractor.getRozetkaStateObservable(),
-                BiFunction { lightsState: RoomPartialViewState.LightsState, rozetkaState: RoomPartialViewState.RozetkaState ->
-                    RoomPartialViewState.LightsAndRozetkaState(lightsState.state, rozetkaState.state)
-                })
+            BiFunction { lightsState: RoomPartialViewState.LightsState, rozetkaState: RoomPartialViewState.RozetkaState ->
+                RoomPartialViewState.LightsAndRozetkaState(lightsState.state, rozetkaState.state)
+            })
         }
 
     private fun reducer(previousState: RoomViewState, changes: RoomPartialViewState): RoomViewState {

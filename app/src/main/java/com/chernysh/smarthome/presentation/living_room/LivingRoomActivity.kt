@@ -5,9 +5,7 @@ import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.LivingRoomViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_living_room.cvTemperatureHumidityCard
-import kotlinx.android.synthetic.main.activity_living_room.evRozette
-import kotlinx.android.synthetic.main.activity_living_room.fabMenu
+import kotlinx.android.synthetic.main.activity_living_room.*
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -35,7 +33,8 @@ import kotlinx.android.synthetic.main.activity_living_room.fabMenu
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class LivingRoomActivity : BaseActivity<LivingRoomContract.View, LivingRoomPresenter>(), LivingRoomContract.View {
+class LivingRoomActivity : BaseActivity<LivingRoomContract.View, LivingRoomPresenter>(),
+    LivingRoomContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_living_room)
@@ -47,9 +46,15 @@ class LivingRoomActivity : BaseActivity<LivingRoomContract.View, LivingRoomPrese
 
     override fun setRozetkaStateIntent(): Observable<Boolean> = evRozette.setElementStateIntent()
 
+    override fun setAquariumStateIntent(): Observable<Boolean> = evAquarium.setElementStateIntent()
+
+    override fun setLightsStateIntent(): Observable<Boolean> = evLights.setElementStateIntent()
+
     override fun render(state: LivingRoomViewState) {
-        evRozette.render(state.rozetkaViewState)
         cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
+        evRozette.render(state.rozetkaViewState)
+        evLights.render(state.lightsViewState)
+        evAquarium.render(state.aquariumViewState)
     }
 
 }

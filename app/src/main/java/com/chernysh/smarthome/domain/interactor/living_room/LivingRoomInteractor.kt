@@ -41,6 +41,10 @@ class LivingRoomInteractor @Inject constructor(
         livingRoomRozetkaUseCase.processLivingRoomRozetka(LivingRoomRozetkaUseCase.Data(Method.SET, false))
                 .compose(schedulersTransformer as ObservableTransformer<LivingRoomPartialViewState, LivingRoomPartialViewState>)
 
+    fun getAquariumStateObservable() =
+        livingRoomAquariumUseCase.processLivingRoomAquarium(LivingRoomAquariumUseCase.Data(Method.GET))
+            .compose(schedulersTransformer as ObservableTransformer<LivingRoomPartialViewState, LivingRoomPartialViewState>)
+
     fun enableAquariumObservable() =
         livingRoomAquariumUseCase.processLivingRoomAquarium(LivingRoomAquariumUseCase.Data(Method.SET, true))
             .compose(schedulersTransformer as ObservableTransformer<LivingRoomPartialViewState, LivingRoomPartialViewState>)

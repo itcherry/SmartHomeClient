@@ -4,6 +4,7 @@
         <attr name="type" format="enum">
             <enum name="ROZETTE" value="0"/>
             <enum name="LIGHT" value="1"/>
+            <enum name="AQUARIUM" value="2" />
         </attr>
     </declare-styleable>
 </resources>

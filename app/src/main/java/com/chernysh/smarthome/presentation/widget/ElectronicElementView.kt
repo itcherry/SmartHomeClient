@@ -98,7 +98,8 @@ class ElectronicElementView @JvmOverloads constructor(
 
     enum class Type(@DrawableRes val enabledImageRes: Int, @DrawableRes val disabledImageRes: Int, @StringRes val stringRes: Int) {
         ROZETKA(R.drawable.ic_socket, R.drawable.ic_socket_dis, R.string.rozette_title),
-        LIGHT(R.drawable.ic_lamp, R.drawable.ic_lamp_dis, R.string.lights_title);
+        LIGHT(R.drawable.ic_lamp, R.drawable.ic_lamp_dis, R.string.lights_title),
+        AQUARIUM(R.drawable.ic_aquarium_enabled, R.drawable.ic_aquarium_disabled, R.string.aquarium_title);
     }
 
     private fun Type.getImageByState(isEnabled: Boolean) = if(isEnabled) enabledImageRes else disabledImageRes

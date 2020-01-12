@@ -29,5 +29,5 @@ package com.chernysh.smarthome.domain.model
  */
 data class LivingRoomViewState(val rozetkaViewState: BooleanViewState,
                                val lightsViewState: BooleanViewState,
-                               val aquariumState: BooleanViewState,
+                               val aquariumViewState: BooleanViewState,
                                val temperatureHumidityViewState: TemperatureHumidityViewState)

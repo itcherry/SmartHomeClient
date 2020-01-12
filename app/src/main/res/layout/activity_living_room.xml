@@ -43,6 +43,8 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintBottom_toTopOf="@id/evRozette"
         app:layout_constraintTop_toBottomOf="@+id/tvLivingRoomName" />
 
     <View
@@ -65,81 +67,66 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/white_rounded_rect_bg"
         android:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/cvTemperatureHumidityCard"
+        app:layout_constraintBottom_toTopOf="@id/evAquarium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:type="ROZETTE" />
 
-    <com.triggertrap.seekarc.SeekArc
-        android:id="@+id/saTemperature"
+    <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:padding="30dp"
-        app:arcColor="@color/textSecondary"
-        app:arcWidth="4dp"
-        app:layout_constraintBottom_toTopOf="@id/evRozette"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cvTemperatureHumidityCard"
-        app:max="400"
-        app:progress="220"
-        app:progressColor="@color/colorPrimary"
-        app:progressWidth="6dp"
-        app:rotation="180"
-        app:roundEdges="true"
-        app:startAngle="30"
-        app:sweepAngle="300"
-        app:thumb="@drawable/ic_thumb_arc"
-        app:touchInside="true" />
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rect_white_rounded_corners"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/evAquarium"
+        app:layout_constraintEnd_toEndOf="@id/evAquarium"
+        app:layout_constraintStart_toStartOf="@id/evAquarium"
+        app:layout_constraintTop_toTopOf="@id/evAquarium" />
 
-    <TextView
-        android:id="@+id/tvDanfossTemperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-light"
-        android:textColor="@color/colorPrimary"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@id/evRozette"
+    <com.chernysh.smarthome.presentation.widget.ElectronicElementView
+        android:id="@+id/evAquarium"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/white_rounded_rect_bg"
+        android:elevation="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/evRozette"
+        app:layout_constraintBottom_toTopOf="@id/evLights"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cvTemperatureHumidityCard"
-        app:layout_constraintVertical_bias="0.39"
-        tools:text="22.0 C" />
+        app:type="ROZETTE" />
 
     <View
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/textSecondaryLight"
-        app:layout_constraintEnd_toEndOf="@id/ivHouse"
-        app:layout_constraintStart_toStartOf="@id/ivHeater"
-        app:layout_constraintTop_toBottomOf="@id/tvDanfossTemperature" />
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rect_white_rounded_corners"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/evLights"
+        app:layout_constraintEnd_toEndOf="@id/evLights"
+        app:layout_constraintStart_toStartOf="@id/evLights"
+        app:layout_constraintTop_toTopOf="@id/evLights" />
 
-    <ImageView
-        android:id="@+id/ivHeater"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/saTemperature"
-        app:layout_constraintEnd_toStartOf="@id/ivHouse"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@id/saTemperature"
-        app:layout_constraintTop_toTopOf="@id/saTemperature"
-        app:layout_constraintVertical_bias="0.615"
-        app:srcCompat="@drawable/ic_heater" />
-
-    <ImageView
-        android:id="@+id/ivHouse"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+    <com.chernysh.smarthome.presentation.widget.ElectronicElementView
+        android:id="@+id/evLights"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/saTemperature"
-        app:layout_constraintEnd_toEndOf="@id/saTemperature"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@id/ivHeater"
-        app:layout_constraintTop_toTopOf="@id/saTemperature"
-        app:layout_constraintVertical_bias="0.6"
-        tools:srcCompat="@drawable/ic_house_sad" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/white_rounded_rect_bg"
+        android:elevation="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/evAquarium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:type="AQUARIUM" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

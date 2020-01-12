@@ -4,11 +4,12 @@ import com.chernysh.smarthome.domain.interactor.living_room.LivingRoomInteractor
 import com.chernysh.smarthome.domain.model.*
 import com.chernysh.smarthome.presentation.base.BasePresenter
 import io.reactivex.Observable
+import io.reactivex.functions.Function3
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,26 +41,62 @@ class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: 
     @Override
     override fun bindIntents() {
         val rozetkaIntent = getChangeRozetkaStateIntent()
+        val lightsIntent = getChangeLightsStateIntent()
+        val aquariumIntent = getChangeAquariumStateIntent()
         val temperatureIntent = getTemperatureIntent()
         val refreshDataIntent = getRefreshDataIntent()
 
-        val allIntents = Observable.merge(rozetkaIntent, temperatureIntent, refreshDataIntent)
+        val allIntents = Observable.merge(
+            listOf(
+                rozetkaIntent,
+                lightsIntent,
+                aquariumIntent,
+                temperatureIntent,
+                refreshDataIntent
+            )
+        )
         val initialState =
-            LivingRoomViewState(BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState)
+            LivingRoomViewState(
+                BooleanViewState.LoadingState, BooleanViewState.LoadingState,
+                BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState
+            )
         val stateObservable = allIntents.scan(initialState, this::reducer)
 
         subscribeViewState(stateObservable, LivingRoomContract.View::render);
     }
 
-    private fun getChangeRozetkaStateIntent() = intent(LivingRoomContract.View::setRozetkaStateIntent)
-        .debounce(200, TimeUnit.MILLISECONDS)
-        .switchMap {
-            if (it) {
-                livingRoomInteractor.enableRozetkaObservable()
-            } else {
-                livingRoomInteractor.disableRozetkaObservable()
+    private fun getChangeRozetkaStateIntent() =
+        intent(LivingRoomContract.View::setRozetkaStateIntent)
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .switchMap {
+                if (it) {
+                    livingRoomInteractor.enableRozetkaObservable()
+                } else {
+                    livingRoomInteractor.disableRozetkaObservable()
+                }
             }
-        }
+
+    private fun getChangeLightsStateIntent() =
+        intent(LivingRoomContract.View::setLightsStateIntent)
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .switchMap {
+                if (it) {
+                    livingRoomInteractor.enableLightsObservable()
+                } else {
+                    livingRoomInteractor.disableLightsObservable()
+                }
+            }
+
+    private fun getChangeAquariumStateIntent() =
+        intent(LivingRoomContract.View::setAquariumStateIntent)
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .switchMap {
+                if (it) {
+                    livingRoomInteractor.enableAquariumObservable()
+                } else {
+                    livingRoomInteractor.disableAquariumObservable()
+                }
+            }
 
     private fun getTemperatureIntent() = intent { viewCreatedObservable }
         .debounce(200, TimeUnit.MILLISECONDS)
@@ -68,12 +105,22 @@ class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: 
         }
 
     private fun getRefreshDataIntent() = viewCreatedObservable
-        .switchMap { livingRoomInteractor.getRozetkaStateObservable() }
+        .switchMap {
+            Observable.merge(
+                livingRoomInteractor.getLightsStateObservable(),
+                livingRoomInteractor.getRozetkaStateObservable(),
+                livingRoomInteractor.getAquariumStateObservable()
+            )
+        }
 
-    private fun reducer(previousState: LivingRoomViewState,
-                        changes: LivingRoomPartialViewState): LivingRoomViewState {
+    private fun reducer(
+        previousState: LivingRoomViewState,
+        changes: LivingRoomPartialViewState
+    ): LivingRoomViewState {
         return when (changes) {
             is LivingRoomPartialViewState.RozetkaState -> previousState.copy(rozetkaViewState = changes.state)
+            is LivingRoomPartialViewState.AquariumState -> previousState.copy(aquariumViewState = changes.state)
+            is LivingRoomPartialViewState.LightsState -> previousState.copy(lightsViewState = changes.state)
             is LivingRoomPartialViewState.TemperatureHumidityState ->
                 previousState.copy(temperatureHumidityViewState = changes.state)
         }

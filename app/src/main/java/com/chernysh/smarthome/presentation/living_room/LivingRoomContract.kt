@@ -35,10 +35,11 @@ import io.reactivex.Observable
 interface LivingRoomContract{
     interface View: BaseView, MvpView {
         fun setRozetkaStateIntent(): Observable<Boolean>
+        fun setAquariumStateIntent(): Observable<Boolean>
+        fun setLightsStateIntent(): Observable<Boolean>
+
         fun render(state: LivingRoomViewState)
     }
 
-    interface Presenter {
-
-    }
+    interface Presenter
 }
