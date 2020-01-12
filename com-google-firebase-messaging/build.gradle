@@ -15,7 +15,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", 'HOST_LINK', '\"http://176.36.146.229\"')
+        buildConfigField("String", 'HOST_LINK_GLOBAL', '\"http://91.235.70.73\"')
+        buildConfigField("String", 'HOST_LINK_LOCAL', '\"http://192.168.88.88\"')
         buildConfigField("String", 'PORT_API', '\":8080/\"')
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
         buildConfigField("String", "FABRIC_TOKEN", "\"gfs2ab\"")

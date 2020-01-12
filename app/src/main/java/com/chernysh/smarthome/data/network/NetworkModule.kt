@@ -1,7 +1,7 @@
 package com.chernysh.smarthome.data.network
 
 /**
- * Copyright 2017. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ import android.content.Context
 import com.chernysh.smarthome.BuildConfig
 import com.chernysh.smarthome.data.network.retrofit.AuthorizationHeaderInterceptor
 import com.chernysh.smarthome.data.network.retrofit.ConnectivityInterceptor
+import com.chernysh.smarthome.data.network.retrofit.HostSelectionInterceptor
 import com.chernysh.smarthome.di.qualifier.ApplicationContext
 import com.chernysh.smarthome.di.scope.ApplicationScope
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -60,6 +61,12 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
+    fun provideHostSelectionInterceptor(): HostSelectionInterceptor {
+        return HostSelectionInterceptor()
+    }
+
+    @Provides
+    @ApplicationScope
     fun provideChuckInterceptor(@ApplicationContext context: Context): ChuckInterceptor {
         return ChuckInterceptor(context)
     }
@@ -85,9 +92,11 @@ class NetworkModule {
         headerInterceptor: AuthorizationHeaderInterceptor,
         connectivityInterceptor: ConnectivityInterceptor,
         chuckInterceptor: ChuckInterceptor,
+        hostSelectionInterceptor: HostSelectionInterceptor,
         cache: Cache
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(hostSelectionInterceptor)
             .addInterceptor(chuckInterceptor)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(headerInterceptor)

@@ -36,7 +36,7 @@ abstract class ApiDataSource protected constructor() {
     @Inject lateinit var service: ApiService
 
     companion object {
-        val HOST = BuildConfig.HOST_LINK
+        val HOST = BuildConfig.HOST_LINK_GLOBAL
         val BASE_URL = HOST + BuildConfig.PORT_API
 
         val PORT_SOCKET = BuildConfig.PORT_SOCKET

@@ -19,16 +19,19 @@ package ua.andrii.chernysh.rxsockets.data.network
  * limitations under the License.
  */
 
+import com.chernysh.smarthome.BuildConfig
+import com.chernysh.smarthome.data.network.retrofit.HostSelectionInterceptor
 import com.chernysh.smarthome.data.network.source.ApiDataSource
 import com.chernysh.smarthome.di.scope.ApplicationScope
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import timber.log.Timber
 import ua.andrii.chernysh.kotlinrxsocket.socket.RxSocket
 import ua.andrii.chernysh.kotlinrxsocket.socket.SocketLoggingInterceptor
 import ua.andrii.chernysh.kotlinrxsocket.socket.createRxSocket
+import java.net.HttpURLConnection
+import java.net.URL
 
 /**
  * Module that provides all API and socket services
@@ -40,9 +43,9 @@ import ua.andrii.chernysh.kotlinrxsocket.socket.createRxSocket
 class SocketServiceModule {
     @Provides
     @ApplicationScope
-    fun provideSocket(gsonProvided: Gson, loggingInterceptor: SocketLoggingInterceptor): RxSocket {
+    fun provideSocket(gsonProvided: Gson, loggingInterceptor: SocketLoggingInterceptor, selectionInterceptor: HostSelectionInterceptor): RxSocket {
         return createRxSocket {
-            hostIp = ApiDataSource.HOST
+            hostIp = selectionInterceptor.getHost()?.let { "http://$it" } ?: ApiDataSource.HOST
             port = ApiDataSource.PORT_SOCKET.toInt()
             namespace = ApiDataSource.SOCKET_NSP
             socketLoggingInterceptor = loggingInterceptor

@@ -20,11 +20,15 @@ package com.chernysh.smarthome.data.network.retrofit
  */
 
 import android.content.Context
+import com.chernysh.smarthome.BuildConfig
 import com.chernysh.smarthome.data.exception.NoConnectivityException
 import com.chernysh.smarthome.utils.isNetworkConnected
+import okhttp3.HttpUrl
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+import java.net.ConnectException
 
 /**
  * OkHttp interceptor that intercepts no network situation
