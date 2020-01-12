@@ -6,11 +6,12 @@ import com.chernysh.smarthome.presentation.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function4
+import io.reactivex.functions.Function5
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,16 +51,28 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     private fun getSafetyStateObservable(): Observable<FlatViewState.SafetyViewState> {
         val alarmIntent = getChangeAlarmStateIntent()
         val boilerIntent = getChangeBoilerStateIntent()
-        val doorIntent = getChangeDoorStateIntent()
+        val securityIntent = getChangeSecurityStateIntent()
         val temperatureIntent = getTemperatureIntent()
         val refreshDataIntent = getRefreshDataIntent()
 
         val allIntents =
-            Observable.merge(listOf(alarmIntent, boilerIntent, doorIntent, temperatureIntent, refreshDataIntent))
+            Observable.merge(
+                listOf(
+                    alarmIntent,
+                    boilerIntent,
+                    securityIntent,
+                    temperatureIntent,
+                    refreshDataIntent
+                )
+            )
         val initialState =
             FlatViewState.SafetyViewState(
-                BooleanViewState.LoadingState, BooleanViewState.LoadingState, BooleanViewState.LoadingState,
-                BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState
+                BooleanViewState.LoadingState,
+                BooleanViewState.LoadingState,
+                BooleanViewState.LoadingState,
+                BooleanViewState.LoadingState,
+                BooleanViewState.LoadingState,
+                TemperatureHumidityViewState.NoDataState
             )
 
         return allIntents.scan(initialState, this::reducer)
@@ -107,13 +120,13 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             }
         }
 
-    private fun getChangeDoorStateIntent() = intent(FlatContract.View::setDoorStateIntent)
+    private fun getChangeSecurityStateIntent() = intent(FlatContract.View::setSecurityStateIntent)
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
-                safetyInteractor.enableDoorObservable()
+                safetyInteractor.enableSecurityObservable()
             } else {
-                safetyInteractor.disableDoorObservable()
+                safetyInteractor.disableSecurityObservable()
             }
         }
 
@@ -122,18 +135,26 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         .switchMap { safetyInteractor.onTemperatureHumidityObservable() }
 
     private fun getRefreshDataIntent() =
-        Observable.merge(intent(FlatContract.View::initDataIntent), intent(FlatContract.View::reloadDataObservable))
+        Observable.merge(
+            intent(FlatContract.View::initDataIntent),
+            intent(FlatContract.View::reloadDataObservable)
+        )
             .switchMap { allDevicesStateObservable() }
 
     private fun allDevicesStateObservable() =
-        Observable.zip(safetyInteractor.getAlarmStateObservable(), safetyInteractor.getBoilerStateObservable(),
-            safetyInteractor.getDoorStateObservable(), safetyInteractor.getNeptunStateObservable(),
-            Function4 { alarmState: FlatPartialViewState.AlarmState, boilerState: FlatPartialViewState.BoilerState,
-                        doorState: FlatPartialViewState.DoorState, neptunState: FlatPartialViewState.NeptunState ->
+        Observable.zip(safetyInteractor.getAlarmStateObservable(),
+            safetyInteractor.getBoilerStateObservable(),
+            safetyInteractor.getSecurityStateObservable(),
+            safetyInteractor.getFireStateObservable(),
+            safetyInteractor.getNeptunStateObservable(),
+            Function5 { alarmState: FlatPartialViewState.AlarmState, boilerState: FlatPartialViewState.BoilerState,
+                        securityState: FlatPartialViewState.SecurityState, fireState: FlatPartialViewState.FireState,
+                        neptunState: FlatPartialViewState.NeptunState ->
                 FlatPartialViewState.AllDevicesState(
                     alarmState.state,
                     boilerState.state,
-                    doorState.state,
+                    securityState.state,
+                    fireState.state,
                     neptunState.state
                 )
             })
@@ -145,13 +166,17 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         return when (changes) {
             is FlatPartialViewState.AlarmState -> previousState.copy(alarmViewState = changes.state)
             is FlatPartialViewState.BoilerState -> previousState.copy(boilerViewState = changes.state)
-            is FlatPartialViewState.DoorState -> previousState.copy(doorViewState = changes.state)
+            is FlatPartialViewState.SecurityState -> previousState.copy(securityViewState = changes.state)
+            is FlatPartialViewState.FireState -> previousState.copy(fireViewState = changes.state)
             is FlatPartialViewState.NeptunState -> previousState.copy(neptunViewState = changes.state)
-            is FlatPartialViewState.TemperatureHumidityState -> previousState.copy(temperatureHumidityOutsideViewState = changes.state)
+            is FlatPartialViewState.TemperatureHumidityState -> previousState.copy(
+                temperatureHumidityOutsideViewState = changes.state
+            )
             is FlatPartialViewState.AllDevicesState ->
                 previousState.copy(
                     alarmViewState = changes.alarmState, boilerViewState = changes.boilerState,
-                    doorViewState = changes.doorState, neptunViewState = changes.neptunState
+                    securityViewState = changes.securityState, fireViewState = changes.fireState,
+                    neptunViewState = changes.neptunState
                 )
             is FlatPartialViewState.EmptyState -> previousState
         }

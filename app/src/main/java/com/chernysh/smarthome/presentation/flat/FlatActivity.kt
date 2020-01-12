@@ -154,8 +154,8 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
     override fun setBoilerStateIntent(): Observable<Boolean> =
         RxView.clicks(switchBoiler).map { switchBoiler.isChecked }
 
-    override fun setDoorStateIntent(): Observable<Boolean> =
-        RxView.clicks(switchDoor).map { switchDoor.isChecked }
+    override fun setSecurityStateIntent(): Observable<Boolean> =
+        RxView.clicks(switchSecurity).map { switchSecurity.isChecked }
 
     override fun showAlarmDialog(): Observable<Any> = RxView.clicks(switchAlarm)
         .doOnNext { if (!switchAlarm.isChecked) turnOnAlarmSubject.onNext(false) }
@@ -197,7 +197,8 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
         renderAlarm(state.alarmViewState)
         renderBoiler(state.boilerViewState)
         renderNeptun(state.neptunViewState)
-        renderDoor(state.doorViewState)
+        renderFire(state.fireViewState)
+        renderSecurity(state.securityViewState)
         renderTemperatureHumidity(state.temperatureHumidityOutsideViewState)
     }
 
@@ -253,14 +254,37 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
         }
     }
 
-    private fun renderDoor(state: BooleanViewState) {
-        switchDoor.isEnabled = true
+    private fun renderFire(state: BooleanViewState) {
+        pbFireLoading.visibility = View.GONE
+        tvFire.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 
         when (state) {
             is BooleanViewState.ErrorState,
-            is BooleanViewState.ConnectivityErrorState -> switchDoor.isChecked = !switchDoor.isChecked
-            is BooleanViewState.LoadingState -> switchDoor.isEnabled = false
-            is BooleanViewState.DataState -> switchDoor.isChecked = state.data
+            is BooleanViewState.ConnectivityErrorState -> {
+                tvFire.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0)
+            }
+            is BooleanViewState.LoadingState -> {
+                pbFireLoading.visibility = View.VISIBLE
+            }
+            is BooleanViewState.DataState -> {
+                val icon = if (state.data) {
+                    R.drawable.ic_fire
+                } else {
+                    R.drawable.ic_thumbs_up
+                }
+                tvFire.setCompoundDrawablesWithIntrinsicBounds(0, 0, icon, 0)
+            }
+        }
+    }
+
+    private fun renderSecurity(state: BooleanViewState) {
+        switchSecurity.isEnabled = true
+
+        when (state) {
+            is BooleanViewState.ErrorState,
+            is BooleanViewState.ConnectivityErrorState -> switchSecurity.isChecked = !switchSecurity.isChecked
+            is BooleanViewState.LoadingState -> switchSecurity.isEnabled = false
+            is BooleanViewState.DataState -> switchSecurity.isChecked = state.data
         }
     }
 

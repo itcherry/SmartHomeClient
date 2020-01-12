@@ -56,6 +56,8 @@
     <string name="flat_boiler">Бойлер</string>
     <string name="flat_door">Двері</string>
     <string name="flat_netun">Нептун</string>
+    <string name="flat_fire">Пожежна безпека</string>
+    <string name="flat_security">Охорона</string>
     <string name="flat_outside_of_flat">За межами квартири:</string>
 
     <string name="flat_alert_dialog_title">Увімкнути сирену?</string>

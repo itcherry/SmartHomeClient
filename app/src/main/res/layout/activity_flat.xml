@@ -32,73 +32,91 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/flat_control_panel"
-                    android:textColor="@color/white"
-                    android:textSize="32sp"
-                    app:layout_constraintBottom_toBottomOf="@id/viewNavDrawerBg"
-                    app:layout_constraintEnd_toEndOf="@+id/viewNavDrawerBg"
-                    app:layout_constraintStart_toStartOf="@+id/viewNavDrawerBg"
-                    app:layout_constraintTop_toTopOf="@id/viewNavDrawerBg"
-                    android:fontFamily="@font/lobster"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/lobster"
+                android:text="@string/flat_control_panel"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                app:layout_constraintBottom_toBottomOf="@id/viewNavDrawerBg"
+                app:layout_constraintEnd_toEndOf="@+id/viewNavDrawerBg"
+                app:layout_constraintStart_toStartOf="@+id/viewNavDrawerBg"
+                app:layout_constraintTop_toTopOf="@id/viewNavDrawerBg" />
 
             <Switch
-                    android:id="@+id/switchAlarm"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:text="@string/flat_alarm"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewNavDrawerBg"
-                    android:fontFamily="sans-serif-condensed"/>
+                android:id="@+id/switchAlarm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/flat_alarm"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewNavDrawerBg" />
 
             <Switch
-                    android:id="@+id/switchBoiler"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:text="@string/flat_boiler"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/switchAlarm" android:fontFamily="sans-serif-condensed"/>
+                android:id="@+id/switchBoiler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/flat_boiler"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchAlarm" />
 
             <Switch
-                    android:id="@+id/switchDoor"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:text="@string/flat_door"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/switchBoiler" android:fontFamily="sans-serif-condensed"/>
+                android:id="@+id/switchSecurity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/flat_security"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchBoiler" />
 
             <TextView
-                    android:id="@+id/tvNeptun"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_thumbs_up"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:text="@string/flat_netun"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/switchDoor" android:fontFamily="sans-serif-condensed"/>
+                android:id="@+id/tvNeptun"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_thumbs_up"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/flat_netun"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchSecurity" />
+
+            <TextView
+                android:id="@+id/tvFire"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_thumbs_up"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/flat_fire"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvNeptun" />
 
             <ProgressBar
                 android:id="@+id/pbNeptunLoading"
@@ -109,6 +127,16 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvNeptun"
                 app:layout_constraintEnd_toEndOf="@+id/tvNeptun"
                 app:layout_constraintTop_toTopOf="@+id/tvNeptun" />
+
+            <ProgressBar
+                android:id="@+id/pbFireLoading"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFire"
+                app:layout_constraintEnd_toEndOf="@+id/tvFire"
+                app:layout_constraintTop_toTopOf="@+id/tvFire" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.navigation.NavigationView>
 

@@ -37,7 +37,7 @@ interface FlatContract {
         fun initDataIntent(): Observable<Boolean>
         fun acceptedAlarmIntent(): Observable<Boolean>
         fun setBoilerStateIntent(): Observable<Boolean>
-        fun setDoorStateIntent(): Observable<Boolean>
+        fun setSecurityStateIntent(): Observable<Boolean>
         fun render(state: FlatViewState)
 
         fun openBedroomActivity(): Observable<Any>

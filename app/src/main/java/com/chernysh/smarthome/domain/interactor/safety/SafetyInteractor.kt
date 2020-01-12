@@ -84,7 +84,7 @@ class SafetyInteractor @Inject constructor(
         securityUseCase.processSecurityState(SecurityUseCase.Data(Method.SET, true))
             .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.SecurityState, FlatPartialViewState.SecurityState>)
 
-    fun disableDoorObservable() =
+    fun disableSecurityObservable() =
         securityUseCase.processSecurityState(SecurityUseCase.Data(Method.SET, false))
             .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.SecurityState, FlatPartialViewState.SecurityState>)
 

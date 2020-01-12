@@ -35,7 +35,7 @@ sealed class FlatPartialViewState {
     data class FireState(val state: BooleanViewState) : FlatPartialViewState()
     data class TemperatureHumidityState(val state: TemperatureHumidityViewState) : FlatPartialViewState()
     data class AllDevicesState(val alarmState: BooleanViewState, val boilerState: BooleanViewState,
-                               val doorState: BooleanViewState, val neptunState: BooleanViewState,
-                               val securityState: BooleanViewState, val fireState: BooleanViewState) :
+                               val neptunState: BooleanViewState, val securityState: BooleanViewState,
+                               val fireState: BooleanViewState) :
         FlatPartialViewState()
 }
