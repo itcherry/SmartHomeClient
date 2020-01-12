@@ -38,9 +38,9 @@
         android:id="@+id/cvTemperatureHumidityCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_chainStyle="spread"
@@ -62,7 +62,7 @@
         android:id="@+id/evRozette"
         android:layout_width="0dp"
         android:layout_height="120dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/white_rounded_rect_bg"
@@ -89,7 +89,7 @@
         android:id="@+id/evAquarium"
         android:layout_width="0dp"
         android:layout_height="120dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/white_rounded_rect_bg"
@@ -99,7 +99,7 @@
         app:layout_constraintBottom_toTopOf="@id/evLights"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:type="ROZETTE" />
+        app:type="AQUARIUM" />
 
     <View
         android:layout_width="0dp"
@@ -116,7 +116,7 @@
         android:id="@+id/evLights"
         android:layout_width="0dp"
         android:layout_height="120dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/white_rounded_rect_bg"
@@ -126,7 +126,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:type="AQUARIUM" />
+        app:type="LIGHT" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -191,7 +191,7 @@ class NotificationManager @Inject constructor(
             .apply(block)
 
         try {
-            notificationBuilder.setSmallIcon(R.drawable.ic_launcher)
+            notificationBuilder.setSmallIcon(android.R.drawable.ic_media_play)
         } catch (remoteServiceException: RuntimeException) {
             val e = RuntimeException("Can`t set image icon notification")
             e.stackTrace = remoteServiceException.stackTrace

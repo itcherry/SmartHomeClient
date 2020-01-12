@@ -153,9 +153,9 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
                 FlatPartialViewState.AllDevicesState(
                     alarmState.state,
                     boilerState.state,
+                    neptunState.state,
                     securityState.state,
-                    fireState.state,
-                    neptunState.state
+                    fireState.state
                 )
             })
 

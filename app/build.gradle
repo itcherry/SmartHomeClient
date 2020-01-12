@@ -49,7 +49,7 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
-        buildConfigField("String", 'HOST_LINK', '\"http://192.168.0.107\"')
+        buildConfigField("String", 'HOST_LINK', '\"http://192.168.88.88\"')
         buildConfigField("String", 'PORT_API', '\":8080/\"')
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
         manifestPlaceholders = [fabric_token: FABRIC_TOKEN]
@@ -163,7 +163,7 @@ dependencies {
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 
     // View
-    implementation 'com.github.Triggertrap:SeekArc:v1.1'
+    //implementation 'com.github.Triggertrap:SeekArc:v1.1'
     implementation 'com.balysv:material-ripple:1.0.2'
 
     //Tests

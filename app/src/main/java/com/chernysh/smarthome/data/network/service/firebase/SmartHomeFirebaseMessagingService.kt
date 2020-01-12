@@ -57,18 +57,16 @@ class SmartHomeFirebaseMessagingService : FirebaseMessagingService(), HasService
         if (remoteMessage.data != null) {
             val bodyMap = remoteMessage.data
             val type = Integer.parseInt(bodyMap[FIELD_TYPE]!!)
-            Timber.i("FCM push. notification type:$type")
 
             val messageType = NotificationMessageType.getTypeById(type)
             val dataJson = bodyMap[DATA_TYPE]
-            Timber.i("FCM push. data:" + dataJson!!)
 
             processNotificationMessage(messageType, dataJson)
         }
     }
 
     private fun processNotificationMessage(messageType: NotificationMessageType, dataJson: String?) {
-        Timber.d("messageType: ${messageType.id}, data: $dataJson")
+        Timber.d("messageType: ${messageType.id}, data: ${dataJson ?: ""}")
         when(messageType) {
             NotificationMessageType.HIGH_CPU_TEMPERATURE -> notificationManger.notifyCpuIsTooHot(dataJson?.toInt() ?: -1)
             NotificationMessageType.NEPTUN_ALARM -> notificationManger.notifyNeptun()
