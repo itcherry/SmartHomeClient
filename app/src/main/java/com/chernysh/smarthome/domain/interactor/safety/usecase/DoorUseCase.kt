@@ -4,8 +4,7 @@ import com.chernysh.smarthome.data.exception.NoConnectivityException
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.FlatPartialViewState
 import com.chernysh.smarthome.domain.model.Method
-import com.chernysh.smarthome.domain.repository.BoilerRepository
-import com.chernysh.smarthome.domain.repository.DoorRepository
+import com.chernysh.smarthome.domain.repository.SecurityRepository
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -17,11 +16,11 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class DoorUseCase @Inject constructor(private val doorRepository: DoorRepository) {
+class DoorUseCase @Inject constructor(private val securityRepository: SecurityRepository) {
     fun processDoorState(params: Data): Observable<FlatPartialViewState.DoorState> =
         when (params.method) {
-            Method.GET -> doorRepository.getState()
-            Method.SET -> doorRepository.setState(params.value).switchIfEmpty(Single.just(params.value))
+            Method.GET -> securityRepository.getState()
+            Method.SET -> securityRepository.setState(params.value).switchIfEmpty(Single.just(params.value))
         }
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }

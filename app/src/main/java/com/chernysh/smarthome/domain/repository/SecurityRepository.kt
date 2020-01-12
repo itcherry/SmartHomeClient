@@ -1,10 +1,10 @@
-package com.chernysh.smarthome.data.source
+package com.chernysh.smarthome.domain.repository
 
 import io.reactivex.Maybe
 import io.reactivex.Single
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,13 +23,16 @@ import io.reactivex.Single
  */
 
 /**
- * Getting and setting boiler state in data sources
+ * Interface that represents a Repository for
+ * changing and getting security state as well as
+ * checking fire controller
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-interface DoorDataSource {
+interface SecurityRepository {
     fun setState(isEnabled: Boolean): Maybe<Boolean>
     fun getState(): Single<Boolean>
+    fun isFireAtHome(): Single<Boolean>
 }

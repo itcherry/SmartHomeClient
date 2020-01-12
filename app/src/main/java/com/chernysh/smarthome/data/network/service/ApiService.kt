@@ -111,7 +111,6 @@ interface ApiService {
     @PUT("security")
     fun setSecurityEnabled(@Query("doEnable") doEnable: Boolean): Maybe<Boolean>
 
-    /* Fire */
     @GET("fire")
     fun isFireAtHome(): Single<Boolean>
 }

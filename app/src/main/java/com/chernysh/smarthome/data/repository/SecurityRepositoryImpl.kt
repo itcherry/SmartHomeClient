@@ -1,7 +1,7 @@
 package com.chernysh.smarthome.data.repository
 
 import com.chernysh.smarthome.data.network.source.DoorApiDataSource
-import com.chernysh.smarthome.domain.repository.DoorRepository
+import com.chernysh.smarthome.domain.repository.SecurityRepository
 import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
@@ -33,9 +33,9 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class DoorRepositoryImpl @Inject constructor(
+class SecurityRepositoryImpl @Inject constructor(
     private val doorApiDataSource: DoorApiDataSource
-) : DoorRepository {
+) : SecurityRepository {
     override fun setState(isEnabled: Boolean): Maybe<Boolean> = doorApiDataSource.setState(isEnabled)
 
     override fun getState(): Single<Boolean> = doorApiDataSource.getState()

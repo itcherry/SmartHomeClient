@@ -6,7 +6,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,16 @@ import javax.inject.Inject
  */
 class LivingRoomApiDataSource @Inject constructor() :
     ApiDataSource(), LivingRoomDataSource {
+
     override fun setRozetkaState(isEnabled: Boolean): Maybe<Boolean> = service.setLivingRoomRozetkaState(isEnabled)
 
     override fun getRozetkaState(): Single<Boolean> = service.getLivingRoomRozetkaState()
+
+    override fun setLightState(isEnabled: Boolean): Maybe<Boolean> = service.setLivingRoomLightState(isEnabled)
+
+    override fun getLightState(): Single<Boolean> = service.getLivingRoomLightState()
+
+    override fun setAquariumState(isEnabled: Boolean): Maybe<Boolean> = service.setLivingRoomAquariumState(isEnabled)
+
+    override fun getAquariumState(): Single<Boolean> = service.getLivingRoomAquariumState()
 }

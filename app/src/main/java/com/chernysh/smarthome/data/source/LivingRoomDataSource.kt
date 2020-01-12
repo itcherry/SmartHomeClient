@@ -33,4 +33,10 @@ import io.reactivex.Single
 interface LivingRoomDataSource {
     fun setRozetkaState(isEnabled: Boolean): Maybe<Boolean>
     fun getRozetkaState(): Single<Boolean>
+
+    fun setLightState(isEnabled: Boolean): Maybe<Boolean>
+    fun getLightState(): Single<Boolean>
+
+    fun setAquariumState(isEnabled: Boolean): Maybe<Boolean>
+    fun getAquariumState(): Single<Boolean>
 }
