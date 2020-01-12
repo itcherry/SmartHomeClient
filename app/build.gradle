@@ -35,6 +35,8 @@ ext {
     leakCanaryVersion = '1.6.3'
 }
 
+def CONFIG = { k -> "\"${project.properties.get(k)}\"" }
+
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -53,6 +55,7 @@ android {
         buildConfigField("String", 'HOST_LINK_LOCAL', '\"http://192.168.88.88\"')
         buildConfigField("String", 'PORT_API', '\":8080/\"')
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
+        buildConfigField("String", 'RTSP_URL', CONFIG("SMART_HOME_RTSP"))
         manifestPlaceholders = [fabric_token: FABRIC_TOKEN]
     }
     buildTypes {
@@ -166,6 +169,9 @@ dependencies {
     // View
     //implementation 'com.github.Triggertrap:SeekArc:v1.1'
     implementation 'com.balysv:material-ripple:1.0.2'
+
+    // Video
+    implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
 
     //Tests
     testImplementation 'junit:junit:4.12'

@@ -14,6 +14,7 @@ import com.chernysh.smarthome.domain.model.FlatViewState
 import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import com.chernysh.smarthome.presentation.bedroom.BedroomActivity
+import com.chernysh.smarthome.presentation.camera.CameraActivity
 import com.chernysh.smarthome.presentation.corridor.CorridorActivity
 import com.chernysh.smarthome.presentation.kitchen.KitchenActivity
 import com.chernysh.smarthome.presentation.living_room.LivingRoomActivity
@@ -149,6 +150,8 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun openCorridorActivity(): Observable<Any> = RxView.clicks(btnCorridor)
 
+    override fun openCameraActivity(): Observable<Any> = RxView.clicks(tvCamera)
+
     override fun initDataIntent(): Observable<Boolean> = Observable.just(true)
 
     override fun setBoilerStateIntent(): Observable<Boolean> =
@@ -170,6 +173,7 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             is FlatViewState.CorridorClicked -> startActivity(Intent(this, CorridorActivity::class.java))
             is FlatViewState.LivingRoomClicked -> startActivity(Intent(this, LivingRoomActivity::class.java))
             is FlatViewState.KitchenClicked -> startActivity(Intent(this, KitchenActivity::class.java))
+            is FlatViewState.CameraClicked -> startActivity(Intent(this, CameraActivity::class.java))
             is FlatViewState.ShowAlarmDialogClicked -> showDialogForAlarm()
             is FlatViewState.SafetyViewState -> renderSafetyViewState(state)
         }

@@ -137,6 +137,21 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvFire"
                 app:layout_constraintEnd_toEndOf="@+id/tvFire"
                 app:layout_constraintTop_toTopOf="@+id/tvFire" />
+
+            <TextView
+                android:id="@+id/tvCamera"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/flat_camera"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFire" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.navigation.NavigationView>
 

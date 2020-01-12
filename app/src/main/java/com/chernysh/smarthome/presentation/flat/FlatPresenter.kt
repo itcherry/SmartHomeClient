@@ -85,6 +85,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         val openBedroomIntent = getOpenBedroomIntent()
         val openKitchenIntent = getOpenKitchenIntent()
         val openCorridorIntent = getOpenCorridorIntent()
+        val openCameraIntent = getOpenCameraIntent()
         val openLivingRoomIntent = getOpenLivingRoomIntent()
         val viewPausedIntent = viewPausedIntent()
 
@@ -92,7 +93,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             listOf(
                 safetyStateObservable, showAlarmIntent, openBedroomIntent,
                 openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
-                viewPausedIntent
+                openCameraIntent, viewPausedIntent
             )
         ).observeOn(AndroidSchedulers.mainThread())
 
@@ -197,6 +198,10 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     private fun getOpenCorridorIntent() = intent(FlatContract.View::openCorridorActivity)
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.CorridorClicked }
+
+    private fun getOpenCameraIntent() = intent(FlatContract.View::openCameraActivity)
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.CameraClicked }
 
     private fun getOpenLivingRoomIntent() = intent(FlatContract.View::openLivingRoomActivity)
         .debounce(200, TimeUnit.MILLISECONDS)

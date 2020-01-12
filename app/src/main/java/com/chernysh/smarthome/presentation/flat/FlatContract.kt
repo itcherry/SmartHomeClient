@@ -44,6 +44,7 @@ interface FlatContract {
         fun openKitchenActivity(): Observable<Any>
         fun openLivingRoomActivity(): Observable<Any>
         fun openCorridorActivity(): Observable<Any>
+        fun openCameraActivity(): Observable<Any>
         fun showAlarmDialog(): Observable<Any>
         fun reloadDataObservable(): Observable<Any>
     }
