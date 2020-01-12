@@ -2,12 +2,9 @@ package com.chernysh.smarthome.presentation.living_room
 
 import android.os.Bundle
 import com.chernysh.smarthome.R
-import com.chernysh.smarthome.domain.model.RoomPartialWithoutLightsViewState
-import com.chernysh.smarthome.domain.model.RoomWithoutLightsViewState
+import com.chernysh.smarthome.domain.model.LivingRoomViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_bedroom.*
-import kotlinx.android.synthetic.main.activity_living_room.*
 import kotlinx.android.synthetic.main.activity_living_room.cvTemperatureHumidityCard
 import kotlinx.android.synthetic.main.activity_living_room.evRozette
 import kotlinx.android.synthetic.main.activity_living_room.fabMenu
@@ -50,7 +47,7 @@ class LivingRoomActivity : BaseActivity<LivingRoomContract.View, LivingRoomPrese
 
     override fun setRozetkaStateIntent(): Observable<Boolean> = evRozette.setElementStateIntent()
 
-    override fun render(state: RoomWithoutLightsViewState) {
+    override fun render(state: LivingRoomViewState) {
         evRozette.render(state.rozetkaViewState)
         cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
     }

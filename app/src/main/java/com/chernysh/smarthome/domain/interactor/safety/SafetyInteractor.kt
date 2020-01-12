@@ -1,16 +1,13 @@
 package com.chernysh.smarthome.domain.interactor.safety
 
-import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomLightsUseCase
-import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomRozetkaUseCase
 import com.chernysh.smarthome.domain.interactor.safety.usecase.*
 import com.chernysh.smarthome.domain.model.FlatPartialViewState
-import com.chernysh.smarthome.domain.model.LoginViewState
 import com.chernysh.smarthome.domain.model.Method
 import io.reactivex.ObservableTransformer
 import javax.inject.Inject
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +26,7 @@ import javax.inject.Inject
  */
 
 /**
- * Interactor that manipulates data within bedroom
+ * Interactor that manipulates data within overall flat
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
@@ -40,7 +37,7 @@ class SafetyInteractor @Inject constructor(
     private val temperatureHumidityOutsideUseCase: TemperatureHumidityOutsideUseCase,
     private val alarmUseCase: AlarmUseCase,
     private val boilerUseCase: BoilerUseCase,
-    private val doorUseCase: DoorUseCase,
+    private val securityUseCase: SecurityUseCase,
     private val neptunUseCase: NeptunUseCase,
     private val schedulersTransformer: ObservableTransformer<Any, Any>
 ) {
@@ -78,17 +75,21 @@ class SafetyInteractor @Inject constructor(
         boilerUseCase.processBoilerState(BoilerUseCase.Data(Method.SET, false))
             .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.BoilerState, FlatPartialViewState.BoilerState>)
 
-    /* Door */
-    fun getDoorStateObservable() =
-        doorUseCase.processDoorState(DoorUseCase.Data(Method.GET))
-            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.DoorState, FlatPartialViewState.DoorState>)
+    /* Security */
+    fun getSecurityStateObservable() =
+        securityUseCase.processSecurityState(SecurityUseCase.Data(Method.GET))
+            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.SecurityState, FlatPartialViewState.SecurityState>)
 
-    fun enableDoorObservable() =
-        doorUseCase.processDoorState(DoorUseCase.Data(Method.SET, true))
-            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.DoorState, FlatPartialViewState.DoorState>)
+    fun enableSecurityObservable() =
+        securityUseCase.processSecurityState(SecurityUseCase.Data(Method.SET, true))
+            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.SecurityState, FlatPartialViewState.SecurityState>)
 
     fun disableDoorObservable() =
-        doorUseCase.processDoorState(DoorUseCase.Data(Method.SET, false))
-            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.DoorState, FlatPartialViewState.DoorState>)
+        securityUseCase.processSecurityState(SecurityUseCase.Data(Method.SET, false))
+            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.SecurityState, FlatPartialViewState.SecurityState>)
+
+    fun getFireStateObservable() =
+        securityUseCase.processFireState(SecurityUseCase.Data(Method.GET))
+            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.FireState, FlatPartialViewState.FireState>)
 
 }

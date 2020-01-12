@@ -10,14 +10,14 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 /**
- * Use case to manipulate door state
+ * Use case to manipulate security state
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class DoorUseCase @Inject constructor(private val securityRepository: SecurityRepository) {
-    fun processDoorState(params: Data): Observable<FlatPartialViewState.DoorState> =
+class SecurityUseCase @Inject constructor(private val securityRepository: SecurityRepository) {
+    fun processSecurityState(params: Data): Observable<FlatPartialViewState.SecurityState> =
         when (params.method) {
             Method.GET -> securityRepository.getState()
             Method.SET -> securityRepository.setState(params.value).switchIfEmpty(Single.just(params.value))
@@ -32,7 +32,21 @@ class DoorUseCase @Inject constructor(private val securityRepository: SecurityRe
                     BooleanViewState.ErrorState(it)
                 }
             }
-            .map { FlatPartialViewState.DoorState(it) }
+            .map { FlatPartialViewState.SecurityState(it) }
+
+    fun processFireState(params: Data): Observable<FlatPartialViewState.FireState> =
+        securityRepository.isFireAtHome()
+            .toObservable()
+            .map<BooleanViewState> { BooleanViewState.DataState(it) }
+            .startWith(BooleanViewState.LoadingState)
+            .onErrorReturn {
+                if (it is NoConnectivityException) {
+                    BooleanViewState.ConnectivityErrorState
+                } else {
+                    BooleanViewState.ErrorState(it)
+                }
+            }
+            .map { FlatPartialViewState.FireState(it) }
 
 
     data class Data(val method: Method, val value: Boolean = false)

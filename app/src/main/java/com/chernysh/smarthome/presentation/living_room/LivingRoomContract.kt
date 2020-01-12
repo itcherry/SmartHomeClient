@@ -1,6 +1,6 @@
 package com.chernysh.smarthome.presentation.living_room
 
-import com.chernysh.smarthome.domain.model.RoomWithoutLightsViewState
+import com.chernysh.smarthome.domain.model.LivingRoomViewState
 import com.chernysh.smarthome.presentation.base.BaseView
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import io.reactivex.Observable
@@ -35,7 +35,7 @@ import io.reactivex.Observable
 interface LivingRoomContract{
     interface View: BaseView, MvpView {
         fun setRozetkaStateIntent(): Observable<Boolean>
-        fun render(state: RoomWithoutLightsViewState)
+        fun render(state: LivingRoomViewState)
     }
 
     interface Presenter {

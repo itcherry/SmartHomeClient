@@ -1,7 +1,7 @@
 package com.chernysh.smarthome.domain.model
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,11 +20,15 @@ package com.chernysh.smarthome.domain.model
  */
 
 /**
- * Class that describes view state of some room, that contains rozetka and temperature
+ * Class that describes which device sent state update
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-data class RoomWithoutLightsViewState(val rozetkaViewState: BooleanViewState,
-                                      val temperatureHumidityViewState: TemperatureHumidityViewState)
+sealed class LivingRoomPartialViewState {
+    data class RozetkaState(val state: BooleanViewState): LivingRoomPartialViewState()
+    data class LightsState(val state: BooleanViewState): LivingRoomPartialViewState()
+    data class AquariumState(val state: BooleanViewState): LivingRoomPartialViewState()
+    data class TemperatureHumidityState(val state: TemperatureHumidityViewState): LivingRoomPartialViewState()
+}

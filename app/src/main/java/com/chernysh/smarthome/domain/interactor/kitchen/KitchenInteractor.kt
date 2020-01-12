@@ -3,7 +3,6 @@ package com.chernysh.smarthome.domain.interactor.kitchen
 import com.chernysh.smarthome.domain.interactor.kitchen.usecase.KitchenLightsUseCase
 import com.chernysh.smarthome.domain.interactor.kitchen.usecase.KitchenTemperatureHumidityUseCase
 import com.chernysh.smarthome.domain.model.Method
-import com.chernysh.smarthome.domain.model.RoomPartialWithoutLightsViewState
 import com.chernysh.smarthome.domain.model.RoomPartialWithoutRozetkaViewState
 import io.reactivex.ObservableTransformer
 import javax.inject.Inject

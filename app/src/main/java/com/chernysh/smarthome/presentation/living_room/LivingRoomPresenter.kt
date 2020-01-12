@@ -4,7 +4,6 @@ import com.chernysh.smarthome.domain.interactor.living_room.LivingRoomInteractor
 import com.chernysh.smarthome.domain.model.*
 import com.chernysh.smarthome.presentation.base.BasePresenter
 import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -36,7 +35,7 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: LivingRoomInteractor) :
-    BasePresenter<LivingRoomContract.View, RoomWithoutLightsViewState>(), LivingRoomContract.Presenter {
+    BasePresenter<LivingRoomContract.View, LivingRoomViewState>(), LivingRoomContract.Presenter {
 
     @Override
     override fun bindIntents() {
@@ -46,7 +45,7 @@ class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: 
 
         val allIntents = Observable.merge(rozetkaIntent, temperatureIntent, refreshDataIntent)
         val initialState =
-            RoomWithoutLightsViewState(BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState)
+            LivingRoomViewState(BooleanViewState.LoadingState, TemperatureHumidityViewState.NoDataState)
         val stateObservable = allIntents.scan(initialState, this::reducer)
 
         subscribeViewState(stateObservable, LivingRoomContract.View::render);
@@ -71,11 +70,11 @@ class LivingRoomPresenter @Inject constructor(private val livingRoomInteractor: 
     private fun getRefreshDataIntent() = viewCreatedObservable
         .switchMap { livingRoomInteractor.getRozetkaStateObservable() }
 
-    private fun reducer(previousState: RoomWithoutLightsViewState,
-                        changes: RoomPartialWithoutLightsViewState): RoomWithoutLightsViewState {
+    private fun reducer(previousState: LivingRoomViewState,
+                        changes: LivingRoomPartialViewState): LivingRoomViewState {
         return when (changes) {
-            is RoomPartialWithoutLightsViewState.RozetkaState -> previousState.copy(rozetkaViewState = changes.state)
-            is RoomPartialWithoutLightsViewState.TemperatureHumidityState ->
+            is LivingRoomPartialViewState.RozetkaState -> previousState.copy(rozetkaViewState = changes.state)
+            is LivingRoomPartialViewState.TemperatureHumidityState ->
                 previousState.copy(temperatureHumidityViewState = changes.state)
         }
     }

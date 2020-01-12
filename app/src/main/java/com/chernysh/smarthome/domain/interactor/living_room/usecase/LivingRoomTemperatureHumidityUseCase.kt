@@ -1,7 +1,7 @@
 package com.chernysh.smarthome.domain.interactor.living_room.usecase
 
 import com.chernysh.smarthome.data.source.DataPolicy
-import com.chernysh.smarthome.domain.model.RoomPartialWithoutLightsViewState
+import com.chernysh.smarthome.domain.model.LivingRoomPartialViewState
 import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import com.chernysh.smarthome.domain.repository.TemperatureHumidityRepository
 import io.reactivex.Observable
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class LivingRoomTemperatureHumidityUseCase @Inject constructor(
     private val temperatureHumidityRepository: TemperatureHumidityRepository) {
 
-    fun getTemperatureHumidity(): Observable<RoomPartialWithoutLightsViewState> =
+    fun getTemperatureHumidity(): Observable<LivingRoomPartialViewState> =
         Observable.merge(listOf(
             temperatureHumidityRepository.temperatureHumidityLivingRoomObservable(DataPolicy.SOCKET)
                 .map { TemperatureHumidityViewState.DataState(it) },
@@ -30,5 +30,5 @@ class LivingRoomTemperatureHumidityUseCase @Inject constructor(
             .doOnDispose { temperatureHumidityRepository.disconnect() }
             .startWith(TemperatureHumidityViewState.NoDataState)
             .onErrorReturn { TemperatureHumidityViewState.ErrorState(it) }
-            .map { RoomPartialWithoutLightsViewState.TemperatureHumidityState(it) }
+            .map { LivingRoomPartialViewState.TemperatureHumidityState(it) }
 }

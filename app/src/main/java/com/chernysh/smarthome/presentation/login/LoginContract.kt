@@ -1,7 +1,6 @@
 package com.chernysh.smarthome.presentation.login
 
 import com.chernysh.smarthome.domain.model.LoginViewState
-import com.chernysh.smarthome.domain.model.RoomWithoutLightsViewState
 import com.chernysh.smarthome.presentation.base.BaseView
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import io.reactivex.Observable

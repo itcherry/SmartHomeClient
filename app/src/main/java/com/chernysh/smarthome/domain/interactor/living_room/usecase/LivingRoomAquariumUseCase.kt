@@ -10,17 +10,17 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 /**
- * Use case to manipulate rozetka state withing living room
+ * Use case to manipulate aquarium state withing living room
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class LivingRoomRozetkaUseCase @Inject constructor(private val livingRoomRepository: LivingRoomRepository) {
-    fun processLivingRoomRozetka(params: Data): Observable<LivingRoomPartialViewState> =
+class LivingRoomAquariumUseCase @Inject constructor(private val livingRoomRepository: LivingRoomRepository) {
+    fun processLivingRoomAquarium(params: Data): Observable<LivingRoomPartialViewState> =
         when (params.method) {
-            Method.GET -> livingRoomRepository.getRozetkaState()
-            Method.SET -> livingRoomRepository.setRozetkaState(params.value).switchIfEmpty(Single.just(params.value))
+            Method.GET -> livingRoomRepository.getAquariumState()
+            Method.SET -> livingRoomRepository.setAquariumState(params.value).switchIfEmpty(Single.just(params.value))
         }
             .toObservable()
             .map<BooleanViewState> { BooleanViewState.DataState(it) }
@@ -32,7 +32,7 @@ class LivingRoomRozetkaUseCase @Inject constructor(private val livingRoomReposit
                     BooleanViewState.ErrorState(it)
                 }
             }
-            .map { LivingRoomPartialViewState.RozetkaState(it) }
+            .map { LivingRoomPartialViewState.AquariumState(it) }
 
     data class Data(val method: Method, val value: Boolean = false)
 }
