@@ -7,7 +7,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 /**
  * Interface that represents a Repository (or Gateway)
- * for setting and getting Living room rosettes and light states
+ * for setting and getting Living room rosettes, light  and aquarium states
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
@@ -39,4 +39,12 @@ class LivingRoomRepositoryImpl @Inject constructor(
     override fun setRozetkaState(isEnabled: Boolean): Maybe<Boolean> = livingRoomApiDataSource.setRozetkaState(isEnabled)
 
     override fun getRozetkaState(): Single<Boolean> = livingRoomApiDataSource.getRozetkaState()
+
+    override fun setLightState(isEnabled: Boolean): Maybe<Boolean> = livingRoomApiDataSource.setLightState(isEnabled)
+
+    override fun getLightState(): Single<Boolean> = livingRoomApiDataSource.getLightState()
+
+    override fun setAquariumState(isEnabled: Boolean): Maybe<Boolean> = livingRoomApiDataSource.setAquariumState(isEnabled)
+
+    override fun getAquariumState(): Single<Boolean> = livingRoomApiDataSource.getAquariumState()
 }

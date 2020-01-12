@@ -55,7 +55,7 @@ interface RepositoryModule {
 
   @Binds
   @ApplicationScope
-  fun provideDoorRepository(repository: SecurityRepositoryImpl): SecurityRepository
+  fun provideSecurityRepository(repository: SecurityRepositoryImpl): SecurityRepository
 
   @Binds
   @ApplicationScope

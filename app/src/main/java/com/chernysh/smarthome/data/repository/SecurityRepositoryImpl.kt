@@ -1,13 +1,13 @@
 package com.chernysh.smarthome.data.repository
 
-import com.chernysh.smarthome.data.network.source.DoorApiDataSource
+import com.chernysh.smarthome.data.network.source.SecurityApiDataSource
 import com.chernysh.smarthome.domain.repository.SecurityRepository
 import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,16 +27,18 @@ import javax.inject.Inject
 
 /**
  * Interface that represents a Repository (or Gateway)
- * for setting and getting Door state
+ * for setting and getting Security state as well as checking fire controller
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
 class SecurityRepositoryImpl @Inject constructor(
-    private val doorApiDataSource: DoorApiDataSource
+    private val securityApiDataSource: SecurityApiDataSource
 ) : SecurityRepository {
-    override fun setState(isEnabled: Boolean): Maybe<Boolean> = doorApiDataSource.setState(isEnabled)
+    override fun setState(isEnabled: Boolean): Maybe<Boolean> = securityApiDataSource.setSecurityState(isEnabled)
 
-    override fun getState(): Single<Boolean> = doorApiDataSource.getState()
+    override fun getState(): Single<Boolean> = securityApiDataSource.getSecurityState()
+
+    override fun isFireAtHome(): Single<Boolean> = securityApiDataSource.isFireAtHome()
 }

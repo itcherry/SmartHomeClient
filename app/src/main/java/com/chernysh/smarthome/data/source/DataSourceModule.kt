@@ -57,7 +57,7 @@ interface DataSourceModule {
 
   @Binds
   @ApplicationScope
-  fun provideDoorApiDataSource(dataSource: DoorApiDataSource): ApiDataSource
+  fun provideSecurityApiDataSource(dataSource: SecurityApiDataSource): ApiDataSource
 
   @Binds
   @ApplicationScope
