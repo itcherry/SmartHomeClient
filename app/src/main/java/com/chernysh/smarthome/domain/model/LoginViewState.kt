@@ -27,10 +27,16 @@ package com.chernysh.smarthome.domain.model
  *         especially for Zhk Dinastija
  */
 sealed class LoginViewState {
-    object LoadingState : LoginViewState()
-    object SuccessState : LoginViewState()
+    object LoadingPinState : LoginViewState()
+    object SuccessPinState : LoginViewState()
     object PasswordIncorrectState: LoginViewState()
-    data class ErrorState(val error: Throwable) : LoginViewState()
-    object ConnectivityErrorState : LoginViewState()
+    data class ErrorPinState(val error: Throwable) : LoginViewState()
+    object ConnectivityPinErrorState : LoginViewState()
+
+    object LoadingBiometricsState : LoginViewState()
+    object SuccessBiometricsState : LoginViewState()
+    data class ErrorBiometricsState(val error: Throwable) : LoginViewState()
+    object ConnectivityBiometricsErrorState : LoginViewState()
+
     object EmptyState: LoginViewState()
 }

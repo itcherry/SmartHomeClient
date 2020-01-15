@@ -87,4 +87,10 @@
     <string name="notification_cpu_channel_title">Перегрів процесору контроллера</string>
     <string name="notification_cpu_alarm_title">Raspberry Pi страждає</string>
     <string name="notification_cpu_alarm_message">Центральний процесор Raspberry pi перегрівся. Його температура %1$s. Негайно охолоди контролер, інакше твій будинок стане тупим.</string>
+
+    <!-- Fingerprint -->
+    <string name="fingerprint_title">Приклади палець</string>
+    <string name="fingerprint_subtitle">Авторизуйся в додаток з легкістю</string>
+    <string name="fingerprint_negative_button">Використати ПІН</string>
+
 </resources>

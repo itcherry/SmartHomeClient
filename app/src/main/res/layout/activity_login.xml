@@ -109,14 +109,29 @@
 
     <ImageView
         android:id="@+id/ivFingerprint"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:tint="@color/windowBackground"
+        android:padding="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn0"
-        app:srcCompat="@drawable/ic_fingerprint" />
+        app:srcCompat="@drawable/ic_fingerprint"
+        tools:visibility="visible"/>
+
+    <ProgressBar
+        android:id="@+id/pbBiometricsLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn0"/>
 
     <Button
         android:id="@+id/btn1"

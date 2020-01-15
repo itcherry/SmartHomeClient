@@ -35,6 +35,7 @@ import io.reactivex.Observable
 interface LoginContract {
   interface View : BaseView, MvpView {
     fun pinCodeIntent(): Observable<String>
+    fun fingerprintIntent(): Observable<Any>
     fun render(state: LoginViewState)
   }
 

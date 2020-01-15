@@ -3,16 +3,22 @@ package com.chernysh.smarthome.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.biometric.BiometricPrompt
 import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.LoginViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import com.chernysh.smarthome.presentation.flat.FlatActivity
+import com.chernysh.smarthome.utils.BiometricUtils
+import com.chernysh.smarthome.utils.Notification
+import com.chernysh.smarthome.utils.openActivity
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.concurrent.Executors
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2020. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,10 +44,56 @@ import kotlinx.android.synthetic.main.activity_login.*
  *         especially for Zhk Dinastija
  */
 class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginContract.View {
+    private lateinit var biometricPrompt: BiometricPrompt
+    private val fingerprintSubject: PublishSubject<Any> = PublishSubject.create()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        setupFingerprinting()
     }
+
+    private fun setupFingerprinting() {
+        if (BiometricUtils.isFingerprintPromptAvailable(this)) {
+            ivFingerprint.visibility = View.VISIBLE
+            ivFingerprint.setOnClickListener {
+                openBiometricPrompt()
+            }
+            initBiometricPrompt()
+            openBiometricPrompt()
+        } else {
+            ivFingerprint.visibility = View.GONE
+        }
+    }
+
+    private fun initBiometricPrompt() {
+        biometricPrompt = BiometricPrompt(this, Executors.newSingleThreadExecutor(),
+            object : BiometricPrompt.AuthenticationCallback() {
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
+                        biometricPrompt.cancelAuthentication()
+                    }
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    fingerprintSubject.onNext(Notification.INSTANCE)
+                }
+            })
+    }
+
+    private fun openBiometricPrompt() {
+        biometricPrompt.authenticate(getPromptInfo())
+    }
+
+    private fun getPromptInfo() = BiometricPrompt.PromptInfo.Builder()
+        .setTitle(getString(R.string.fingerprint_title))
+        .setSubtitle(getString(R.string.fingerprint_subtitle))
+        .setNegativeButtonText(getString(R.string.fingerprint_negative_button))
+        .build()
 
     override fun pinCodeIntent(): Observable<String> {
         val btn1Observable = RxView.clicks(btn1).map { "1" }
@@ -57,59 +109,91 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
         val btnBackspaceObservable = RxView.clicks(btnBackspace).map { "" }
 
         return Observable.merge(
-                listOf(
-                        btn1Observable, btn2Observable, btn3Observable,
-                        btn4Observable, btn5Observable, btn6Observable, btn7Observable,
-                        btn8Observable, btn9Observable, btn0Observable, btnBackspaceObservable
-                )
+            listOf(
+                btn1Observable, btn2Observable, btn3Observable,
+                btn4Observable, btn5Observable, btn6Observable, btn7Observable,
+                btn8Observable, btn9Observable, btn0Observable, btnBackspaceObservable
+            )
         )
-                .scan { t1: String, t2: String ->
-                    when {
-                        t2.isBlank() -> t1.dropLast(1)
-                        t1.length < PIN_CODE_LENGTH -> t1 + t2
-                        else -> t2
-                    }
+            .scan { t1: String, t2: String ->
+                when {
+                    t2.isBlank() -> t1.dropLast(1)
+                    t1.length < PIN_CODE_LENGTH -> t1 + t2
+                    else -> t2
                 }
-                .doOnNext { pinCode.setText(it) }
+            }
+            .doOnNext { pinCode.setText(it) }
     }
+
+    override fun fingerprintIntent(): Observable<Any> = fingerprintSubject
 
     override fun render(state: LoginViewState) {
         when (state) {
-            is LoginViewState.LoadingState -> {
+            // PIN
+            is LoginViewState.LoadingPinState -> {
                 doEnableButtons(false)
                 renderLoading()
             }
-            is LoginViewState.SuccessState -> {
+            is LoginViewState.SuccessPinState -> {
                 doEnableButtons(false)
                 hideLoading()
                 pinCode.renderSuccess()
 
-                startActivity(Intent(this, FlatActivity::class.java)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
-                overridePendingTransition(0, 0)
-                finish()
+                launchApp()
             }
             is LoginViewState.PasswordIncorrectState -> {
                 hideLoading()
                 doEnableButtons(false)
                 pinCode.renderError()
             }
-            is LoginViewState.ConnectivityErrorState -> {
+            is LoginViewState.ConnectivityPinErrorState -> {
                 doEnableButtons(false)
                 hideLoading()
                 renderConnectivityError()
             }
-            is LoginViewState.ErrorState -> {
+            is LoginViewState.ErrorPinState -> {
                 hideLoading()
+                doEnableButtons(false)
+                pinCode.renderError()
+            }
+
+            // Biometrics
+            is LoginViewState.LoadingBiometricsState -> {
+                doEnableButtons(false)
+                renderBiometricsLoading()
+            }
+            is LoginViewState.SuccessBiometricsState -> {
+                doEnableButtons(false)
+                hideBiometricsLoading()
+
+                launchApp()
+            }
+            is LoginViewState.ConnectivityBiometricsErrorState -> {
+                doEnableButtons(false)
+                hideBiometricsLoading()
+                renderConnectivityError()
+            }
+            is LoginViewState.ErrorBiometricsState -> {
+                hideBiometricsLoading()
                 doEnableButtons(false)
                 pinCode.renderError()
             }
             is LoginViewState.EmptyState -> {
                 doEnableButtons(true)
+                hideBiometricsLoading()
                 hideLoading()
                 pinCode.clear()
             }
         }
+    }
+
+    private fun launchApp() {
+        openActivity<FlatActivity> {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        overridePendingTransition(0, 0)
+        finish()
     }
 
     private fun doEnableButtons(doEnable: Boolean) {
@@ -134,6 +218,16 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
     private fun hideLoading() {
         pbLoginLoading.visibility = View.INVISIBLE
         pinCode.isEnabled = true
+    }
+
+    private fun renderBiometricsLoading() {
+        pbBiometricsLoading.visibility = View.VISIBLE
+        ivFingerprint.visibility = View.GONE
+    }
+
+    private fun hideBiometricsLoading() {
+        ivFingerprint.visibility = View.VISIBLE
+        pbBiometricsLoading.visibility = View.GONE
     }
 
     private fun renderConnectivityError() {

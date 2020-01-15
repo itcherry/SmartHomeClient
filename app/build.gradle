@@ -29,7 +29,7 @@ ext {
     retrofit_version = '2.3.0'
     rxBindingKotlinVersion = '2.2.0'
     dagger_version = '2.15'
-    glide_version = "4.9.0"
+    glide_version = "4.10.0"
     firebase_version = "11.2.0"
     constraintLayoutVersion = '1.1.3'
     leakCanaryVersion = '1.6.3'
@@ -56,6 +56,7 @@ android {
         buildConfigField("String", 'PORT_API', '\":8080/\"')
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
         buildConfigField("String", 'RTSP_URL', CONFIG("SMART_HOME_RTSP"))
+        buildConfigField("String", 'PIN', CONFIG("PIN"))
         manifestPlaceholders = [fabric_token: FABRIC_TOKEN]
     }
     buildTypes {
@@ -110,16 +111,19 @@ dependencies {
     //MVI
     implementation 'com.hannesdorfmann.mosby3:mvi:3.1.1'
 
+    //Security
+    implementation 'androidx.biometric:biometric:1.0.1'
+
     //Android
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     //Networking
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
@@ -127,7 +131,7 @@ dependencies {
     implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
 
     //RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.16'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingKotlinVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:$rxBindingKotlinVersion"
@@ -172,11 +176,6 @@ dependencies {
 
     // Video
     implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
-
-    //Tests
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
