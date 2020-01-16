@@ -152,6 +152,12 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun openCameraActivity(): Observable<Any> = RxView.clicks(tvCamera)
 
+    override fun openDanfossActivity(): Observable<Any> = RxView.clicks(tvDanfoss)
+
+    override fun openFloorHeatingActivity(): Observable<Any> = RxView.clicks(tvFloorHeating)
+
+    override fun openAirConditionerActivity(): Observable<Any> = RxView.clicks(tvAirConditioner)
+
     override fun initDataIntent(): Observable<Boolean> = Observable.just(true)
 
     override fun setBoilerStateIntent(): Observable<Boolean> =

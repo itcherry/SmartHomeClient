@@ -86,6 +86,10 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         val openKitchenIntent = getOpenKitchenIntent()
         val openCorridorIntent = getOpenCorridorIntent()
         val openCameraIntent = getOpenCameraIntent()
+        val openDanfossIntent = getOpenDanfossIntent()
+        val openFloorHeatingIntent = getOpenFloorHeatingIntent()
+        val openAirConditionerIntent = getOpenAirConditionerIntent()
+
         val openLivingRoomIntent = getOpenLivingRoomIntent()
         val viewPausedIntent = viewPausedIntent()
 
@@ -93,7 +97,8 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             listOf(
                 safetyStateObservable, showAlarmIntent, openBedroomIntent,
                 openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
-                openCameraIntent, viewPausedIntent
+                openCameraIntent, openDanfossIntent, openFloorHeatingIntent,
+                openAirConditionerIntent, viewPausedIntent
             )
         ).observeOn(AndroidSchedulers.mainThread())
 
@@ -202,6 +207,19 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     private fun getOpenCameraIntent() = intent(FlatContract.View::openCameraActivity)
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.CameraClicked }
+
+    private fun getOpenDanfossIntent() = intent(FlatContract.View::openDanfossActivity)
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.DanfossClicked }
+
+    private fun getOpenFloorHeatingIntent() = intent(FlatContract.View::openFloorHeatingActivity)
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.FloorHeatingClicked }
+
+    private fun getOpenAirConditionerIntent() =
+        intent(FlatContract.View::openAirConditionerActivity)
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .map { FlatViewState.AirConditionerClicked }
 
     private fun getOpenLivingRoomIntent() = intent(FlatContract.View::openLivingRoomActivity)
         .debounce(200, TimeUnit.MILLISECONDS)

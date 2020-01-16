@@ -58,6 +58,10 @@
     <string name="flat_fire">Пожежна безпека</string>
     <string name="flat_security">Охорона</string>
     <string name="flat_camera">Камера</string>
+    <string name="flat_danfoss">Опалення</string>
+    <string name="flat_floor_heating">Тепла підлога</string>
+    <string name="flat_air_conditioner">Кондиціонери</string>
+
     <string name="flat_outside_of_flat">За межами квартири:</string>
 
     <string name="flat_alert_dialog_title">Увімкнути сирену?</string>

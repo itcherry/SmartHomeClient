@@ -1,8 +1,10 @@
 package com.chernysh.smarthome.presentation.login
 
+import com.chernysh.smarthome.BuildConfig
 import com.chernysh.smarthome.domain.interactor.login.LoginInteractor
 import com.chernysh.smarthome.domain.model.*
 import com.chernysh.smarthome.presentation.base.BasePresenter
+import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -36,14 +38,19 @@ import javax.inject.Inject
  *         especially for Zhk Dinastija
  */
 class LoginPresenter @Inject constructor(private val loginInteractor: LoginInteractor) :
-        BasePresenter<LoginContract.View, LoginViewState>(), LoginContract.Presenter {
+    BasePresenter<LoginContract.View, LoginViewState>(), LoginContract.Presenter {
 
     @Override
     override fun bindIntents() {
         subscribeViewState(getSubmitLoginStateIntent(), LoginContract.View::render);
     }
 
-    private fun getSubmitLoginStateIntent() = intent(LoginContract.View::pinCodeIntent)
-            .filter { it.length == PIN_CODE_LENGTH }
-            .switchMap { loginInteractor.authUser(it) }
+    private fun getSubmitLoginStateIntent() = Observable.merge(
+        intent(LoginContract.View::pinCodeIntent).map { it to false },
+        intent(LoginContract.View::fingerprintIntent).map { BuildConfig.PIN to true }
+    )
+        .filter { it.first.length == PIN_CODE_LENGTH }
+        .switchMap { (pin, isFromFingerprint) ->
+            loginInteractor.authUser(pin, isFromFingerprint)
+        }
 }

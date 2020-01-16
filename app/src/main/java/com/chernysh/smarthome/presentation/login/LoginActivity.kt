@@ -8,8 +8,8 @@ import com.chernysh.smarthome.R
 import com.chernysh.smarthome.domain.model.LoginViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import com.chernysh.smarthome.presentation.flat.FlatActivity
-import com.chernysh.smarthome.utils.BiometricUtils
 import com.chernysh.smarthome.utils.Notification
+import com.chernysh.smarthome.utils.isFingerprintPromptAvailable
 import com.chernysh.smarthome.utils.openActivity
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
@@ -44,7 +44,7 @@ import java.util.concurrent.Executors
  *         especially for Zhk Dinastija
  */
 class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginContract.View {
-    private lateinit var biometricPrompt: BiometricPrompt
+    private var biometricPrompt: BiometricPrompt? = null
     private val fingerprintSubject: PublishSubject<Any> = PublishSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +55,7 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
     }
 
     private fun setupFingerprinting() {
-        if (BiometricUtils.isFingerprintPromptAvailable(this)) {
+        if (applicationContext.isFingerprintPromptAvailable()) {
             ivFingerprint.visibility = View.VISIBLE
             ivFingerprint.setOnClickListener {
                 openBiometricPrompt()
@@ -74,7 +74,7 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
                     if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
-                        biometricPrompt.cancelAuthentication()
+                        biometricPrompt?.cancelAuthentication()
                     }
                 }
 
@@ -86,7 +86,7 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
     }
 
     private fun openBiometricPrompt() {
-        biometricPrompt.authenticate(getPromptInfo())
+        biometricPrompt?.authenticate(getPromptInfo())
     }
 
     private fun getPromptInfo() = BiometricPrompt.PromptInfo.Builder()
@@ -164,8 +164,8 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
             }
             is LoginViewState.SuccessBiometricsState -> {
                 doEnableButtons(false)
-                hideBiometricsLoading()
 
+                biometricPrompt = null
                 launchApp()
             }
             is LoginViewState.ConnectivityBiometricsErrorState -> {
@@ -175,8 +175,8 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
             }
             is LoginViewState.ErrorBiometricsState -> {
                 hideBiometricsLoading()
-                doEnableButtons(false)
-                pinCode.renderError()
+                doEnableButtons(true)
+                openBiometricPrompt()
             }
             is LoginViewState.EmptyState -> {
                 doEnableButtons(true)
@@ -233,5 +233,11 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
     private fun renderConnectivityError() {
         showNetworkSnackbarError()
         pinCode.clear()
+    }
+
+    override fun onDestroy() {
+        biometricPrompt?.cancelAuthentication()
+        biometricPrompt = null
+        super.onDestroy()
     }
 }
