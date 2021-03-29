@@ -14,6 +14,7 @@ import com.chernysh.smarthome.domain.model.FlatViewState
 import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import com.chernysh.smarthome.presentation.bedroom.BedroomActivity
+import com.chernysh.smarthome.presentation.boiler.BoilerActivity
 import com.chernysh.smarthome.presentation.camera.CameraActivity
 import com.chernysh.smarthome.presentation.corridor.CorridorActivity
 import com.chernysh.smarthome.presentation.kitchen.KitchenActivity
@@ -154,14 +155,13 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun openDanfossActivity(): Observable<Any> = RxView.clicks(tvDanfoss)
 
+    override fun openBoilerActivity(): Observable<Any> = RxView.clicks(tvBoiler)
+
     override fun openFloorHeatingActivity(): Observable<Any> = RxView.clicks(tvFloorHeating)
 
     override fun openAirConditionerActivity(): Observable<Any> = RxView.clicks(tvAirConditioner)
 
     override fun initDataIntent(): Observable<Boolean> = Observable.just(true)
-
-    override fun setBoilerStateIntent(): Observable<Boolean> =
-        RxView.clicks(switchBoiler).map { switchBoiler.isChecked }
 
     override fun setSecurityStateIntent(): Observable<Boolean> =
         RxView.clicks(switchSecurity).map { switchSecurity.isChecked }
@@ -180,6 +180,7 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             is FlatViewState.LivingRoomClicked -> startActivity(Intent(this, LivingRoomActivity::class.java))
             is FlatViewState.KitchenClicked -> startActivity(Intent(this, KitchenActivity::class.java))
             is FlatViewState.CameraClicked -> startActivity(Intent(this, CameraActivity::class.java))
+            is FlatViewState.BoilerClicked -> startActivity(Intent(this, BoilerActivity::class.java))
             is FlatViewState.ShowAlarmDialogClicked -> showDialogForAlarm()
             is FlatViewState.SafetyViewState -> renderSafetyViewState(state)
         }
@@ -205,7 +206,6 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     private fun renderSafetyViewState(state: FlatViewState.SafetyViewState) {
         renderAlarm(state.alarmViewState)
-        renderBoiler(state.boilerViewState)
         renderNeptun(state.neptunViewState)
         renderFire(state.fireViewState)
         renderSecurity(state.securityViewState)
@@ -220,24 +220,6 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             is BooleanViewState.ConnectivityErrorState -> switchAlarm.isChecked = !switchAlarm.isChecked
             is BooleanViewState.LoadingState -> switchAlarm.isEnabled = false
             is BooleanViewState.DataState -> switchAlarm.isChecked = state.data
-        }
-    }
-
-    // This one renders error message to screen
-    private fun renderBoiler(state: BooleanViewState) {
-        switchBoiler.isEnabled = true
-
-        when (state) {
-            is BooleanViewState.ErrorState -> {
-                showServerSnackbarError { reloadDataSubject.onNext(Notification.INSTANCE) }
-                switchBoiler.isChecked = !switchBoiler.isChecked
-            }
-            is BooleanViewState.ConnectivityErrorState -> {
-                showNetworkSnackbarError { reloadDataSubject.onNext(Notification.INSTANCE) }
-                switchBoiler.isChecked = !switchBoiler.isChecked
-            }
-            is BooleanViewState.LoadingState -> switchBoiler.isEnabled = false
-            is BooleanViewState.DataState -> switchBoiler.isChecked = state.data
         }
     }
 
@@ -287,12 +269,19 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
         }
     }
 
+    // This one renders error message to screen
     private fun renderSecurity(state: BooleanViewState) {
         switchSecurity.isEnabled = true
 
         when (state) {
-            is BooleanViewState.ErrorState,
-            is BooleanViewState.ConnectivityErrorState -> switchSecurity.isChecked = !switchSecurity.isChecked
+            is BooleanViewState.ErrorState -> {
+                showServerSnackbarError { reloadDataSubject.onNext(Notification.INSTANCE) }
+                switchSecurity.isChecked = !switchSecurity.isChecked
+            }
+            is BooleanViewState.ConnectivityErrorState -> {
+                showNetworkSnackbarError { reloadDataSubject.onNext(Notification.INSTANCE) }
+                switchSecurity.isChecked = !switchSecurity.isChecked
+            }
             is BooleanViewState.LoadingState -> switchSecurity.isEnabled = false
             is BooleanViewState.DataState -> switchSecurity.isChecked = state.data
         }

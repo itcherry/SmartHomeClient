@@ -36,7 +36,6 @@ interface FlatContract {
     interface View : BaseView, MvpView {
         fun initDataIntent(): Observable<Boolean>
         fun acceptedAlarmIntent(): Observable<Boolean>
-        fun setBoilerStateIntent(): Observable<Boolean>
         fun setSecurityStateIntent(): Observable<Boolean>
         fun render(state: FlatViewState)
 
@@ -48,6 +47,7 @@ interface FlatContract {
         fun openDanfossActivity(): Observable<Any>
         fun openFloorHeatingActivity(): Observable<Any>
         fun openAirConditionerActivity(): Observable<Any>
+        fun openBoilerActivity(): Observable<Any>
 
         fun showAlarmDialog(): Observable<Any>
         fun reloadDataObservable(): Observable<Any>

@@ -7,11 +7,18 @@
     <!-- Actions -->
     <string name="action_loading">Завантажуємо&#8230;</string>
     <string name="action_yes">Так</string>
+    <string name="action_ok">OK</string>
     <string name="action_no">Ні</string>
     <string name="action_reload">Перезавантажити</string>
     <string name="action_logout">Вийти</string>
     <string name="action_stay">Продовжити керувати</string>
     <string name="action_save">Зберегти</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_connectivity_error_title">Проблеми з мережею</string>
+    <string name="dialog_connectivity_error_text">Не вдалось отримати дані з сервера. Перевірте підключення до мережі інтернет на вашому пристрої</string>
+    <string name="dialog_generic_error_title">Проблеми з сервером</string>
+    <string name="dialog_generic_error_text">Не вдалось отримати дані з сервера. Спробуйте, будь ласка, пізніше.</string>
 
     <!-- Temperature and humidity card -->
     <string name="temperature_text">%1$.1f &#8451;</string>
@@ -35,6 +42,7 @@
     <string name="title_corridor">Коридор</string>
     <string name="title_living_room">Вітальня</string>
     <string name="title_kitchen">Кухня</string>
+    <string name="title_boiler">Бойлер</string>
 
     <!-- login -->
     <string name="login_chernysh_home_title">Chernysh Home</string>
@@ -97,5 +105,9 @@
     <string name="fingerprint_title">Приклади палець</string>
     <string name="fingerprint_subtitle">Авторизуйся в додаток з легкістю</string>
     <string name="fingerprint_negative_button">Використати ПІН</string>
+
+    <!-- Boiler -->
+    <string name="boiler_all_day_label">Цілодобово</string>
+    <string name="boiler_schedule_successfully_updated">Графік роботи бойлера успішно оновлено</string>
 
 </resources>

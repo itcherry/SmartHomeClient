@@ -1,6 +1,7 @@
 package com.chernysh.smarthome.presentation.boiler
 
 import com.chernysh.smarthome.domain.model.BoilerScheduleViewState
+import com.chernysh.smarthome.domain.model.BoilerViewState
 import com.chernysh.smarthome.presentation.base.BaseView
 import com.chernysh.timerangepicker.TimeRange
 import com.hannesdorfmann.mosby3.mvp.MvpView
@@ -35,8 +36,10 @@ import io.reactivex.Observable
  */
 interface BoilerContract {
     interface View : BaseView, MvpView {
-        fun updateBoilerSchedule(): Observable<List<TimeRange>>
-        fun render(state: BoilerScheduleViewState)
+        fun saveBoilerScheduleIntent(): Observable<List<TimeRange>>
+        fun setBoilerStateIntent(): Observable<Boolean>
+        fun setBoilerScheduleStateIntent(): Observable<Boolean>
+        fun render(state: BoilerViewState)
     }
 
     interface Presenter

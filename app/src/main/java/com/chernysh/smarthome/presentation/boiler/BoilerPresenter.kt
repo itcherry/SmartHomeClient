@@ -1,9 +1,13 @@
 package com.chernysh.smarthome.presentation.boiler
 
-import com.chernysh.smarthome.domain.interactor.bedroom.BedroomInteractor
+import com.chernysh.smarthome.domain.interactor.boiler.BoilerInteractor
 import com.chernysh.smarthome.domain.model.*
 import com.chernysh.smarthome.presentation.base.BasePresenter
+import com.chernysh.smarthome.presentation.bedroom.BedroomContract
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Function3
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -33,25 +37,94 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BoilerPresenter @Inject constructor(private val bedroomInteractor: BedroomInteractor) :
-    BasePresenter<BoilerContract.View, BoilerScheduleViewState>(), BoilerContract.Presenter {
+class BoilerPresenter @Inject constructor(private val boilerInteractor: BoilerInteractor) :
+    BasePresenter<BoilerContract.View, BoilerViewState>(), BoilerContract.Presenter {
 
     @Override
     override fun bindIntents() {
-        val submitTimeRangesIntent = getChangeLightsStateIntent()
+        val boilerStateIntent = getBoilerStateIntent()
+        val boilerScheduleStateIntent = getBoilerScheduleStateIntent()
+        val saveBoilerScheduleIntent = getSaveBoilerScheduleIntent()
         val refreshDataIntent = getRefreshDataIntent()
 
-        val stateObservable = Observable.merge(submitTimeRangesIntent, refreshDataIntent)
+        val allIntents = Observable.merge(
+            boilerStateIntent,
+            boilerScheduleStateIntent,
+            saveBoilerScheduleIntent,
+            refreshDataIntent
+        )
+        val initialState =
+            BoilerViewState(
+                BooleanViewState.LoadingState,
+                BooleanViewState.LoadingState,
+                BoilerScheduleViewState.LoadingState
+            )
+        val stateObservable = allIntents.scan(initialState, this::reducer)
+            .observeOn(AndroidSchedulers.mainThread())
 
         subscribeViewState(stateObservable, BoilerContract.View::render)
     }
 
+    private fun getBoilerStateIntent() = intent(BoilerContract.View::setBoilerStateIntent)
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .switchMap {
+            if (it) {
+                boilerInteractor.enableBoilerObservable()
+            } else {
+                boilerInteractor.disableBoilerObservable()
+            }
+        }
+
+
+    private fun getBoilerScheduleStateIntent() =
+        intent(BoilerContract.View::setBoilerScheduleStateIntent)
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .switchMap {
+                if (it) {
+                    boilerInteractor.enableBoilerScheduleObservable()
+                } else {
+                    boilerInteractor.disableBoilerScheduleObservable()
+                }
+            }
+
+    private fun getSaveBoilerScheduleIntent() =
+        intent(BoilerContract.View::saveBoilerScheduleIntent)
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .switchMap {
+                boilerInteractor.saveBoilerSchedule(it)
+            }
 
     private fun getRefreshDataIntent() = viewResumedObservable
         .switchMap {
-            Observable.zip(bedroomInteractor.getLightsStateObservable(), bedroomInteractor.getRozetkaStateObservable(),
-                BiFunction { lightsState: RoomPartialViewState.LightsState, rozetkaState: RoomPartialViewState.RozetkaState ->
-                    RoomPartialViewState.LightsAndRozetkaState(lightsState.state, rozetkaState.state)
+            Observable.zip(boilerInteractor.getBoilerEnabledStateObservable(),
+                boilerInteractor.getBoilerScheduleEnabledStateObservable(),
+                boilerInteractor.getBoilerScheduleObservable(),
+                Function3 { boilerEnabledState: BoilerPartialViewState.BoilerEnabledState,
+                            boilerScheduleEnabledState: BoilerPartialViewState.BoilerScheduleEnabledState,
+                            boilerSchedule: BoilerPartialViewState.BoilerScheduleState ->
+                    BoilerPartialViewState.AllDataState(
+                        boilerEnabledState.state,
+                        boilerScheduleEnabledState.state,
+                        boilerSchedule.state
+                    )
                 })
         }
+
+    private fun reducer(
+        previousState: BoilerViewState,
+        changes: BoilerPartialViewState
+    ): BoilerViewState {
+        return when (changes) {
+            is BoilerPartialViewState.BoilerEnabledState -> previousState.copy(enabledState = changes.state)
+            is BoilerPartialViewState.BoilerScheduleEnabledState -> previousState.copy(
+                scheduleEnabledState = changes.state
+            )
+            is BoilerPartialViewState.BoilerScheduleState -> previousState.copy(schedule = changes.state)
+            is BoilerPartialViewState.AllDataState -> BoilerViewState(
+                changes.boilerEnabledState,
+                changes.boilerScheduleEnabledState,
+                changes.scheduleState
+            )
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.chernysh.smarthome.domain.model
 
+import com.chernysh.timerangepicker.TimeRange
+
 /**
  * Copyright 2021. Andrii Chernysh
  *
@@ -20,19 +22,17 @@ package com.chernysh.smarthome.domain.model
  */
 
 /**
- * Class that describes boiler state updates
+ * Class that describes view state of boiler, that may be:
+ * - enabled/disabled
+ * - have enabled/disabled schedule
+ * - have pre-defined schedule
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-sealed class BoilerPartialViewState {
-    data class BoilerEnabledState(val state: BooleanViewState) : BoilerPartialViewState()
-    data class BoilerScheduleEnabledState(val state: BooleanViewState) : BoilerPartialViewState()
-    data class BoilerScheduleState(val state: BoilerScheduleViewState) : BoilerPartialViewState()
-    data class AllDataState(
-        val boilerEnabledState: BooleanViewState,
-        val boilerScheduleEnabledState: BooleanViewState,
-        val scheduleState: BoilerScheduleViewState
-    ): BoilerPartialViewState()
-}
+data class BoilerViewState(
+    val enabledState: BooleanViewState,
+    val scheduleEnabledState: BooleanViewState,
+    val schedule: BoilerScheduleViewState
+)

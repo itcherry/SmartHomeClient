@@ -26,36 +26,60 @@ class BoilerInteractor @Inject constructor(
     // Boiler enabled overall
     fun getBoilerEnabledStateObservable() =
         boilerEnableUseCase.processBoilerState(BoilerEnableUseCase.Data(Method.GET))
-            .compose(schedulersTransformer as ObservableTransformer<BoilerPartialViewState, BoilerPartialViewState>)
+            .compose(schedulersTransformer as
+                    ObservableTransformer<BoilerPartialViewState.BoilerEnabledState,
+                            BoilerPartialViewState.BoilerEnabledState>
+            )
 
     fun enableBoilerObservable() =
         boilerEnableUseCase.processBoilerState(BoilerEnableUseCase.Data(Method.SET, true))
-            .compose(schedulersTransformer as ObservableTransformer<BoilerPartialViewState, BoilerPartialViewState>)
+            .compose(schedulersTransformer as
+                    ObservableTransformer<BoilerPartialViewState.BoilerEnabledState,
+                            BoilerPartialViewState.BoilerEnabledState>
+            )
 
     fun disableBoilerObservable() =
         boilerEnableUseCase.processBoilerState(BoilerEnableUseCase.Data(Method.SET, false))
-            .compose(schedulersTransformer as ObservableTransformer<BoilerPartialViewState, BoilerPartialViewState>)
+            .compose(schedulersTransformer as
+                    ObservableTransformer<BoilerPartialViewState.BoilerEnabledState,
+                            BoilerPartialViewState.BoilerEnabledState>
+            )
 
     // Boiler schedule enabled
     fun getBoilerScheduleEnabledStateObservable() =
         boilerScheduleStateUseCase.processBoilerEnabledState(BoilerScheduleEnableUseCase.Data(Method.GET))
-            .compose(schedulersTransformer as ObservableTransformer<BoilerPartialViewState, BoilerPartialViewState>)
+            .compose(schedulersTransformer as
+                    ObservableTransformer<BoilerPartialViewState.BoilerScheduleEnabledState,
+                            BoilerPartialViewState.BoilerScheduleEnabledState>
+            )
 
     fun enableBoilerScheduleObservable() =
         boilerScheduleStateUseCase.processBoilerEnabledState(BoilerScheduleEnableUseCase.Data(Method.SET, true))
-            .compose(schedulersTransformer as ObservableTransformer<BoilerPartialViewState, BoilerPartialViewState>)
+            .compose(schedulersTransformer as
+                    ObservableTransformer<BoilerPartialViewState.BoilerScheduleEnabledState,
+                            BoilerPartialViewState.BoilerScheduleEnabledState>
+            )
 
     fun disableBoilerScheduleObservable() =
         boilerScheduleStateUseCase.processBoilerEnabledState(BoilerScheduleEnableUseCase.Data(Method.SET, false))
-            .compose(schedulersTransformer as ObservableTransformer<BoilerPartialViewState, BoilerPartialViewState>)
+            .compose(schedulersTransformer as
+                    ObservableTransformer<BoilerPartialViewState.BoilerScheduleEnabledState,
+                            BoilerPartialViewState.BoilerScheduleEnabledState>
+            )
 
     // Boiler schedule
     fun getBoilerScheduleObservable() =
         boilerScheduleUseCase.processBoilerSchedule(BoilerScheduleUseCase.Data(Method.GET))
-            .compose(schedulersTransformer as ObservableTransformer<BoilerPartialViewState, BoilerPartialViewState>)
+            .compose(schedulersTransformer as
+                    ObservableTransformer<BoilerPartialViewState.BoilerScheduleState,
+                            BoilerPartialViewState.BoilerScheduleState>
+            )
 
     fun saveBoilerSchedule(timeRanges: List<TimeRange>) =
         boilerScheduleUseCase.processBoilerSchedule(BoilerScheduleUseCase.Data(Method.SET, timeRanges))
-            .compose(schedulersTransformer as ObservableTransformer<BoilerPartialViewState, BoilerPartialViewState>)
+            .compose(schedulersTransformer as
+                    ObservableTransformer<BoilerPartialViewState.BoilerScheduleState,
+                            BoilerPartialViewState.BoilerScheduleState>
+            )
 
 }

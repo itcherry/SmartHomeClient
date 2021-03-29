@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/white">
+    <item>
+        <selector>
+            <item
+                android:drawable="@drawable/btn_primary_disabled"
+                android:state_enabled="false" />
+            <item
+                android:drawable="@drawable/btn_primary_enabled"
+                android:state_enabled="true" />
+            <item android:drawable="@drawable/btn_primary_enabled" />
+        </selector>
+    </item>
+</ripple>

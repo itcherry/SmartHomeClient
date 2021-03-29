@@ -164,7 +164,8 @@ dependencies {
     // View
     //implementation 'com.github.Triggertrap:SeekArc:v1.1'
     implementation 'com.balysv:material-ripple:1.0.2'
-    implementation 'com.github.itcherry:TimeRangePicker:1.0'
+    implementation 'com.github.itcherry:TimeRangePicker:1.2'
+    implementation 'com.github.yaroslav-android:Huddle:1.0.0-alpha03'
 
     // Video
     implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
