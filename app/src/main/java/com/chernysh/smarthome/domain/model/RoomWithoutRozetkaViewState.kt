@@ -7,5 +7,7 @@ package com.chernysh.smarthome.domain.model
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-data class RoomWithoutRozetkaViewState(val lightsViewState: BooleanViewState,
-                         val temperatureHumidityViewState: TemperatureHumidityViewState)
+data class RoomWithoutRozetkaViewState(
+    val lightsViewState: BooleanViewState,
+    val temperatureHumidityViewState: TemperatureHumidityViewState
+)

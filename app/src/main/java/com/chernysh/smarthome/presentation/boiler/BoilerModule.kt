@@ -1,11 +1,13 @@
-package com.chernysh.smarthome.data.source
+package com.chernysh.smarthome.presentation.boiler
 
-import com.chernysh.timerangepicker.TimeRange
-import io.reactivex.Maybe
-import io.reactivex.Single
+import com.chernysh.smarthome.di.scope.ActivityScope
+import com.chernysh.smarthome.presentation.kitchen.KitchenContract
+import com.chernysh.smarthome.presentation.kitchen.KitchenPresenter
+import dagger.Binds
+import dagger.Module
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2021. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,17 +26,16 @@ import io.reactivex.Single
  */
 
 /**
- * Getting and setting boiler state in data sources
+ * Module that provides fragments, presenters
+ * and other instances for boiler presentations
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-interface BoilerDataSource {
-    fun setState(isEnabled: Boolean): Maybe<Boolean>
-    fun getState(): Single<Boolean>
-    fun setScheduleState(isEnabled: Boolean): Maybe<Boolean>
-    fun getScheduleState(): Single<Boolean>
-    fun setSchedule(timeRanges: List<TimeRange>): Maybe<Any>
-    fun getSchedule(): Single<List<TimeRange>>
+@Module
+interface BoilerModule {
+    @ActivityScope
+    @Binds
+    fun bindPresenter(boilerPresenter: BoilerPresenter): BoilerContract.Presenter
 }

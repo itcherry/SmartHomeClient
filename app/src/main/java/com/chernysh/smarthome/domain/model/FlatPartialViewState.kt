@@ -29,7 +29,6 @@ package com.chernysh.smarthome.domain.model
 sealed class FlatPartialViewState {
     object EmptyState: FlatPartialViewState()
     data class AlarmState(val state: BooleanViewState) : FlatPartialViewState()
-    data class BoilerState(val state: BooleanViewState) : FlatPartialViewState()
     data class SecurityState(val state: BooleanViewState) : FlatPartialViewState()
     data class NeptunState(val state: BooleanViewState) : FlatPartialViewState()
     data class FireState(val state: BooleanViewState) : FlatPartialViewState()

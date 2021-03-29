@@ -28,7 +28,6 @@ package com.chernysh.smarthome.domain.model
  */
 sealed class FlatViewState{
     data class SafetyViewState(val alarmViewState: BooleanViewState,
-                               val boilerViewState: BooleanViewState,
                                val securityViewState: BooleanViewState,
                                val fireViewState: BooleanViewState,
                                val neptunViewState: BooleanViewState,

@@ -1,6 +1,6 @@
 package com.chernysh.smarthome
 
-import androidx.appcompat.app.AppCompatDelegate
+import  androidx.appcompat.app.AppCompatDelegate
 import com.chernysh.smarthome.di.component.DaggerAppComponent
 import com.chernysh.smarthome.utils.logging.CrashReportingTree
 import com.crashlytics.android.Crashlytics

@@ -1,11 +1,9 @@
-package com.chernysh.smarthome.data.source
+package com.chernysh.smarthome.domain.model
 
 import com.chernysh.timerangepicker.TimeRange
-import io.reactivex.Maybe
-import io.reactivex.Single
 
 /**
- * Copyright 2018. Andrii Chernysh
+ * Copyright 2021. Andrii Chernysh
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,17 +22,16 @@ import io.reactivex.Single
  */
 
 /**
- * Getting and setting boiler state in data sources
+ * Class that describes view state for boiler
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-interface BoilerDataSource {
-    fun setState(isEnabled: Boolean): Maybe<Boolean>
-    fun getState(): Single<Boolean>
-    fun setScheduleState(isEnabled: Boolean): Maybe<Boolean>
-    fun getScheduleState(): Single<Boolean>
-    fun setSchedule(timeRanges: List<TimeRange>): Maybe<Any>
-    fun getSchedule(): Single<List<TimeRange>>
+sealed class BoilerScheduleViewState {
+    object LoadingState : BoilerScheduleViewState()
+    data class DataState(val data: List<TimeRange>) : BoilerScheduleViewState()
+    object SubmitSuccessState: BoilerScheduleViewState()
+    data class ErrorState(val error: Throwable) : BoilerScheduleViewState()
+    object ConnectivityErrorState : BoilerScheduleViewState()
 }

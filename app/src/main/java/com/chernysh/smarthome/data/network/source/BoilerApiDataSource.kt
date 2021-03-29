@@ -1,6 +1,7 @@
 package com.chernysh.smarthome.data.network.source
 
 import com.chernysh.smarthome.data.source.BoilerDataSource
+import com.chernysh.timerangepicker.TimeRange
 import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
@@ -36,4 +37,14 @@ class BoilerApiDataSource @Inject constructor() :
     override fun setState(isEnabled: Boolean): Maybe<Boolean> = service.setBoilerState(isEnabled)
 
     override fun getState(): Single<Boolean> = service.getBoilerState()
+
+    override fun setScheduleState(isEnabled: Boolean): Maybe<Boolean> =
+        service.setBoilerScheduleState(isEnabled)
+
+    override fun getScheduleState(): Single<Boolean> = service.getBoilerScheduleState()
+
+    override fun setSchedule(timeRanges: List<TimeRange>): Maybe<Any> =
+        service.setBoilerSchedule(timeRanges)
+
+    override fun getSchedule(): Single<List<TimeRange>> = service.getBoilerSchedule()
 }
