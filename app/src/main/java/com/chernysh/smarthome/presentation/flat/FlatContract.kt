@@ -54,4 +54,10 @@ interface FlatContract {
     }
 
     interface Presenter
+
+    companion object {
+        const val DANFOSS_PACKAGE_NAME = "com.danfoss.danfosseco"
+        const val TEPLOLUXE_PACKAGE_NAME = "com.SES.MCSClient"
+        const val AIR_CONDITIONER_PACKAGE_NAME = "com.gree.ewpesmart"
+    }
 }

@@ -2,6 +2,7 @@ package com.chernysh.smarthome.data.network.retrofit
 
 import com.chernysh.smarthome.BuildConfig
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -18,7 +19,7 @@ class HostSelectionInterceptor : Interceptor {
     private var host: String? = null
 
     fun setHost(host: String) {
-        this.host = HttpUrl.parse(host)?.host() ?: ""
+        this.host = host.toHttpUrlOrNull()?.host ?: ""
     }
 
     fun getHost() = host
@@ -29,7 +30,7 @@ class HostSelectionInterceptor : Interceptor {
         val host = this.host
 
         if(host != null){
-            val newUrl: HttpUrl = request.url().newBuilder()
+            val newUrl: HttpUrl = request.url.newBuilder()
                 .host(host)
                 .build()
 
@@ -47,7 +48,7 @@ class HostSelectionInterceptor : Interceptor {
     }
 
     private fun getNeededHost(chain: Interceptor.Chain): String =
-        if ("http://${chain.request().url().host()}" == BuildConfig.HOST_LINK_LOCAL) {
+        if ("http://${chain.request().url.host}" == BuildConfig.HOST_LINK_LOCAL) {
             BuildConfig.HOST_LINK_GLOBAL
         } else {
             BuildConfig.HOST_LINK_LOCAL

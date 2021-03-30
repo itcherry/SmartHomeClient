@@ -1,7 +1,9 @@
 package com.chernysh.smarthome.presentation.flat
 
+import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -62,7 +64,8 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
     private fun initButtons() {
         val viewTreeObserver = flatPlanView.viewTreeObserver
         if (viewTreeObserver.isAlive) {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     flatPlanView.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
@@ -175,14 +178,61 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun render(state: FlatViewState) {
         when (state) {
-            is FlatViewState.BedroomClicked -> startActivity(Intent(this, BedroomActivity::class.java))
-            is FlatViewState.CorridorClicked -> startActivity(Intent(this, CorridorActivity::class.java))
-            is FlatViewState.LivingRoomClicked -> startActivity(Intent(this, LivingRoomActivity::class.java))
-            is FlatViewState.KitchenClicked -> startActivity(Intent(this, KitchenActivity::class.java))
-            is FlatViewState.CameraClicked -> startActivity(Intent(this, CameraActivity::class.java))
-            is FlatViewState.BoilerClicked -> startActivity(Intent(this, BoilerActivity::class.java))
+            is FlatViewState.BedroomClicked -> startActivity(
+                Intent(
+                    this,
+                    BedroomActivity::class.java
+                )
+            )
+            is FlatViewState.CorridorClicked -> startActivity(
+                Intent(
+                    this,
+                    CorridorActivity::class.java
+                )
+            )
+            is FlatViewState.LivingRoomClicked -> startActivity(
+                Intent(
+                    this,
+                    LivingRoomActivity::class.java
+                )
+            )
+            is FlatViewState.KitchenClicked -> startActivity(
+                Intent(
+                    this,
+                    KitchenActivity::class.java
+                )
+            )
+            is FlatViewState.CameraClicked -> startActivity(
+                Intent(
+                    this,
+                    CameraActivity::class.java
+                )
+            )
+            is FlatViewState.BoilerClicked -> startActivity(
+                Intent(
+                    this,
+                    BoilerActivity::class.java
+                )
+            )
             is FlatViewState.ShowAlarmDialogClicked -> showDialogForAlarm()
             is FlatViewState.SafetyViewState -> renderSafetyViewState(state)
+            is FlatViewState.AirConditionerClicked -> openThirdPartyApplication(FlatContract.AIR_CONDITIONER_PACKAGE_NAME)
+            is FlatViewState.FloorHeatingClicked -> openThirdPartyApplication(FlatContract.TEPLOLUXE_PACKAGE_NAME)
+            is FlatViewState.DanfossClicked -> openThirdPartyApplication(FlatContract.DANFOSS_PACKAGE_NAME)
+        }
+    }
+
+    private fun openThirdPartyApplication(packageName: String) {
+        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
+
+        if(launchIntent !=null) {
+            startActivity(launchIntent);
+        } else {
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+            } catch (e: ActivityNotFoundException) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
+            }
         }
     }
 
@@ -217,7 +267,8 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
         when (state) {
             is BooleanViewState.ErrorState,
-            is BooleanViewState.ConnectivityErrorState -> switchAlarm.isChecked = !switchAlarm.isChecked
+            is BooleanViewState.ConnectivityErrorState -> switchAlarm.isChecked =
+                !switchAlarm.isChecked
             is BooleanViewState.LoadingState -> switchAlarm.isEnabled = false
             is BooleanViewState.DataState -> switchAlarm.isChecked = state.data
         }
