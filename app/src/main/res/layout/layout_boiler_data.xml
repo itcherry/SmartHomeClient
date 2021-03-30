@@ -2,12 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cvTemperatureHumidityContainer"
+    android:id="@+id/cvBoilerDataContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-    android:animateLayoutChanges="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
@@ -15,6 +17,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="?attr/selectableItemBackground"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -47,10 +50,13 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchAllDay"
-            android:layout_width="64dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tvAllDay"
             app:layout_constraintStart_toStartOf="@+id/tvAllDay"
@@ -75,7 +81,7 @@
             android:layout_marginEnd="8dp"
             android:gravity="start"
             android:textColor="@color/textPrimary"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/viewTimeContainerDivider"
             app:layout_constraintStart_toEndOf="@id/ivClock"
@@ -94,5 +100,19 @@
             app:layout_constraintStart_toEndOf="@id/ivClock"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
+        <View
+            android:id="@+id/viewDisabledState"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/white"
+            android:alpha="0.6"
+            android:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

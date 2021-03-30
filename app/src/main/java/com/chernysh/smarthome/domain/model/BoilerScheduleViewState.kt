@@ -31,7 +31,7 @@ import com.chernysh.timerangepicker.TimeRange
 sealed class BoilerScheduleViewState {
     object LoadingState : BoilerScheduleViewState()
     data class DataState(val data: List<TimeRange>) : BoilerScheduleViewState()
-    object SubmitSuccessState: BoilerScheduleViewState()
+    data class SubmitSuccessState(val data: List<TimeRange>): BoilerScheduleViewState()
     data class ErrorState(val error: Throwable) : BoilerScheduleViewState()
     object ConnectivityErrorState : BoilerScheduleViewState()
 }

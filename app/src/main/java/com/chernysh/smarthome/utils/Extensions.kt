@@ -14,4 +14,11 @@ inline fun <reified T : Activity> Activity.openActivity(initializer: Intent.() -
     startActivity(intent)
 }
 
-fun Int.toHourAndMinute(): String = "${this / 60}:${this % 60}"
+fun Int.toHourAndMinute(): String {
+    val hours = (this/60).toString().normaliseTime()
+    val minutes = (this%60).toString().normaliseTime()
+
+    return "$hours:$minutes"
+}
+
+fun String.normaliseTime() = if (this.length < 2) "0$this" else this

@@ -20,11 +20,14 @@ import javax.inject.Inject
 class BoilerScheduleUseCase @Inject constructor(private val boilerRepository: BoilerRepository) {
     fun processBoilerSchedule(params: Data): Observable<BoilerPartialViewState.BoilerScheduleState> =
         when (params.method) {
-            Method.GET -> boilerRepository.getSchedule().toObservable()
-            Method.SET -> boilerRepository.setSchedule(params.value).map { params.value }
-                .toObservable()
-        }
-            .map<BoilerScheduleViewState> { BoilerScheduleViewState.DataState(it) }
+            Method.GET -> boilerRepository.getSchedule()
+                .map<BoilerScheduleViewState> { BoilerScheduleViewState.DataState(it) }
+            Method.SET -> boilerRepository.setSchedule(params.value)
+                .switchIfEmpty(
+                    Single.just<BoilerScheduleViewState>(BoilerScheduleViewState.SubmitSuccessState(params.value))
+                )
+                .map { it as BoilerScheduleViewState }
+        }.toObservable()
             .startWith(BoilerScheduleViewState.LoadingState)
             .onErrorReturn {
                 if (it is NoConnectivityException) {
@@ -33,7 +36,6 @@ class BoilerScheduleUseCase @Inject constructor(private val boilerRepository: Bo
                     BoilerScheduleViewState.ErrorState(it)
                 }
             }
-            .startWith(BoilerScheduleViewState.SubmitSuccessState)
             .map { BoilerPartialViewState.BoilerScheduleState(it) }
 
 

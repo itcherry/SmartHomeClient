@@ -27,6 +27,8 @@ import com.chernysh.smarthome.di.scope.ActivityScope
 import com.chernysh.smarthome.di.scope.ServiceScope
 import com.chernysh.smarthome.presentation.bedroom.BedroomActivity
 import com.chernysh.smarthome.presentation.bedroom.BedroomModule
+import com.chernysh.smarthome.presentation.boiler.BoilerActivity
+import com.chernysh.smarthome.presentation.boiler.BoilerModule
 import com.chernysh.smarthome.presentation.corridor.CorridorActivity
 import com.chernysh.smarthome.presentation.corridor.CorridorModule
 import com.chernysh.smarthome.presentation.flat.FlatActivity
@@ -72,6 +74,10 @@ interface ActivityBindingModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [LoginModule::class])
     fun loginActivity(): LoginActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [BoilerModule::class])
+    fun boilerActivity(): BoilerActivity
 
 
     /* Services injection */

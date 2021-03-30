@@ -109,5 +109,9 @@
     <!-- Boiler -->
     <string name="boiler_all_day_label">Цілодобово</string>
     <string name="boiler_schedule_successfully_updated">Графік роботи бойлера успішно оновлено</string>
+    <string name="boiler_disabled">Бойлер вимкнено</string>
+    <string name="boiler_all_day">Бойлер працює 24/7</string>
+    <string name="boiler_disabled_schedule">Бойлер вимкнено. Налаштуйте графік роботи</string>
+
 
 </resources>

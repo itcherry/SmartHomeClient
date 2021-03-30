@@ -88,6 +88,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         val openAirConditionerIntent = getOpenAirConditionerIntent()
 
         val openLivingRoomIntent = getOpenLivingRoomIntent()
+        val openBoilerIntent = getOpenBoilerIntent()
         val viewPausedIntent = viewPausedIntent()
 
         val stateObservable = Observable.merge(
@@ -95,7 +96,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
                 safetyStateObservable, showAlarmIntent, openBedroomIntent,
                 openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
                 openCameraIntent, openDanfossIntent, openFloorHeatingIntent,
-                openAirConditionerIntent, viewPausedIntent
+                openAirConditionerIntent, openBoilerIntent, viewPausedIntent
             )
         ).observeOn(AndroidSchedulers.mainThread())
 

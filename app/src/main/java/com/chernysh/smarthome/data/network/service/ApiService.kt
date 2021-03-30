@@ -60,7 +60,7 @@ interface ApiService {
     @GET("boiler/schedule")
     fun getBoilerSchedule(): Single<List<TimeRange>>
 
-    @POST("boiler/schedule")
+    @PUT("boiler/schedule")
     fun setBoilerSchedule(@Body timeRanges: List<TimeRange>): Maybe<Any>
 
     /* Neptun */
