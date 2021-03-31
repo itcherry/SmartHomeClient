@@ -40,6 +40,8 @@ class LoginInteractor @Inject constructor(
                 )
             }.compose(schedulersTransformer as ObservableTransformer<LoginViewState, LoginViewState>)
 
+    fun isFirebaseTokenBinded() = LoginViewState.InitialState(preferences.getFirebaseTokenBinded())
+
     private fun getFirebaseTokenObservable(isFromFingerprint: Boolean): Observable<Any>? {
         return if (!preferences.getFirebaseTokenBinded()) {
             firebaseTokenInteractor.bindFirebaseId(preferences.getFirebaseToken())

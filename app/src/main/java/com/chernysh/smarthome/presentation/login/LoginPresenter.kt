@@ -53,4 +53,5 @@ class LoginPresenter @Inject constructor(private val loginInteractor: LoginInter
         .switchMap { (pin, isFromFingerprint) ->
             loginInteractor.authUser(pin, isFromFingerprint)
         }
+        .startWith(loginInteractor.isFirebaseTokenBinded())
 }

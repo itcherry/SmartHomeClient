@@ -29,6 +29,7 @@ class SmartHomePreferences(private val context: Context) {
         private const val PREF_NAME = "DynastySmartHome"
         private const val FIREBASE_TOKEN = "firebaseToken"
         private const val FIREBASE_TOKEN_BINDED = "firebaseTokenBinded"
+
         private const val USER_ID = "userId"
     }
 }
