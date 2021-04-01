@@ -79,6 +79,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         safetyStateObservable: Observable<FlatViewState.SafetyViewState>
     ): Observable<FlatViewState> {
         val showAlarmIntent = getShowAlarmDialogIntent()
+        val showSecurityIntent = getShowSecurityDialogIntent()
         val openBedroomIntent = getOpenBedroomIntent()
         val openKitchenIntent = getOpenKitchenIntent()
         val openCorridorIntent = getOpenCorridorIntent()
@@ -93,7 +94,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
 
         val stateObservable = Observable.merge(
             listOf(
-                safetyStateObservable, showAlarmIntent, openBedroomIntent,
+                safetyStateObservable, showAlarmIntent, showSecurityIntent, openBedroomIntent,
                 openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
                 openCameraIntent, openDanfossIntent, openFloorHeatingIntent,
                 openAirConditionerIntent, openBoilerIntent, viewPausedIntent
@@ -113,7 +114,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             }
         }
 
-    private fun getChangeSecurityStateIntent() = intent(FlatContract.View::setSecurityStateIntent)
+    private fun getChangeSecurityStateIntent() = intent(FlatContract.View::acceptedSecurityIntent)
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
@@ -173,6 +174,10 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     private fun getShowAlarmDialogIntent() = intent(FlatContract.View::showAlarmDialog)
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.ShowAlarmDialogClicked }
+
+    private fun getShowSecurityDialogIntent() = intent(FlatContract.View::showSecurityDialog)
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.ShowSecurityDialogClicked }
 
     private fun getOpenBedroomIntent() = intent(FlatContract.View::openBedroomActivity)
         .debounce(200, TimeUnit.MILLISECONDS)

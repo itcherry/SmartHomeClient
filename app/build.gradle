@@ -50,6 +50,7 @@ android {
         buildConfigField("String", 'PORT_SOCKET', '\"9092\"')
         buildConfigField("String", 'RTSP_URL', CONFIG("SMART_HOME_RTSP"))
         buildConfigField("String", 'PIN', CONFIG("PIN"))
+        buildConfigField("String", 'SSL_CERT_PASSWORD', CONFIG("SMART_HOME_SSL_CERT_PASSWORD"))
     }
     buildTypes {
         release {

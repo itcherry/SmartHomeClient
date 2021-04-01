@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.layout_flat_main.*
 
 class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContract.View {
     private val turnOnAlarmSubject: PublishSubject<Boolean> = PublishSubject.create()
+    private val turnOnSecuritySubject: PublishSubject<Boolean> = PublishSubject.create()
     private val reloadDataSubject: PublishSubject<Any> = PublishSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -166,8 +167,10 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun initDataIntent(): Observable<Boolean> = Observable.just(true)
 
-    override fun setSecurityStateIntent(): Observable<Boolean> =
-        RxView.clicks(switchSecurity).map { switchSecurity.isChecked }
+    override fun showSecurityDialog(): Observable<Any> = RxView.clicks(switchSecurity)
+        .doOnNext { if (!switchSecurity.isChecked) turnOnSecuritySubject.onNext(false) }
+        .filter { switchSecurity.isChecked }
+        .map { Notification.INSTANCE }
 
     override fun showAlarmDialog(): Observable<Any> = RxView.clicks(switchAlarm)
         .doOnNext { if (!switchAlarm.isChecked) turnOnAlarmSubject.onNext(false) }
@@ -175,6 +178,8 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
         .map { Notification.INSTANCE }
 
     override fun acceptedAlarmIntent(): Observable<Boolean> = turnOnAlarmSubject
+
+    override fun acceptedSecurityIntent(): Observable<Boolean> = turnOnSecuritySubject
 
     override fun render(state: FlatViewState) {
         when (state) {
@@ -215,6 +220,7 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
                 )
             )
             is FlatViewState.ShowAlarmDialogClicked -> showDialogForAlarm()
+            is FlatViewState.ShowSecurityDialogClicked -> showDialogForSecurity()
             is FlatViewState.SafetyViewState -> renderSafetyViewState(state)
             is FlatViewState.AirConditionerClicked -> openThirdPartyApplication(FlatContract.AIR_CONDITIONER_PACKAGE_NAME)
             is FlatViewState.FloorHeatingClicked -> openThirdPartyApplication(FlatContract.TEPLOLUXE_PACKAGE_NAME)
@@ -250,7 +256,23 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
                 dialog.dismiss()
                 switchAlarm.isChecked = false
             }
-            .setCancelable(true)
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun showDialogForSecurity() {
+        AlertDialog.Builder(this)
+            .setIcon(R.drawable.ic_shield)
+            .setTitle(getString(R.string.flat_security_dialog_title))
+            .setMessage(getString(R.string.flat_security_dialog_text))
+            .setPositiveButton(getString(R.string.action_yes)) { _: DialogInterface, _: Int ->
+                turnOnSecuritySubject.onNext(true)
+            }
+            .setNegativeButton(getString(R.string.action_no)) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                switchSecurity.isChecked = false
+            }
+            .setCancelable(false)
             .show()
     }
 

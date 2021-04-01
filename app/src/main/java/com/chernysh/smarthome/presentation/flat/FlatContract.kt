@@ -36,7 +36,7 @@ interface FlatContract {
     interface View : BaseView, MvpView {
         fun initDataIntent(): Observable<Boolean>
         fun acceptedAlarmIntent(): Observable<Boolean>
-        fun setSecurityStateIntent(): Observable<Boolean>
+        fun acceptedSecurityIntent(): Observable<Boolean>
         fun render(state: FlatViewState)
 
         fun openBedroomActivity(): Observable<Any>
@@ -50,6 +50,7 @@ interface FlatContract {
         fun openBoilerActivity(): Observable<Any>
 
         fun showAlarmDialog(): Observable<Any>
+        fun showSecurityDialog(): Observable<Any>
         fun reloadDataObservable(): Observable<Any>
     }
 

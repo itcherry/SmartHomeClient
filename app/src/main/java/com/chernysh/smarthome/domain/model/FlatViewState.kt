@@ -37,6 +37,7 @@ sealed class FlatViewState{
     object CorridorClicked: FlatViewState()
     object LivingRoomClicked: FlatViewState()
     object ShowAlarmDialogClicked: FlatViewState()
+    object ShowSecurityDialogClicked: FlatViewState()
     object CameraClicked: FlatViewState()
     object DanfossClicked: FlatViewState()
     object FloorHeatingClicked: FlatViewState()
