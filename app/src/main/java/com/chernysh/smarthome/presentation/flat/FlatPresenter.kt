@@ -79,12 +79,12 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         safetyStateObservable: Observable<FlatViewState.SafetyViewState>
     ): Observable<FlatViewState> {
         val showAlarmIntent = getShowAlarmDialogIntent()
+        val showSecurityIntent = getShowSecurityDialogIntent()
         val openBedroomIntent = getOpenBedroomIntent()
         val openKitchenIntent = getOpenKitchenIntent()
         val openCorridorIntent = getOpenCorridorIntent()
         val openCameraIntent = getOpenCameraIntent()
         val openDanfossIntent = getOpenDanfossIntent()
-        val openFloorHeatingIntent = getOpenFloorHeatingIntent()
         val openAirConditionerIntent = getOpenAirConditionerIntent()
 
         val openLivingRoomIntent = getOpenLivingRoomIntent()
@@ -93,9 +93,9 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
 
         val stateObservable = Observable.merge(
             listOf(
-                safetyStateObservable, showAlarmIntent, openBedroomIntent,
+                safetyStateObservable, showAlarmIntent, showSecurityIntent, openBedroomIntent,
                 openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
-                openCameraIntent, openDanfossIntent, openFloorHeatingIntent,
+                openCameraIntent, openDanfossIntent,
                 openAirConditionerIntent, openBoilerIntent, viewPausedIntent
             )
         ).observeOn(AndroidSchedulers.mainThread())
@@ -113,7 +113,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             }
         }
 
-    private fun getChangeSecurityStateIntent() = intent(FlatContract.View::setSecurityStateIntent)
+    private fun getChangeSecurityStateIntent() = intent(FlatContract.View::acceptedSecurityIntent)
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
@@ -174,6 +174,10 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.ShowAlarmDialogClicked }
 
+    private fun getShowSecurityDialogIntent() = intent(FlatContract.View::showSecurityDialog)
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.ShowSecurityDialogClicked }
+
     private fun getOpenBedroomIntent() = intent(FlatContract.View::openBedroomActivity)
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.BedroomClicked }
@@ -193,10 +197,6 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     private fun getOpenDanfossIntent() = intent(FlatContract.View::openDanfossActivity)
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.DanfossClicked }
-
-    private fun getOpenFloorHeatingIntent() = intent(FlatContract.View::openFloorHeatingActivity)
-        .debounce(200, TimeUnit.MILLISECONDS)
-        .map { FlatViewState.FloorHeatingClicked }
 
     private fun getOpenAirConditionerIntent() =
         intent(FlatContract.View::openAirConditionerActivity)

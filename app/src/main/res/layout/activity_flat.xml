@@ -170,21 +170,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCamera" />
 
             <TextView
-                android:id="@+id/tvFloorHeating"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:padding="16dp"
-                android:text="@string/flat_floor_heating"
-                android:background="?attr/selectableItemBackground"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDanfoss" />
-
-            <TextView
                 android:id="@+id/tvAirConditioner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -197,7 +182,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFloorHeating" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDanfoss" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.navigation.NavigationView>
 

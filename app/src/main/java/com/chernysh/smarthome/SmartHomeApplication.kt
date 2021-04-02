@@ -3,7 +3,6 @@ package com.chernysh.smarthome
 import  androidx.appcompat.app.AppCompatDelegate
 import com.chernysh.smarthome.di.component.DaggerAppComponent
 import com.chernysh.smarthome.utils.logging.CrashReportingTree
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
@@ -23,12 +22,6 @@ class SmartHomeApplication : DaggerApplication(), HasServiceInjector, HasActivit
     }
 
     private fun initThirdParties() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
-        LeakCanary.install(this)
         if (BuildConfig.DEBUG) {
             // AndroidDevMetrics.initWith(this);
             Timber.plant(mDebugTimberTree)

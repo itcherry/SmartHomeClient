@@ -35,7 +35,7 @@ import dagger.Module
 interface RepositoryModule {
   @Binds
   @ApplicationScope
-  fun bindTemperatureHumidityRepository(temperatureHumidityRepository: TemperatureHumidityRepositoryImpl): TemperatureHumidityRepository
+  fun bindTemperatureHumidityRepository(temperatureRepository: TemperatureRepositoryImpl): TemperatureHumidityRepository
 
   @Binds
   @ApplicationScope

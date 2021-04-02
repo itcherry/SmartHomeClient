@@ -55,13 +55,13 @@ class ApiErrorHandlerFactory : Converter.Factory() {
                     val serverResult = delegate.convert(body)
 
                     if (ServerStatus.getServerStatusBasedOnString(
-                            serverResult.status ?: "error"
+                            serverResult?.status ?: "error"
                         ) == ServerStatus.ERROR
                     ) {
-                        throw SmartHomeApiException(serverResult.serverError ?: ServerError())
+                        throw SmartHomeApiException(serverResult?.serverError ?: ServerError())
                     }
 
-                    serverResult.data
+                    serverResult?.data
                 }
             }
 

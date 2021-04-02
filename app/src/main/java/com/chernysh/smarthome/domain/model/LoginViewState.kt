@@ -27,6 +27,7 @@ package com.chernysh.smarthome.domain.model
  *         especially for Zhk Dinastija
  */
 sealed class LoginViewState {
+    data class InitialState(val isFirebaseTokenBinded: Boolean): LoginViewState()
     object LoadingPinState : LoginViewState()
     object SuccessPinState : LoginViewState()
     object PasswordIncorrectState: LoginViewState()

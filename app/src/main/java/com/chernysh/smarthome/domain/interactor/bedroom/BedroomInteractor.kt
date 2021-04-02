@@ -4,10 +4,7 @@ import com.chernysh.smarthome.domain.model.Method
 import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomLightsUseCase
 import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomRozetkaUseCase
 import com.chernysh.smarthome.domain.interactor.bedroom.usecase.BedroomTemperatureHumidityUseCase
-import com.chernysh.smarthome.domain.model.FlatPartialViewState
 import com.chernysh.smarthome.domain.model.RoomPartialViewState
-import com.chernysh.smarthome.domain.model.TemperatureHumidityData
-import com.chernysh.smarthome.domain.repository.TemperatureHumidityRepository
 import io.reactivex.ObservableTransformer
 import javax.inject.Inject
 

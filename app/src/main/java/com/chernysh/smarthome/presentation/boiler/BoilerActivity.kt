@@ -50,7 +50,7 @@ import team.uptech.huddle.util.extension.isLaunched
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BoilerActivity : BaseActivity<BoilerContract.View, BoilerPresenter>(), BoilerContract.View {
+class  BoilerActivity : BaseActivity<BoilerContract.View, BoilerPresenter>(), BoilerContract.View {
     private var dialog: Huddle? = null
     private val timeRanges: MutableList<TimeRange> = mutableListOf()
 

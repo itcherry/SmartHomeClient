@@ -72,6 +72,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fabMenu"
         app:layout_constraintVertical_bias="0.1"
+        app:tpv_thumb_radius="12dp"
         app:tpv_circle_time_text_color="@color/colorPrimaryDark"
         app:tpv_dot_color="@color/textSecondaryDark"
         app:tpv_range_arc_color="@color/colorPrimaryDark"

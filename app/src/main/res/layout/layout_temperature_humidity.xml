@@ -28,27 +28,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_thermometer" />
 
-        <ImageView
-            android:id="@+id/ivHumidity"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_humidity" />
-
-        <View
-            android:id="@+id/viewTemperatureContainerDivider"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/textSecondaryLight"
-            app:layout_constraintBottom_toBottomOf="@id/tvCurrentTemperatureValue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvCurrentTemperatureValue" />
-
         <TextView
             android:id="@+id/tvCurrentTemperatureValue"
             android:layout_width="0dp"
@@ -60,26 +39,10 @@
             android:textColor="@color/textPrimary"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/viewTemperatureContainerDivider"
-            app:layout_constraintStart_toEndOf="@id/ivThermometer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="13.5 \u2103" />
-
-        <TextView
-            android:id="@+id/tvCurrentHumidityValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:textColor="@color/textPrimary"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivHumidity"
-            app:layout_constraintStart_toEndOf="@id/viewTemperatureContainerDivider"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="13.5 %" />
 
         <ProgressBar
             android:id="@+id/pbTemperatureHumidityLoading"
@@ -88,31 +51,8 @@
             android:indeterminateTint="@color/colorPrimary"
             android:indeterminateTintMode="src_atop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivHumidity"
-            app:layout_constraintStart_toEndOf="@id/ivThermometer"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/viewProgressBarLeftDivider"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/textSecondaryLight"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivThermometer"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/viewProgressBarRightDivider"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/textSecondaryLight"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivHumidity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -123,8 +63,8 @@
             android:gravity="center"
             android:textColor="@color/textDarkRed"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/viewProgressBarRightDivider"
-            app:layout_constraintStart_toEndOf="@id/viewProgressBarLeftDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivThermometer"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Connecting error" />
 
@@ -139,35 +79,29 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivHumidity"
+            app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivThermometer"
-            app:layout_constraintTop_toBottomOf="@id/viewTemperatureContainerDivider" />
+            app:layout_constraintTop_toBottomOf="@id/tvCurrentTemperatureValue" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupTemperatureHumidityData"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="visible"
-            app:constraint_referenced_ids="tvCurrentHumidityValue,
-            tvCurrentTemperatureValue,
-            viewTemperatureContainerDivider" />
+            app:constraint_referenced_ids="tvCurrentTemperatureValue" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupLoading"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
-            app:constraint_referenced_ids="pbTemperatureHumidityLoading,
-            viewProgressBarLeftDivider,
-            viewProgressBarRightDivider" />
+            app:constraint_referenced_ids="pbTemperatureHumidityLoading" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupError"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
-            app:constraint_referenced_ids="tvError,
-            viewProgressBarLeftDivider,
-            viewProgressBarRightDivider" />
+            app:constraint_referenced_ids="tvError" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

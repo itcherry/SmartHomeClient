@@ -5,17 +5,15 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.chernysh.smarthome.R
-import com.chernysh.smarthome.domain.model.TemperatureHumidityData
+import com.chernysh.smarthome.domain.model.TemperatureData
 import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
 import kotlinx.android.synthetic.main.layout_temperature_humidity.view.*
-import java.text.Format
-import java.util.*
 
 /**
  * Created by Andrii Chernysh on 3/23/19
  * If you have any questions, please write: andrii.chernysh@uptech.team
  */
-class TemperatureHumidityCard @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) :
+class TemperatureCard @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) :
         FrameLayout(context, attributeSet, defStyleAttr, defStyleRes) {
 
     init {
@@ -40,13 +38,12 @@ class TemperatureHumidityCard @JvmOverloads constructor(context: Context, attrib
         groupTemperatureHumidityData.visibility = View.GONE
     }
 
-    private fun renderData(temperatureHumidityData: TemperatureHumidityData) {
+    private fun renderData(temperatureData: TemperatureData) {
         groupError.visibility = View.GONE
         groupLoading.visibility = View.GONE
         groupTemperatureHumidityData.visibility = View.VISIBLE
 
-        tvCurrentTemperatureValue.text = context.getString(R.string.temperature_text, temperatureHumidityData.temperature)
-        tvCurrentHumidityValue.text = context.getString(R.string.humidity_text, temperatureHumidityData.humidity)
+        tvCurrentTemperatureValue.text = context.getString(R.string.temperature_text, temperatureData.temperature)
     }
 
     private fun renderError(throwable: Throwable){

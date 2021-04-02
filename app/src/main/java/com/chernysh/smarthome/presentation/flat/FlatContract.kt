@@ -36,7 +36,7 @@ interface FlatContract {
     interface View : BaseView, MvpView {
         fun initDataIntent(): Observable<Boolean>
         fun acceptedAlarmIntent(): Observable<Boolean>
-        fun setSecurityStateIntent(): Observable<Boolean>
+        fun acceptedSecurityIntent(): Observable<Boolean>
         fun render(state: FlatViewState)
 
         fun openBedroomActivity(): Observable<Any>
@@ -45,13 +45,18 @@ interface FlatContract {
         fun openCorridorActivity(): Observable<Any>
         fun openCameraActivity(): Observable<Any>
         fun openDanfossActivity(): Observable<Any>
-        fun openFloorHeatingActivity(): Observable<Any>
         fun openAirConditionerActivity(): Observable<Any>
         fun openBoilerActivity(): Observable<Any>
 
         fun showAlarmDialog(): Observable<Any>
+        fun showSecurityDialog(): Observable<Any>
         fun reloadDataObservable(): Observable<Any>
     }
 
     interface Presenter
+
+    companion object {
+        const val DANFOSS_PACKAGE_NAME = "com.danfoss.danfosseco"
+        const val AIR_CONDITIONER_PACKAGE_NAME = "com.gree.ewpesmart"
+    }
 }

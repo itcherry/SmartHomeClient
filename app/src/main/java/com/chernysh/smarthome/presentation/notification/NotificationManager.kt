@@ -171,7 +171,7 @@ class NotificationManager @Inject constructor(
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
 
         val soundUri = Uri.parse(
-            "android.resource://com.transcendensoft.hedbanz/" +
+            "android.resource://com.chernysh.smarthome/" +
                     if (isAlarmSound) R.raw.alarm_sound else R.raw.lock_sound
         )
         notificationBuilder.setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
@@ -190,7 +190,7 @@ class NotificationManager @Inject constructor(
             .apply(block)
 
         try {
-            notificationBuilder.setSmallIcon(android.R.drawable.ic_media_play)
+            notificationBuilder.setSmallIcon(if(isAlarmSound) R.drawable.ic_alarm else R.drawable.ic_shield)
         } catch (remoteServiceException: RuntimeException) {
 
         }
@@ -210,7 +210,7 @@ class NotificationManager @Inject constructor(
             // Configure the notification channel.
             notificationChannel.enableLights(true)
             val soundUri = Uri.parse(
-                "android.resource://com.transcendensoft.hedbanz/" +
+                "android.resource://com.chernysh.smarthome/" +
                         if (isAlarmSound) R.raw.alarm_sound else R.raw.lock_sound
             )
             val attrs = AudioAttributes.Builder()
