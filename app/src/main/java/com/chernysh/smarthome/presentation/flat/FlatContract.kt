@@ -45,7 +45,6 @@ interface FlatContract {
         fun openCorridorActivity(): Observable<Any>
         fun openCameraActivity(): Observable<Any>
         fun openDanfossActivity(): Observable<Any>
-        fun openFloorHeatingActivity(): Observable<Any>
         fun openAirConditionerActivity(): Observable<Any>
         fun openBoilerActivity(): Observable<Any>
 
@@ -58,7 +57,6 @@ interface FlatContract {
 
     companion object {
         const val DANFOSS_PACKAGE_NAME = "com.danfoss.danfosseco"
-        const val TEPLOLUXE_PACKAGE_NAME = "com.SES.MCSClient"
         const val AIR_CONDITIONER_PACKAGE_NAME = "com.gree.ewpesmart"
     }
 }

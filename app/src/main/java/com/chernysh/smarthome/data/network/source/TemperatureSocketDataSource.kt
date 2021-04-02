@@ -1,7 +1,7 @@
 package com.chernysh.smarthome.data.network.source
 
-import com.chernysh.smarthome.data.model.TemperatureHumidityDTO
-import com.chernysh.smarthome.data.source.TemperatureHumidityDataSource
+import com.chernysh.smarthome.data.model.TemperatureDTO
+import com.chernysh.smarthome.data.source.TemperatureDataSource
 import io.reactivex.Observable
 import ua.andrii.chernysh.kotlinrxsocket.socket.RxSocket
 import javax.inject.Inject
@@ -26,19 +26,19 @@ import javax.inject.Inject
  *
  * @author Andrii Chernysh. E-mail: itcherry97@gmail.com
  */
-class TemperatureHumiditySocketDataSource @Inject constructor(val socket: RxSocket) :
-        SocketDataSource(socket), TemperatureHumidityDataSource {
-    override fun getTemperatureKitchen(): Observable<TemperatureHumidityDTO> =
-        socket.observableOn(TEMP_HUM_KITCHEN_EVENT, TemperatureHumidityDTO::class.java)
+class TemperatureSocketDataSource @Inject constructor(val socket: RxSocket) :
+        SocketDataSource(socket), TemperatureDataSource {
+    override fun getTemperatureKitchen(): Observable<TemperatureDTO> =
+        socket.observableOn(TEMP_HUM_KITCHEN_EVENT, TemperatureDTO::class.java)
 
-    override fun getTemperatureLivingRoom(): Observable<TemperatureHumidityDTO> =
-        socket.observableOn(TEMP_HUM_LIVING_ROOM_EVENT, TemperatureHumidityDTO::class.java)
+    override fun getTemperatureLivingRoom(): Observable<TemperatureDTO> =
+        socket.observableOn(TEMP_HUM_LIVING_ROOM_EVENT, TemperatureDTO::class.java)
 
-    override fun getTemperatureOutdoor(): Observable<TemperatureHumidityDTO> =
-        socket.observableOn(TEMP_HUM_OUTDOOR_EVENT, TemperatureHumidityDTO::class.java)
+    override fun getTemperatureOutdoor(): Observable<TemperatureDTO> =
+        socket.observableOn(TEMP_HUM_OUTDOOR_EVENT, TemperatureDTO::class.java)
 
-    override fun getTemperatureBedroom(): Observable<TemperatureHumidityDTO> =
-        socket.observableOn(TEMP_HUM_BEDROOM_EVENT, TemperatureHumidityDTO::class.java)
+    override fun getTemperatureBedroom(): Observable<TemperatureDTO> =
+        socket.observableOn(TEMP_HUM_BEDROOM_EVENT, TemperatureDTO::class.java)
 
     companion object {
         const val TEMP_HUM_BEDROOM_EVENT = "tempHumBedroom"

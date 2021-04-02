@@ -85,7 +85,6 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         val openCorridorIntent = getOpenCorridorIntent()
         val openCameraIntent = getOpenCameraIntent()
         val openDanfossIntent = getOpenDanfossIntent()
-        val openFloorHeatingIntent = getOpenFloorHeatingIntent()
         val openAirConditionerIntent = getOpenAirConditionerIntent()
 
         val openLivingRoomIntent = getOpenLivingRoomIntent()
@@ -96,7 +95,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             listOf(
                 safetyStateObservable, showAlarmIntent, showSecurityIntent, openBedroomIntent,
                 openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
-                openCameraIntent, openDanfossIntent, openFloorHeatingIntent,
+                openCameraIntent, openDanfossIntent,
                 openAirConditionerIntent, openBoilerIntent, viewPausedIntent
             )
         ).observeOn(AndroidSchedulers.mainThread())
@@ -198,10 +197,6 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     private fun getOpenDanfossIntent() = intent(FlatContract.View::openDanfossActivity)
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.DanfossClicked }
-
-    private fun getOpenFloorHeatingIntent() = intent(FlatContract.View::openFloorHeatingActivity)
-        .debounce(200, TimeUnit.MILLISECONDS)
-        .map { FlatViewState.FloorHeatingClicked }
 
     private fun getOpenAirConditionerIntent() =
         intent(FlatContract.View::openAirConditionerActivity)

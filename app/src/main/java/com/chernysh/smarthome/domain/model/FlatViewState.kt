@@ -40,7 +40,6 @@ sealed class FlatViewState{
     object ShowSecurityDialogClicked: FlatViewState()
     object CameraClicked: FlatViewState()
     object DanfossClicked: FlatViewState()
-    object FloorHeatingClicked: FlatViewState()
     object AirConditionerClicked: FlatViewState()
     object BoilerClicked: FlatViewState()
     object NoActionsState: FlatViewState()

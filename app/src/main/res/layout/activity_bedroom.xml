@@ -33,7 +33,7 @@
         app:rippleColor="@color/textWhite"
         app:srcCompat="@drawable/ic_home" />
 
-    <com.chernysh.smarthome.presentation.widget.TemperatureHumidityCard
+    <com.chernysh.smarthome.presentation.widget.TemperatureCard
         android:id="@+id/cvTemperatureHumidityCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

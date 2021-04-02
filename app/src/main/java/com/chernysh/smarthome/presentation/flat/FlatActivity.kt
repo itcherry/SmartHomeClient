@@ -161,8 +161,6 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun openBoilerActivity(): Observable<Any> = RxView.clicks(tvBoiler)
 
-    override fun openFloorHeatingActivity(): Observable<Any> = RxView.clicks(tvFloorHeating)
-
     override fun openAirConditionerActivity(): Observable<Any> = RxView.clicks(tvAirConditioner)
 
     override fun initDataIntent(): Observable<Boolean> = Observable.just(true)
@@ -223,7 +221,6 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             is FlatViewState.ShowSecurityDialogClicked -> showDialogForSecurity()
             is FlatViewState.SafetyViewState -> renderSafetyViewState(state)
             is FlatViewState.AirConditionerClicked -> openThirdPartyApplication(FlatContract.AIR_CONDITIONER_PACKAGE_NAME)
-            is FlatViewState.FloorHeatingClicked -> openThirdPartyApplication(FlatContract.TEPLOLUXE_PACKAGE_NAME)
             is FlatViewState.DanfossClicked -> openThirdPartyApplication(FlatContract.DANFOSS_PACKAGE_NAME)
         }
     }
@@ -365,21 +362,17 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             is TemperatureHumidityViewState.SocketConnectedState,
             is TemperatureHumidityViewState.NoDataState -> {
                 tvTemperature.text = getString(R.string.temperature_humidity_no_data)
-                tvHumidity.text = getString(R.string.temperature_humidity_no_data)
             }
             is TemperatureHumidityViewState.SocketErrorState,
             is TemperatureHumidityViewState.ErrorState,
             is TemperatureHumidityViewState.SocketDisconnectedState -> {
                 tvTemperature.text = getString(R.string.server_error)
-                tvHumidity.text = getString(R.string.server_error)
             }
             is TemperatureHumidityViewState.SocketReconnectingState -> {
                 tvTemperature.text = getString(R.string.action_loading)
-                tvHumidity.text = getString(R.string.action_loading)
             }
             is TemperatureHumidityViewState.DataState -> {
                 tvTemperature.text = getString(R.string.temperature_text, state.data.temperature)
-                tvHumidity.text = getString(R.string.humidity_text, state.data.humidity)
             }
         }
     }

@@ -26,7 +26,7 @@
     <string name="temperature_humidity_generic_error">Відбулась помилка при отриманні даних.</string>
     <string name="temperature_humidity_socket_disconnected">Відключено від серверу</string>
     <string name="temperature_humidity_socket_reconnecting">Підключаємось до серверу</string>
-    <string name="temperature_humidity_no_data">Немає даних</string>
+    <string name="temperature_humidity_no_data">Очікуємо дані</string>
 
     <!-- Electornic elements panel -->
     <string name="lights_title">Освітлення</string>

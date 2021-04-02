@@ -21,9 +21,7 @@ package com.chernysh.smarthome.data.source
 
 import com.chernysh.smarthome.data.cache.UserCacheDataSource
 import com.chernysh.smarthome.data.network.source.*
-import com.chernysh.smarthome.data.network.source.SocketDataSource
 import com.chernysh.smarthome.di.scope.ApplicationScope
-import com.transcendensoft.hedbanz.data.source.FirebaseIdDataSource
 import dagger.Binds
 import dagger.Module
 
@@ -37,7 +35,7 @@ interface DataSourceModule {
   @Binds
   @ApplicationScope
   fun provideTemperatureHumiditySocketDataSource(
-    dataSource: TemperatureHumiditySocketDataSource): TemperatureHumidityDataSource
+    dataSource: TemperatureSocketDataSource): TemperatureDataSource
 
   @Binds
   @ApplicationScope
