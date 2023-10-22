@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SmartHomeClient.iml" filepath="$PROJECT_DIR$/SmartHomeClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SmartHomeClient.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SmartHomeClient.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com-google-firebase-messaging/SmartHomeClient.com-google-firebase-messaging.iml" filepath="$PROJECT_DIR$/.idea/modules/com-google-firebase-messaging/SmartHomeClient.com-google-firebase-messaging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SmartHomeClient.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SmartHomeClient.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SmartHomeClient.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SmartHomeClient.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SmartHomeClient.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SmartHomeClient.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlinrxsocketsclient-release/SmartHomeClient.kotlinrxsocketsclient-release.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlinrxsocketsclient-release/SmartHomeClient.kotlinrxsocketsclient-release.iml" />
     </modules>
   </component>

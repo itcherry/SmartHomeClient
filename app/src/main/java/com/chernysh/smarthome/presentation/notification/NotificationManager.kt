@@ -1,6 +1,5 @@
 package com.chernysh.smarthome.presentation.notification
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager

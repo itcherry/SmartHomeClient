@@ -5,21 +5,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.chernysh.smarthome.R
+import com.chernysh.smarthome.databinding.ActivityBoilerBinding
 import com.chernysh.smarthome.domain.model.BoilerScheduleViewState
 import com.chernysh.smarthome.domain.model.BoilerViewState
 import com.chernysh.smarthome.domain.model.BooleanViewState
-import com.chernysh.smarthome.domain.model.RoomViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
-import com.chernysh.smarthome.presentation.bedroom.BedroomContract
-import com.chernysh.smarthome.presentation.bedroom.BedroomPresenter
 import com.chernysh.smarthome.presentation.dialogs.buildConnectivityErrorDialog
 import com.chernysh.smarthome.presentation.dialogs.buildGenericErrorDialog
 import com.chernysh.timerangepicker.TimeRange
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_bedroom.*
-import kotlinx.android.synthetic.main.activity_bedroom.fabMenu
-import kotlinx.android.synthetic.main.activity_boiler.*
 import team.uptech.huddle.Huddle
 import team.uptech.huddle.util.extension.compose
 import team.uptech.huddle.util.extension.isLaunched
@@ -53,29 +48,32 @@ import team.uptech.huddle.util.extension.isLaunched
 class  BoilerActivity : BaseActivity<BoilerContract.View, BoilerPresenter>(), BoilerContract.View {
     private var dialog: Huddle? = null
     private val timeRanges: MutableList<TimeRange> = mutableListOf()
+    private lateinit var binding: ActivityBoilerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_boiler)
+        binding = ActivityBoilerBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        fabMenu.setOnClickListener {
+        binding.fabMenu.setOnClickListener {
             onBackPressed()
         }
 
-        scheduleTimePicker.timeRangesSelected = {
-            boilerDataView.setTimeRangesTextFromList(it)
-            btnSave.isEnabled = (timeRanges != it) && (timeRanges.isNotEmpty() || it.isNotEmpty())
+        binding.scheduleTimePicker.timeRangesSelected = {
+            binding.boilerDataView.setTimeRangesTextFromList(it)
+            binding.btnSave.isEnabled = (timeRanges != it) && (timeRanges.isNotEmpty() || it.isNotEmpty())
         }
     }
 
     override fun saveBoilerScheduleIntent(): Observable<List<TimeRange>> =
-        RxView.clicks(btnSave).map { scheduleTimePicker.getSelectedTimeRanges() }
+        RxView.clicks(binding.btnSave).map { binding.scheduleTimePicker.getSelectedTimeRanges() }
 
-    override fun setBoilerStateIntent(): Observable<Boolean> = RxView.clicks(ivBoilerEnabler)
-        .map { !(ivBoilerEnabler.tag as? Boolean ?: false) }
+    override fun setBoilerStateIntent(): Observable<Boolean> = RxView.clicks(binding.ivBoilerEnabler)
+        .map { !(binding.ivBoilerEnabler.tag as? Boolean ?: false) }
 
     override fun setBoilerScheduleStateIntent(): Observable<Boolean> =
-        boilerDataView.enableBoilerScheduleStateIntent()
+        binding.boilerDataView.enableBoilerScheduleStateIntent()
 
     override fun render(state: BoilerViewState) {
         val (enabledState, scheduleEnabledState, schedule) = state
@@ -87,7 +85,7 @@ class  BoilerActivity : BaseActivity<BoilerContract.View, BoilerPresenter>(), Bo
             is BooleanViewState.ConnectivityErrorState -> renderConnectivityError()
             is BooleanViewState.ErrorState -> renderGenericError()
             is BooleanViewState.DataState -> {
-                scheduleTimePicker.enableAllDay(scheduleEnabledState.data)
+                binding.scheduleTimePicker.enableAllDay(scheduleEnabledState.data)
             }
         }
 
@@ -106,31 +104,31 @@ class  BoilerActivity : BaseActivity<BoilerContract.View, BoilerPresenter>(), Bo
             is BoilerScheduleViewState.DataState -> renderBoilerScheduleData(schedule.data)
         }
 
-        boilerDataView.render(state)
+        binding.boilerDataView.render(state)
     }
 
     private fun renderBoilerScheduleData(newTimeRanges: List<TimeRange>) {
-        scheduleTimePicker.setSelectedTimeRanges(newTimeRanges)
+        binding.scheduleTimePicker.setSelectedTimeRanges(newTimeRanges)
         timeRanges.apply {
             clear()
             addAll(newTimeRanges)
         }
-        btnSave.isEnabled = false
+        binding.btnSave.isEnabled = false
     }
 
     private fun renderBoilerEnabledStates(enabledState: BooleanViewState) {
         when (enabledState) {
             is BooleanViewState.LoadingState -> {
-                pbBoilerEnableLoading.visibility = View.VISIBLE
-                ivBoilerEnabler.visibility = View.GONE
-                boilerDataView.isEnabled = false
+                binding.pbBoilerEnableLoading.visibility = View.VISIBLE
+                binding.ivBoilerEnabler.visibility = View.GONE
+                binding.boilerDataView.isEnabled = false
             }
             is BooleanViewState.DataState -> {
-                pbBoilerEnableLoading.visibility = View.GONE
-                ivBoilerEnabler.visibility = View.VISIBLE
+                binding.pbBoilerEnableLoading.visibility = View.GONE
+                binding.ivBoilerEnabler.visibility = View.VISIBLE
                 if (enabledState.data) {
-                    ivBoilerEnabler.tag = true
-                    ivBoilerEnabler.setImageDrawable(
+                    binding.ivBoilerEnabler.tag = true
+                    binding.ivBoilerEnabler.setImageDrawable(
                         AppCompatResources.getDrawable(
                             this,
                             R.drawable.ic_switch_on
@@ -138,8 +136,8 @@ class  BoilerActivity : BaseActivity<BoilerContract.View, BoilerPresenter>(), Bo
                     )
                     enableRangePickerAndOtherData()
                 } else {
-                    ivBoilerEnabler.tag = false
-                    ivBoilerEnabler.setImageDrawable(
+                    binding.ivBoilerEnabler.tag = false
+                    binding.ivBoilerEnabler.setImageDrawable(
                         AppCompatResources.getDrawable(
                             this,
                             R.drawable.ic_switch_off
@@ -172,11 +170,11 @@ class  BoilerActivity : BaseActivity<BoilerContract.View, BoilerPresenter>(), Bo
     }
 
     private fun enableRangePickerAndOtherData() {
-        boilerDataView.isEnabled = true
-        btnSave.isEnabled = (timeRanges != scheduleTimePicker.getSelectedTimeRanges()) &&
-                (timeRanges.isNotEmpty() || scheduleTimePicker.getSelectedTimeRanges().isNotEmpty())
+       binding.boilerDataView.isEnabled = true
+       binding.btnSave.isEnabled = (timeRanges != binding.scheduleTimePicker.getSelectedTimeRanges()) &&
+                (timeRanges.isNotEmpty() || binding.scheduleTimePicker.getSelectedTimeRanges().isNotEmpty())
 
-        scheduleTimePicker.apply {
+        binding.scheduleTimePicker.apply {
             isEnabled = true
             setArcColor(R.color.colorPrimaryDark)
             setCircleTextColor(R.color.textPrimary)
@@ -188,9 +186,9 @@ class  BoilerActivity : BaseActivity<BoilerContract.View, BoilerPresenter>(), Bo
     }
 
     private fun disableRangePickerAndOtherData() {
-        boilerDataView.isEnabled = false
-        btnSave.isEnabled = false
-        scheduleTimePicker.apply {
+        binding.boilerDataView.isEnabled = false
+        binding.btnSave.isEnabled = false
+        binding.scheduleTimePicker.apply {
             isEnabled = false
             setThumbColor(R.color.textSecondary)
             setArcColor(R.color.textSecondary)

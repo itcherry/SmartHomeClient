@@ -7,8 +7,7 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.chernysh.smarthome.BuildConfig
-import com.chernysh.smarthome.R
-import kotlinx.android.synthetic.main.activity_ip_camera.*
+import com.chernysh.smarthome.databinding.ActivityIpCameraBinding
 import org.videolan.libvlc.IVLCVout
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.Media
@@ -23,6 +22,7 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var holder: SurfaceHolder
     private lateinit var libvlc: LibVLC
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var binding: ActivityIpCameraBinding
 
     private val options = arrayListOf(
         "--aout=opensles",
@@ -42,9 +42,11 @@ class CameraActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        setContentView(R.layout.activity_ip_camera)
+        binding = ActivityIpCameraBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        holder = videoSurfaceView.holder
+        holder = binding.videoSurfaceView.holder
         libvlc = LibVLC(applicationContext, options)
         holder.setKeepScreenOn(true)
 
@@ -52,7 +54,7 @@ class CameraActivity : AppCompatActivity() {
         mediaPlayer = MediaPlayer(libvlc)
 
         val vout: IVLCVout = mediaPlayer.vlcVout
-        vout.setVideoView(videoSurfaceView)
+        vout.setVideoView(binding.videoSurfaceView)
         vout.attachViews()
 
         val media = Media(libvlc, Uri.parse(BuildConfig.RTSP_URL))

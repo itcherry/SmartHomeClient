@@ -9,6 +9,7 @@
 
     <include
         layout="@layout/layout_flat_main"
+        android:id="@+id/flat_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -28,7 +28,7 @@ import com.chernysh.smarthome.data.network.retrofit.HostSelectionInterceptor
 import com.chernysh.smarthome.data.network.source.ApiDataSource
 import com.chernysh.smarthome.di.qualifier.ApplicationContext
 import com.chernysh.smarthome.di.scope.ApplicationScope
-import com.readystatesoftware.chuck.ChuckInterceptor
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -77,8 +77,8 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
-    fun provideChuckInterceptor(@ApplicationContext context: Context): ChuckInterceptor {
-        return ChuckInterceptor(context)
+    fun provideChuckInterceptor(@ApplicationContext context: Context): ChuckerInterceptor {
+        return ChuckerInterceptor(context)
     }
 
     @Provides
@@ -103,7 +103,7 @@ class NetworkModule {
 
         // We're going to put our certificates in a Keystore
         val keyStore = KeyStore.getInstance("PKCS12")
-        keyStore.load(caFileInputStream, BuildConfig.SSL_CERT_PASSWORD.toCharArray())
+//        keyStore.load(caFileInputStream, BuildConfig.SSL_CERT_PASSWORD.toCharArray())
 
         return keyStore
     }
@@ -150,7 +150,7 @@ class NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         headerInterceptor: AuthorizationHeaderInterceptor,
         connectivityInterceptor: ConnectivityInterceptor,
-        chuckInterceptor: ChuckInterceptor,
+        chuckInterceptor: ChuckerInterceptor,
         hostSelectionInterceptor: HostSelectionInterceptor,
         sslContext: SSLContext,
         x509TrustManager: X509TrustManager,
