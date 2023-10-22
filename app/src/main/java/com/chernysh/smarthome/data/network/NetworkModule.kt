@@ -103,7 +103,7 @@ class NetworkModule {
 
         // We're going to put our certificates in a Keystore
         val keyStore = KeyStore.getInstance("PKCS12")
-        keyStore.load(caFileInputStream, BuildConfig.SSL_CERT_PASSWORD.toCharArray())
+//        keyStore.load(caFileInputStream, BuildConfig.SSL_CERT_PASSWORD.toCharArray())
 
         return keyStore
     }

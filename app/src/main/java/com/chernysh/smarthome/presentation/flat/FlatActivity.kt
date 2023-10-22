@@ -176,16 +176,16 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
     override fun openDanfossActivity(): Observable<Any> = RxView.clicks(binding.tvDanfoss)
 
-    override fun openBoilerActivity(): Observable<Any> = RxView.clicks(tvBoiler)
+    override fun openBoilerActivity(): Observable<Any> = RxView.clicks(binding.tvBoiler)
 
     override fun openAirConditionerActivity(): Observable<Any> =
         RxView.clicks(binding.tvAirConditioner)
 
     override fun initDataIntent(): Observable<Boolean> = Observable.just(true)
 
-    override fun showSecurityDialog(): Observable<Any> = RxView.clicks(switchSecurity)
-        .doOnNext { if (!switchSecurity.isChecked) turnOnSecuritySubject.onNext(false) }
-        .filter { switchSecurity.isChecked }
+    override fun showSecurityDialog(): Observable<Any> = RxView.clicks(binding.switchSecurity)
+        .doOnNext { if (!binding.switchSecurity.isChecked) turnOnSecuritySubject.onNext(false) }
+        .filter { binding.switchSecurity.isChecked }
         .map { Notification.INSTANCE }
 
     override fun showAlarmDialog(): Observable<Any> = RxView.clicks(binding.switchAlarm)
@@ -205,54 +205,73 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
                     BedroomActivity::class.java
                 )
             )
+
             is FlatViewState.CorridorClicked -> startActivity(
                 Intent(
                     this,
                     CorridorActivity::class.java
                 )
             )
+
             is FlatViewState.LivingRoomClicked -> startActivity(
                 Intent(
                     this,
                     LivingRoomActivity::class.java
                 )
             )
+
             is FlatViewState.KitchenClicked -> startActivity(
                 Intent(
                     this,
                     KitchenActivity::class.java
                 )
             )
+
             is FlatViewState.CameraClicked -> startActivity(
                 Intent(
                     this,
                     CameraActivity::class.java
                 )
             )
+
             is FlatViewState.BoilerClicked -> startActivity(
                 Intent(
                     this,
                     BoilerActivity::class.java
                 )
             )
+
             is FlatViewState.ShowAlarmDialogClicked -> showDialogForAlarm()
             is FlatViewState.ShowSecurityDialogClicked -> showDialogForSecurity()
             is FlatViewState.SafetyViewState -> renderSafetyViewState(state)
             is FlatViewState.AirConditionerClicked -> openThirdPartyApplication(FlatContract.AIR_CONDITIONER_PACKAGE_NAME)
             is FlatViewState.DanfossClicked -> openThirdPartyApplication(FlatContract.DANFOSS_PACKAGE_NAME)
+            else -> {
+                // TODO check if something is needed here
+            }
         }
     }
 
     private fun openThirdPartyApplication(packageName: String) {
         val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
 
-        if(launchIntent !=null) {
+        if (launchIntent != null) {
             startActivity(launchIntent);
         } else {
             try {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$packageName")
+                    )
+                )
             } catch (e: ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                    )
+                )
             }
         }
     }
@@ -285,7 +304,7 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
             }
             .setNegativeButton(getString(R.string.action_no)) { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
-                switchSecurity.isChecked = false
+                binding.switchSecurity.isChecked = false
             }
             .setCancelable(false)
             .show()
@@ -304,8 +323,9 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
 
         when (state) {
             is BooleanViewState.ErrorState,
-            is BooleanViewState.ConnectivityErrorState -> switchAlarm.isChecked =
+            is BooleanViewState.ConnectivityErrorState -> binding.switchAlarm.isChecked =
                 !binding.switchAlarm.isChecked
+
             is BooleanViewState.LoadingState -> binding.switchAlarm.isEnabled = false
             is BooleanViewState.DataState -> binding.switchAlarm.isChecked = state.data
         }
@@ -375,10 +395,12 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
                 showServerSnackbarError { reloadDataSubject.onNext(Notification.INSTANCE) }
                 binding.switchSecurity.isChecked = !binding.switchSecurity.isChecked
             }
+
             is BooleanViewState.ConnectivityErrorState -> {
                 showNetworkSnackbarError { reloadDataSubject.onNext(Notification.INSTANCE) }
                 binding.switchSecurity.isChecked = !binding.switchSecurity.isChecked
             }
+
             is BooleanViewState.LoadingState -> binding.switchSecurity.isEnabled = false
             is BooleanViewState.DataState -> binding.switchSecurity.isChecked = state.data
         }
@@ -388,21 +410,23 @@ class FlatActivity : BaseActivity<FlatContract.View, FlatPresenter>(), FlatContr
         when (state) {
             is TemperatureHumidityViewState.SocketConnectedState,
             is TemperatureHumidityViewState.NoDataState -> {
-                binding.tvTemperature.text = getString(R.string.temperature_humidity_no_data)
+                binding.flatMainLayout.tvTemperature.text =
+                    getString(R.string.temperature_humidity_no_data)
             }
 
             is TemperatureHumidityViewState.SocketErrorState,
             is TemperatureHumidityViewState.ErrorState,
             is TemperatureHumidityViewState.SocketDisconnectedState -> {
-                binding.tvTemperature.text = getString(R.string.server_error)
+                binding.flatMainLayout.tvTemperature.text = getString(R.string.server_error)
             }
 
             is TemperatureHumidityViewState.SocketReconnectingState -> {
-                binding.tvTemperature.text = getString(R.string.action_loading)
+                binding.flatMainLayout.tvTemperature.text = getString(R.string.action_loading)
             }
 
             is TemperatureHumidityViewState.DataState -> {
-                binding.tvTemperature.text = getString(R.string.temperature_text, state.data.temperature)
+                binding.flatMainLayout.tvTemperature.text =
+                    getString(R.string.temperature_text, state.data.temperature)
             }
         }
     }
