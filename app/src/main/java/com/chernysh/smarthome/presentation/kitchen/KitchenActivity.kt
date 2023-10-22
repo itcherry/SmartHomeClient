@@ -1,11 +1,10 @@
 package com.chernysh.smarthome.presentation.kitchen
 
 import android.os.Bundle
-import com.chernysh.smarthome.R
+import com.chernysh.smarthome.databinding.ActivityKitchenBinding
 import com.chernysh.smarthome.domain.model.RoomWithoutRozetkaViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_bedroom.*
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -34,21 +33,24 @@ import kotlinx.android.synthetic.main.activity_bedroom.*
  *         especially for Zhk Dinastija
  */
 class KitchenActivity : BaseActivity<KitchenContract.View, KitchenPresenter>(), KitchenContract.View {
+  private lateinit var binding: ActivityKitchenBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_kitchen)
+    binding = ActivityKitchenBinding.inflate(layoutInflater)
+    val view = binding.root
+    setContentView(view)
 
-    fabMenu.setOnClickListener {
+    binding.fabMenu.setOnClickListener {
       onBackPressed()
     }
   }
 
-  override fun setLightsStateIntent(): Observable<Boolean> = evLight.setElementStateIntent()
+  override fun setLightsStateIntent(): Observable<Boolean> = binding.evLight.setElementStateIntent()
 
   override fun render(state: RoomWithoutRozetkaViewState) {
-    evLight.render(state.lightsViewState)
-    cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
+    binding.evLight.render(state.lightsViewState)
+    binding.cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
   }
 
 }

@@ -1,6 +1,5 @@
 package com.chernysh.smarthome.presentation.notification
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -26,7 +25,6 @@ import com.chernysh.smarthome.data.cache.UserCacheDataSource
 import com.chernysh.smarthome.di.qualifier.ApplicationContext
 import com.chernysh.smarthome.presentation.flat.FlatActivity
 import com.chernysh.smarthome.presentation.login.LoginActivity
-import com.crashlytics.android.Crashlytics
 import javax.inject.Inject
 
 class NotificationManager @Inject constructor(
@@ -195,7 +193,6 @@ class NotificationManager @Inject constructor(
         } catch (remoteServiceException: RuntimeException) {
             val e = RuntimeException("Can`t set image icon notification")
             e.stackTrace = remoteServiceException.stackTrace
-            Crashlytics.logException(e)
         }
 
         return notificationBuilder.build()

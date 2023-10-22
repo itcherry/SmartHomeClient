@@ -19,9 +19,7 @@ package com.chernysh.smarthome.di
  * limitations under the License.
  */
 
-import com.chernysh.smarthome.data.network.service.firebase.FirebaseInstanceIdModule
 import com.chernysh.smarthome.data.network.service.firebase.FirebaseMessagingServiceModule
-import com.chernysh.smarthome.data.network.service.firebase.SmartHomeFirebaseInstanceIdService
 import com.chernysh.smarthome.data.network.service.firebase.SmartHomeFirebaseMessagingService
 import com.chernysh.smarthome.di.scope.ActivityScope
 import com.chernysh.smarthome.di.scope.ServiceScope
@@ -75,10 +73,6 @@ interface ActivityBindingModule {
 
 
     /* Services injection */
-    @ServiceScope
-    @ContributesAndroidInjector(modules = [FirebaseInstanceIdModule::class])
-    fun firebaseInstanceIdService(): SmartHomeFirebaseInstanceIdService
-
     @ServiceScope
     @ContributesAndroidInjector(modules = [FirebaseMessagingServiceModule::class])
     fun firebaseMessagingService(): SmartHomeFirebaseMessagingService

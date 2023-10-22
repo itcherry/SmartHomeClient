@@ -26,7 +26,7 @@ import com.chernysh.smarthome.data.network.retrofit.ConnectivityInterceptor
 import com.chernysh.smarthome.data.network.retrofit.HostSelectionInterceptor
 import com.chernysh.smarthome.di.qualifier.ApplicationContext
 import com.chernysh.smarthome.di.scope.ApplicationScope
-import com.readystatesoftware.chuck.ChuckInterceptor
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -67,8 +67,8 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
-    fun provideChuckInterceptor(@ApplicationContext context: Context): ChuckInterceptor {
-        return ChuckInterceptor(context)
+    fun provideChuckInterceptor(@ApplicationContext context: Context): ChuckerInterceptor {
+        return ChuckerInterceptor(context)
     }
 
     @Provides
@@ -91,7 +91,7 @@ class NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         headerInterceptor: AuthorizationHeaderInterceptor,
         connectivityInterceptor: ConnectivityInterceptor,
-        chuckInterceptor: ChuckInterceptor,
+        chuckInterceptor: ChuckerInterceptor,
         hostSelectionInterceptor: HostSelectionInterceptor,
         cache: Cache
     ): OkHttpClient {

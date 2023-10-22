@@ -2,14 +2,13 @@ package com.chernysh.smarthome.presentation.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.chernysh.smarthome.R
+import com.chernysh.smarthome.databinding.LayoutTemperatureHumidityBinding
 import com.chernysh.smarthome.domain.model.TemperatureHumidityData
 import com.chernysh.smarthome.domain.model.TemperatureHumidityViewState
-import kotlinx.android.synthetic.main.layout_temperature_humidity.view.*
-import java.text.Format
-import java.util.*
 
 /**
  * Created by Andrii Chernysh on 3/23/19
@@ -17,10 +16,10 @@ import java.util.*
  */
 class TemperatureHumidityCard @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) :
         FrameLayout(context, attributeSet, defStyleAttr, defStyleRes) {
+    private var binding: LayoutTemperatureHumidityBinding
 
     init {
-        val view = View.inflate(getContext(), R.layout.layout_temperature_humidity, null)
-        addView(view)
+        binding = LayoutTemperatureHumidityBinding.inflate(LayoutInflater.from(context), this, true);
     }
 
     fun render(temperatureHumidityViewState: TemperatureHumidityViewState) {
@@ -31,43 +30,46 @@ class TemperatureHumidityCard @JvmOverloads constructor(context: Context, attrib
             is TemperatureHumidityViewState.SocketConnectedState -> renderSocketConnected()
             is TemperatureHumidityViewState.SocketDisconnectedState -> renderSocketDisconnected()
             is TemperatureHumidityViewState.SocketReconnectingState -> renderSocketReconnecting()
+            else -> {
+                // TODO check if all good here
+            }
         }
     }
 
     private fun renderLoading() {
-        groupError.visibility = View.GONE
-        groupLoading.visibility = View.VISIBLE
-        groupTemperatureHumidityData.visibility = View.GONE
+        binding.groupError.visibility = View.GONE
+        binding.groupLoading.visibility = View.VISIBLE
+        binding.groupTemperatureHumidityData.visibility = View.GONE
     }
 
     private fun renderData(temperatureHumidityData: TemperatureHumidityData) {
-        groupError.visibility = View.GONE
-        groupLoading.visibility = View.GONE
-        groupTemperatureHumidityData.visibility = View.VISIBLE
+        binding.groupError.visibility = View.GONE
+        binding.groupLoading.visibility = View.GONE
+        binding.groupTemperatureHumidityData.visibility = View.VISIBLE
 
-        tvCurrentTemperatureValue.text = context.getString(R.string.temperature_text, temperatureHumidityData.temperature)
-        tvCurrentHumidityValue.text = context.getString(R.string.humidity_text, temperatureHumidityData.humidity)
+        binding.tvCurrentTemperatureValue.text = context.getString(R.string.temperature_text, temperatureHumidityData.temperature)
+        binding.tvCurrentHumidityValue.text = context.getString(R.string.humidity_text, temperatureHumidityData.humidity)
     }
 
     private fun renderError(throwable: Throwable){
-        groupError.visibility = View.GONE
-        groupLoading.visibility = View.GONE
-        groupTemperatureHumidityData.visibility = View.VISIBLE
+        binding.groupError.visibility = View.GONE
+        binding.groupLoading.visibility = View.GONE
+        binding.groupTemperatureHumidityData.visibility = View.VISIBLE
 
-        tvError.text = context.getString(R.string.temperature_humidity_generic_error) + throwable.message
+        binding.tvError.text = context.getString(R.string.temperature_humidity_generic_error) + throwable.message
     }
 
     private fun renderSocketConnected() {
-        tvSocketError.visibility = View.GONE
+        binding.tvSocketError.visibility = View.GONE
     }
 
     private fun renderSocketDisconnected() {
-        tvSocketError.visibility = View.VISIBLE
-        tvSocketError.text = context.getString(R.string.temperature_humidity_socket_disconnected)
+        binding.tvSocketError.visibility = View.VISIBLE
+        binding.tvSocketError.text = context.getString(R.string.temperature_humidity_socket_disconnected)
     }
 
     private fun renderSocketReconnecting() {
-        tvSocketError.visibility = View.VISIBLE
-        tvSocketError.text = context.getString(R.string.temperature_humidity_socket_reconnecting)
+        binding.tvSocketError.visibility = View.VISIBLE
+        binding.tvSocketError.text = context.getString(R.string.temperature_humidity_socket_reconnecting)
     }
 }

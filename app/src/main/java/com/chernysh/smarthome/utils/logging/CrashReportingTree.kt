@@ -21,7 +21,6 @@ package com.chernysh.smarthome.utils.logging
 
 import android.util.Log
 
-import com.crashlytics.android.Crashlytics
 
 import timber.log.Timber
 
@@ -40,7 +39,8 @@ class CrashReportingTree : Timber.Tree() {
             return
         }
 
-        Crashlytics.log(priority, tag, message)
+        // TODO replace Crashlytics with Firebase
+        /*Crashlytics.log(priority, tag, message)
 
         if (t != null) {
             if (priority == Log.ERROR) {
@@ -48,6 +48,6 @@ class CrashReportingTree : Timber.Tree() {
             } else if (priority == Log.WARN) {
                 Crashlytics.log(t.message)
             }
-        }
+        }*/
     }
 }

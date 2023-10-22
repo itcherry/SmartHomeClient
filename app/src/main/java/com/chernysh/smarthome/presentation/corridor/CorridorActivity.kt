@@ -1,14 +1,10 @@
 package com.chernysh.smarthome.presentation.corridor
 
 import android.os.Bundle
-import com.chernysh.smarthome.R
+import com.chernysh.smarthome.databinding.ActivityCorridorBinding
 import com.chernysh.smarthome.domain.model.BooleanViewState
-import com.chernysh.smarthome.domain.model.RoomViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
-import com.chernysh.smarthome.presentation.bedroom.BedroomContract
-import com.chernysh.smarthome.presentation.bedroom.BedroomPresenter
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_bedroom.*
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -37,20 +33,23 @@ import kotlinx.android.synthetic.main.activity_bedroom.*
  *         especially for Zhk Dinastija
  */
 class CorridorActivity: BaseActivity<CorridorContract.View, CorridorPresenter>(), CorridorContract.View {
+    private lateinit var binding: ActivityCorridorBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_corridor)
+        binding = ActivityCorridorBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        fabMenu.setOnClickListener {
+        binding.fabMenu.setOnClickListener {
             onBackPressed()
         }
     }
 
-    override fun setLightsStateIntent(): Observable<Boolean> = evLight.setElementStateIntent()
+    override fun setLightsStateIntent(): Observable<Boolean> = binding.evLight.setElementStateIntent()
 
 
     override fun render(state: BooleanViewState) {
-        evLight.render(state)
+        binding.evLight.render(state)
     }
 }

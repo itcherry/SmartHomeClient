@@ -3,13 +3,12 @@ package com.chernysh.smarthome
 import androidx.appcompat.app.AppCompatDelegate
 import com.chernysh.smarthome.di.component.DaggerAppComponent
 import com.chernysh.smarthome.utils.logging.CrashReportingTree
-import com.crashlytics.android.Crashlytics
-import com.squareup.leakcanary.LeakCanary
+import com.google.firebase.FirebaseApp
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
 import dagger.android.support.DaggerApplication
-import io.fabric.sdk.android.Fabric
+import leakcanary.LeakCanary
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,13 +24,7 @@ class SmartHomeApplication : DaggerApplication(), HasServiceInjector, HasActivit
     }
 
     private fun initThirdParties() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
-        LeakCanary.install(this)
-        Fabric.with(this, Crashlytics())
+        FirebaseApp.initializeApp(this);
         if (BuildConfig.DEBUG) {
             // AndroidDevMetrics.initWith(this);
             Timber.plant(mDebugTimberTree)

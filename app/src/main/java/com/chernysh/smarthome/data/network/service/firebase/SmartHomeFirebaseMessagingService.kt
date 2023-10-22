@@ -20,6 +20,9 @@ package com.chernysh.smarthome.data.network.service.firebase
  */
 
 import android.app.Service
+import com.chernysh.smarthome.data.prefs.SmartHomePreferences
+import com.chernysh.smarthome.data.source.UserDataSource
+import com.chernysh.smarthome.domain.interactor.firebase.FirebaseTokenInteractor
 import com.chernysh.smarthome.domain.model.NotificationMessageType
 import com.chernysh.smarthome.presentation.notification.NotificationManager
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -42,10 +45,31 @@ import javax.inject.Inject
 class SmartHomeFirebaseMessagingService : FirebaseMessagingService(), HasServiceInjector {
     @Inject lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
     @Inject lateinit var notificationManger: NotificationManager
+    @Inject lateinit var preferences: SmartHomePreferences
+    @Inject lateinit var userDataSource: UserDataSource
+    @Inject lateinit var firebaseTokenInteractor: FirebaseTokenInteractor
 
     override fun onCreate() {
         AndroidInjection.inject(this)
         super.onCreate()
+    }
+
+    // Якщо ще не залогінився, тоді записуємо в PreferenceManager;                                  +
+    // Інакше відразу після логіна беремо з PreferenceManager і відправляємо запит на сервер bind.  -
+    // Якщо залогінився і в PreferenceManager немає токена, тоді відправляємо запит на сервер bindю +
+    // Не забути про unbind.
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Timber.i("Firebase token %s", token)
+
+        preferences.setFirebaseToken(token)
+        if (!userDataSource.getToken().isNullOrBlank()) {
+            firebaseTokenInteractor.bindFirebaseId(token)
+                .subscribe(
+                    { preferences.setFirebaseTokenBinded(true) },
+                    { preferences.setFirebaseTokenBinded(false) }
+                )
+        }
     }
 
     override fun serviceInjector(): AndroidInjector<Service>? {

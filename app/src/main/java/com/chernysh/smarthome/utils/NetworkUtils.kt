@@ -21,7 +21,6 @@ package com.chernysh.smarthome.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import io.fabric.sdk.android.services.network.NetworkUtils
 import timber.log.Timber
 
 /**
@@ -31,15 +30,13 @@ import timber.log.Timber
  * Developed by <u>Transcendensoft</u>
  */
 
-private val TAG = NetworkUtils::class.java.name
-
 fun Context.isNetworkConnected(): Boolean {
     val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
     if (cm != null) {
         val activeNetwork = cm.activeNetworkInfo
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting
     } else {
-        Timber.tag(TAG).e("ConnectivityManager is null. Cant get network state. IsNetworkConnected method.")
+        Timber.tag("SmartHome").e("ConnectivityManager is null. Cant get network state. IsNetworkConnected method.")
         return false
     }
 }

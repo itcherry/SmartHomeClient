@@ -4,14 +4,15 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import com.chernysh.smarthome.R
+import com.chernysh.smarthome.databinding.LayoutElementBinding
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.layout_element.view.*
 
 /**
  * Created by Andrii Chernysh on 3/24/19
@@ -22,16 +23,17 @@ class ElectronicElementView @JvmOverloads constructor(
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) :
     FrameLayout(context, attributeSet, defStyleAttr, defStyleRes) {
+    private var binding: LayoutElementBinding
+
     private var isElementEnabled: Boolean = false
     private lateinit var type: Type
 
     init {
-        val view = View.inflate(getContext(), R.layout.layout_element, null)
+        binding = LayoutElementBinding.inflate(LayoutInflater.from(context), this, true);
         initElementType(context, attributeSet)
-        addView(view)
 
-        ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.disabledImageRes, null))
-        tvElementName.text = context.getString(type.stringRes)
+        binding.ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.disabledImageRes, null))
+        binding.tvElementName.text = context.getString(type.stringRes)
     }
 
     private fun initElementType(context: Context, attributeSet: AttributeSet?) {
@@ -40,7 +42,7 @@ class ElectronicElementView @JvmOverloads constructor(
         typedArray.recycle()
     }
 
-    fun setElementStateIntent(): Observable<Boolean> = RxView.clicks(clElementContainer).map { !isElementEnabled }
+    fun setElementStateIntent(): Observable<Boolean> = RxView.clicks(binding.clElementContainer).map { !isElementEnabled }
 
     fun render(booleanViewState: BooleanViewState) {
         when (booleanViewState) {
@@ -52,20 +54,20 @@ class ElectronicElementView @JvmOverloads constructor(
     }
 
     private fun renderLoading() {
-        pbElementStateLoading.visibility = View.VISIBLE
-        tvElementState.visibility = View.GONE
-        switchElement.isChecked = false
+        binding.pbElementStateLoading.visibility = View.VISIBLE
+        binding.tvElementState.visibility = View.GONE
+        binding.switchElement.isChecked = false
     }
 
     private fun renderData(isEnabled: Boolean) {
-        switchElement.isEnabled = true
-        switchElement.isChecked = isEnabled
-        pbElementStateLoading.visibility = View.GONE
-        tvElementState.visibility = View.VISIBLE
-        tvElementState.text = getStateString(isEnabled)
+        binding.switchElement.isEnabled = true
+        binding.switchElement.isChecked = isEnabled
+        binding.pbElementStateLoading.visibility = View.GONE
+        binding.tvElementState.visibility = View.VISIBLE
+        binding.tvElementState.text = getStateString(isEnabled)
         this.isElementEnabled = isEnabled
 
-        ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.getImageByState(isEnabled), null))
+        binding.ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.getImageByState(isEnabled), null))
     }
 
     private fun getStateString(isEnabled: Boolean) = if (isEnabled) {
@@ -76,24 +78,24 @@ class ElectronicElementView @JvmOverloads constructor(
 
     private fun renderError(throwable: Throwable) {
         val state = getStateString(isElementEnabled)
-        tvElementState.text = "${context.getString(R.string.server_error)} ($state)"
-        switchElement.isEnabled = true
-        switchElement.isChecked = isElementEnabled
-        ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.getImageByState(isElementEnabled), null))
+        binding.tvElementState.text = "${context.getString(R.string.server_error)} ($state)"
+        binding.switchElement.isEnabled = true
+        binding.switchElement.isChecked = isElementEnabled
+        binding.ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.getImageByState(isElementEnabled), null))
 
-        pbElementStateLoading.visibility = View.GONE
-        tvElementState.visibility = View.VISIBLE
+        binding.pbElementStateLoading.visibility = View.GONE
+        binding.tvElementState.visibility = View.VISIBLE
     }
 
     private fun renderConnectivityError() {
         val state = getStateString(isElementEnabled)
-        tvElementState.text = "${context.getString(R.string.network_error)} ($state)"
-        switchElement.isEnabled = true
-        switchElement.isChecked = isElementEnabled
-        ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.getImageByState(isElementEnabled), null))
+        binding.tvElementState.text = "${context.getString(R.string.network_error)} ($state)"
+        binding.switchElement.isEnabled = true
+        binding.switchElement.isChecked = isElementEnabled
+        binding.ivElementIcon.setImageDrawable(VectorDrawableCompat.create(context.resources, type.getImageByState(isElementEnabled), null))
 
-        pbElementStateLoading.visibility = View.GONE
-        tvElementState.visibility = View.VISIBLE
+        binding.pbElementStateLoading.visibility = View.GONE
+        binding.tvElementState.visibility = View.VISIBLE
     }
 
     enum class Type(@DrawableRes val enabledImageRes: Int, @DrawableRes val disabledImageRes: Int, @StringRes val stringRes: Int) {

@@ -1,11 +1,10 @@
 package com.chernysh.smarthome.presentation.living_room
 
 import android.os.Bundle
-import com.chernysh.smarthome.R
+import com.chernysh.smarthome.databinding.ActivityLivingRoomBinding
 import com.chernysh.smarthome.domain.model.LivingRoomViewState
 import com.chernysh.smarthome.presentation.base.BaseActivity
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_living_room.*
 
 /**
  * Copyright 2018. Andrii Chernysh
@@ -35,26 +34,30 @@ import kotlinx.android.synthetic.main.activity_living_room.*
  */
 class LivingRoomActivity : BaseActivity<LivingRoomContract.View, LivingRoomPresenter>(),
     LivingRoomContract.View {
+    private lateinit var binding: ActivityLivingRoomBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_living_room)
+        binding = ActivityLivingRoomBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        fabMenu.setOnClickListener {
+        binding.fabMenu.setOnClickListener {
             onBackPressed()
         }
     }
 
-    override fun setRozetkaStateIntent(): Observable<Boolean> = evRozette.setElementStateIntent()
+    override fun setRozetkaStateIntent(): Observable<Boolean> = binding.evRozette.setElementStateIntent()
 
-    override fun setAquariumStateIntent(): Observable<Boolean> = evAquarium.setElementStateIntent()
+    override fun setAquariumStateIntent(): Observable<Boolean> = binding.evAquarium.setElementStateIntent()
 
-    override fun setLightsStateIntent(): Observable<Boolean> = evLights.setElementStateIntent()
+    override fun setLightsStateIntent(): Observable<Boolean> = binding.evLights.setElementStateIntent()
 
     override fun render(state: LivingRoomViewState) {
-        cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
-        evRozette.render(state.rozetkaViewState)
-        evLights.render(state.lightsViewState)
-        evAquarium.render(state.aquariumViewState)
+        binding.cvTemperatureHumidityCard.render(state.temperatureHumidityViewState)
+        binding.evRozette.render(state.rozetkaViewState)
+        binding.evLights.render(state.lightsViewState)
+        binding.evAquarium.render(state.aquariumViewState)
     }
 
 }
