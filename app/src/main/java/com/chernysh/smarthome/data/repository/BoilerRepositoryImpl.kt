@@ -2,6 +2,7 @@ package com.chernysh.smarthome.data.repository
 
 import com.chernysh.smarthome.data.network.source.BoilerApiDataSource
 import com.chernysh.smarthome.domain.repository.BoilerRepository
+import com.chernysh.timerangepicker.TimeRange
 import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
@@ -36,7 +37,18 @@ import javax.inject.Inject
 class BoilerRepositoryImpl @Inject constructor(
     private val boilerApiDataSource: BoilerApiDataSource
 ) : BoilerRepository {
-    override fun setState(isEnabled: Boolean): Maybe<Boolean> = boilerApiDataSource.setState(isEnabled)
+    override fun setState(isEnabled: Boolean): Maybe<Boolean> =
+        boilerApiDataSource.setState(isEnabled)
 
     override fun getState(): Single<Boolean> = boilerApiDataSource.getState()
+
+    override fun setScheduleState(isEnabled: Boolean): Maybe<Boolean> =
+        boilerApiDataSource.setScheduleState(isEnabled)
+
+    override fun getScheduleState(): Single<Boolean> = boilerApiDataSource.getScheduleState()
+
+    override fun setSchedule(timeRanges: List<TimeRange>): Maybe<Any> =
+        boilerApiDataSource.setSchedule(timeRanges)
+
+    override fun getSchedule(): Single<List<TimeRange>> = boilerApiDataSource.getSchedule()
 }

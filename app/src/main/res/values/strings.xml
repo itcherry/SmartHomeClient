@@ -7,10 +7,18 @@
     <!-- Actions -->
     <string name="action_loading">Завантажуємо&#8230;</string>
     <string name="action_yes">Так</string>
+    <string name="action_ok">OK</string>
     <string name="action_no">Ні</string>
     <string name="action_reload">Перезавантажити</string>
     <string name="action_logout">Вийти</string>
     <string name="action_stay">Продовжити керувати</string>
+    <string name="action_save">Зберегти</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_connectivity_error_title">Проблеми з мережею</string>
+    <string name="dialog_connectivity_error_text">Не вдалось отримати дані з сервера. Перевірте підключення до мережі інтернет на вашому пристрої</string>
+    <string name="dialog_generic_error_title">Проблеми з сервером</string>
+    <string name="dialog_generic_error_text">Не вдалось отримати дані з сервера. Спробуйте, будь ласка, пізніше.</string>
 
     <!-- Temperature and humidity card -->
     <string name="temperature_text">%1$.1f &#8451;</string>
@@ -18,7 +26,7 @@
     <string name="temperature_humidity_generic_error">Відбулась помилка при отриманні даних.</string>
     <string name="temperature_humidity_socket_disconnected">Відключено від серверу</string>
     <string name="temperature_humidity_socket_reconnecting">Підключаємось до серверу</string>
-    <string name="temperature_humidity_no_data">Немає даних</string>
+    <string name="temperature_humidity_no_data">Очікуємо дані</string>
 
     <!-- Electornic elements panel -->
     <string name="lights_title">Освітлення</string>
@@ -34,6 +42,7 @@
     <string name="title_corridor">Коридор</string>
     <string name="title_living_room">Вітальня</string>
     <string name="title_kitchen">Кухня</string>
+    <string name="title_boiler">Бойлер</string>
 
     <!-- login -->
     <string name="login_chernysh_home_title">Chernysh Home</string>
@@ -67,6 +76,9 @@
     <string name="flat_alert_dialog_title">Увімкнути сирену?</string>
     <string name="flat_alert_dialog_text">Не потрібно просто так гратись з сиреною. Може прийти злий сусід та наваляти тобі. Якщо ж ти впевнений в тому, що в квартиру увірвався злодій, хутчіше тисни на ТАК!!</string>
 
+    <string name="flat_security_dialog_title">Увімкнути охорону?</string>
+    <string name="flat_security_dialog_text">Закрий двері у ванну!!! Інакше коли бандити увірвуться в дім, камера не зможе їх розпізнати. Також, перевір чи вимкнено світло у хаті та нічого не загрожує пожежній безпеці.</string>
+
     <string name="logout_title">Ти серйозно?</string>
     <string name="logout_message">Невже ти хочеш вийти з цього витвору мистецтва? Твоя квартира хоч і розумна, але потребує надійного керівника&#8230;</string>
 
@@ -96,5 +108,13 @@
     <string name="fingerprint_title">Приклади палець</string>
     <string name="fingerprint_subtitle">Авторизуйся в додаток з легкістю</string>
     <string name="fingerprint_negative_button">Використати ПІН</string>
+
+    <!-- Boiler -->
+    <string name="boiler_all_day_label">Цілодобово</string>
+    <string name="boiler_schedule_successfully_updated">Графік роботи бойлера успішно оновлено</string>
+    <string name="boiler_disabled">Бойлер вимкнено</string>
+    <string name="boiler_all_day">Бойлер працює 24/7</string>
+    <string name="boiler_disabled_schedule">Бойлер вимкнено. Налаштуйте графік роботи</string>
+
 
 </resources>

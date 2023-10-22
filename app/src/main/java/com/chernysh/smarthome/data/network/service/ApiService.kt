@@ -20,6 +20,7 @@ package com.chernysh.smarthome.data.network.service
  */
 
 import com.chernysh.smarthome.data.model.UserDto
+import com.chernysh.timerangepicker.TimeRange
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -49,6 +50,18 @@ interface ApiService {
 
     @GET("boiler")
     fun getBoilerState(): Single<Boolean>
+
+    @PUT("boiler/schedule/state")
+    fun setBoilerScheduleState(@Query("isEnable") isEnable: Boolean): Maybe<Boolean>
+
+    @GET("boiler/schedule/state")
+    fun getBoilerScheduleState(): Single<Boolean>
+
+    @GET("boiler/schedule")
+    fun getBoilerSchedule(): Single<List<TimeRange>>
+
+    @PUT("boiler/schedule")
+    fun setBoilerSchedule(@Body timeRanges: List<TimeRange>): Maybe<Any>
 
     /* Neptun */
     @GET("neptun")

@@ -1,6 +1,7 @@
-package com.chernysh.smarthome.domain.interactor.safety.usecase
+package com.chernysh.smarthome.domain.interactor.boiler.usecase
 
 import com.chernysh.smarthome.data.exception.NoConnectivityException
+import com.chernysh.smarthome.domain.model.BoilerPartialViewState
 import com.chernysh.smarthome.domain.model.BooleanViewState
 import com.chernysh.smarthome.domain.model.FlatPartialViewState
 import com.chernysh.smarthome.domain.model.Method
@@ -16,8 +17,8 @@ import javax.inject.Inject
  *         developed by <u>Transcendensoft</u>
  *         especially for Zhk Dinastija
  */
-class BoilerUseCase @Inject constructor(private val boilerRepository: BoilerRepository) {
-    fun processBoilerState(params: Data): Observable<FlatPartialViewState.BoilerState> =
+class BoilerEnableUseCase @Inject constructor(private val boilerRepository: BoilerRepository) {
+    fun processBoilerState(params: Data): Observable<BoilerPartialViewState.BoilerEnabledState> =
         when (params.method) {
             Method.GET -> boilerRepository.getState()
             Method.SET -> boilerRepository.setState(params.value).switchIfEmpty(Single.just(params.value))
@@ -32,7 +33,7 @@ class BoilerUseCase @Inject constructor(private val boilerRepository: BoilerRepo
                     BooleanViewState.ErrorState(it)
                 }
             }
-            .map { FlatPartialViewState.BoilerState(it) }
+            .map { BoilerPartialViewState.BoilerEnabledState(it) }
 
 
     data class Data(val method: Method, val value: Boolean = false)

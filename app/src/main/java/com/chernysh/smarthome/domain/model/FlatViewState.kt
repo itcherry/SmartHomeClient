@@ -28,7 +28,6 @@ package com.chernysh.smarthome.domain.model
  */
 sealed class FlatViewState{
     data class SafetyViewState(val alarmViewState: BooleanViewState,
-                               val boilerViewState: BooleanViewState,
                                val securityViewState: BooleanViewState,
                                val fireViewState: BooleanViewState,
                                val neptunViewState: BooleanViewState,
@@ -38,9 +37,10 @@ sealed class FlatViewState{
     object CorridorClicked: FlatViewState()
     object LivingRoomClicked: FlatViewState()
     object ShowAlarmDialogClicked: FlatViewState()
+    object ShowSecurityDialogClicked: FlatViewState()
     object CameraClicked: FlatViewState()
     object DanfossClicked: FlatViewState()
-    object FloorHeatingClicked: FlatViewState()
     object AirConditionerClicked: FlatViewState()
+    object BoilerClicked: FlatViewState()
     object NoActionsState: FlatViewState()
 }

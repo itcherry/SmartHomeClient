@@ -9,7 +9,7 @@ package com.chernysh.smarthome.domain.model
  */
 sealed class TemperatureHumidityViewState {
     object NoDataState : TemperatureHumidityViewState()
-    data class DataState(val data: TemperatureHumidityData) : TemperatureHumidityViewState()
+    data class DataState(val data: TemperatureData) : TemperatureHumidityViewState()
     data class ErrorState(val error: Throwable) : TemperatureHumidityViewState()
     object SocketConnectedState : TemperatureHumidityViewState()
     object SocketDisconnectedState : TemperatureHumidityViewState()

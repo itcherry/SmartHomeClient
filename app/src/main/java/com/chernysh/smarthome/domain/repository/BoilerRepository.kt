@@ -1,5 +1,6 @@
 package com.chernysh.smarthome.domain.repository
 
+import com.chernysh.timerangepicker.TimeRange
 import io.reactivex.Maybe
 import io.reactivex.Single
 
@@ -33,4 +34,8 @@ import io.reactivex.Single
 interface BoilerRepository {
     fun setState(isEnabled: Boolean): Maybe<Boolean>
     fun getState(): Single<Boolean>
+    fun setScheduleState(isEnabled: Boolean): Maybe<Boolean>
+    fun getScheduleState(): Single<Boolean>
+    fun setSchedule(timeRanges: List<TimeRange>): Maybe<Any>
+    fun getSchedule(): Single<List<TimeRange>>
 }

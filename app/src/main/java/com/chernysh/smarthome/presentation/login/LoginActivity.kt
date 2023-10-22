@@ -53,12 +53,10 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
         binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        setupFingerprinting()
     }
 
-    private fun setupFingerprinting() {
-        if (applicationContext.isFingerprintPromptAvailable()) {
+    private fun setupFingerprinting(isPossibleToEnable: Boolean) {
+        if (isPossibleToEnable && applicationContext.isFingerprintPromptAvailable()) {
             binding.ivFingerprint.visibility = View.VISIBLE
             binding.ivFingerprint.setOnClickListener {
                 openBiometricPrompt()
@@ -132,6 +130,9 @@ class LoginActivity : BaseActivity<LoginContract.View, LoginPresenter>(), LoginC
 
     override fun render(state: LoginViewState) {
         when (state) {
+            is LoginViewState.InitialState -> {
+                setupFingerprinting(state.isFirebaseTokenBinded)
+            }
             // PIN
             is LoginViewState.LoadingPinState -> {
                 doEnableButtons(false)

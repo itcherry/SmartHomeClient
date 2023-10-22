@@ -50,7 +50,6 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
 
     private fun getSafetyStateObservable(): Observable<FlatViewState.SafetyViewState> {
         val alarmIntent = getChangeAlarmStateIntent()
-        val boilerIntent = getChangeBoilerStateIntent()
         val securityIntent = getChangeSecurityStateIntent()
         val temperatureIntent = getTemperatureIntent()
         val refreshDataIntent = getRefreshDataIntent()
@@ -59,7 +58,6 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             Observable.merge(
                 listOf(
                     alarmIntent,
-                    boilerIntent,
                     securityIntent,
                     temperatureIntent,
                     refreshDataIntent
@@ -67,7 +65,6 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             )
         val initialState =
             FlatViewState.SafetyViewState(
-                BooleanViewState.LoadingState,
                 BooleanViewState.LoadingState,
                 BooleanViewState.LoadingState,
                 BooleanViewState.LoadingState,
@@ -82,23 +79,24 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         safetyStateObservable: Observable<FlatViewState.SafetyViewState>
     ): Observable<FlatViewState> {
         val showAlarmIntent = getShowAlarmDialogIntent()
+        val showSecurityIntent = getShowSecurityDialogIntent()
         val openBedroomIntent = getOpenBedroomIntent()
         val openKitchenIntent = getOpenKitchenIntent()
         val openCorridorIntent = getOpenCorridorIntent()
         val openCameraIntent = getOpenCameraIntent()
         val openDanfossIntent = getOpenDanfossIntent()
-        val openFloorHeatingIntent = getOpenFloorHeatingIntent()
         val openAirConditionerIntent = getOpenAirConditionerIntent()
 
         val openLivingRoomIntent = getOpenLivingRoomIntent()
+        val openBoilerIntent = getOpenBoilerIntent()
         val viewPausedIntent = viewPausedIntent()
 
         val stateObservable = Observable.merge(
             listOf(
-                safetyStateObservable, showAlarmIntent, openBedroomIntent,
+                safetyStateObservable, showAlarmIntent, showSecurityIntent, openBedroomIntent,
                 openKitchenIntent, openCorridorIntent, openLivingRoomIntent,
-                openCameraIntent, openDanfossIntent, openFloorHeatingIntent,
-                openAirConditionerIntent, viewPausedIntent
+                openCameraIntent, openDanfossIntent,
+                openAirConditionerIntent, openBoilerIntent, viewPausedIntent
             )
         ).observeOn(AndroidSchedulers.mainThread())
 
@@ -115,18 +113,7 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             }
         }
 
-
-    private fun getChangeBoilerStateIntent() = intent(FlatContract.View::setBoilerStateIntent)
-        .debounce(200, TimeUnit.MILLISECONDS)
-        .switchMap {
-            if (it) {
-                safetyInteractor.enableBoilerObservable()
-            } else {
-                safetyInteractor.disableBoilerObservable()
-            }
-        }
-
-    private fun getChangeSecurityStateIntent() = intent(FlatContract.View::setSecurityStateIntent)
+    private fun getChangeSecurityStateIntent() = intent(FlatContract.View::acceptedSecurityIntent)
         .debounce(200, TimeUnit.MILLISECONDS)
         .switchMap {
             if (it) {
@@ -149,16 +136,13 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
 
     private fun allDevicesStateObservable() =
         Observable.zip(safetyInteractor.getAlarmStateObservable(),
-            safetyInteractor.getBoilerStateObservable(),
             safetyInteractor.getSecurityStateObservable(),
             safetyInteractor.getFireStateObservable(),
             safetyInteractor.getNeptunStateObservable(),
-            Function5 { alarmState: FlatPartialViewState.AlarmState, boilerState: FlatPartialViewState.BoilerState,
-                        securityState: FlatPartialViewState.SecurityState, fireState: FlatPartialViewState.FireState,
-                        neptunState: FlatPartialViewState.NeptunState ->
+            Function4 { alarmState: FlatPartialViewState.AlarmState, securityState: FlatPartialViewState.SecurityState,
+                             fireState: FlatPartialViewState.FireState, neptunState: FlatPartialViewState.NeptunState ->
                 FlatPartialViewState.AllDevicesState(
                     alarmState.state,
-                    boilerState.state,
                     neptunState.state,
                     securityState.state,
                     fireState.state
@@ -171,7 +155,6 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     ): FlatViewState.SafetyViewState {
         return when (changes) {
             is FlatPartialViewState.AlarmState -> previousState.copy(alarmViewState = changes.state)
-            is FlatPartialViewState.BoilerState -> previousState.copy(boilerViewState = changes.state)
             is FlatPartialViewState.SecurityState -> previousState.copy(securityViewState = changes.state)
             is FlatPartialViewState.FireState -> previousState.copy(fireViewState = changes.state)
             is FlatPartialViewState.NeptunState -> previousState.copy(neptunViewState = changes.state)
@@ -180,9 +163,8 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
             )
             is FlatPartialViewState.AllDevicesState ->
                 previousState.copy(
-                    alarmViewState = changes.alarmState, boilerViewState = changes.boilerState,
-                    securityViewState = changes.securityState, fireViewState = changes.fireState,
-                    neptunViewState = changes.neptunState
+                    alarmViewState = changes.alarmState, securityViewState = changes.securityState,
+                    fireViewState = changes.fireState, neptunViewState = changes.neptunState
                 )
             is FlatPartialViewState.EmptyState -> previousState
         }
@@ -191,6 +173,10 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     private fun getShowAlarmDialogIntent() = intent(FlatContract.View::showAlarmDialog)
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.ShowAlarmDialogClicked }
+
+    private fun getShowSecurityDialogIntent() = intent(FlatContract.View::showSecurityDialog)
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.ShowSecurityDialogClicked }
 
     private fun getOpenBedroomIntent() = intent(FlatContract.View::openBedroomActivity)
         .debounce(200, TimeUnit.MILLISECONDS)
@@ -212,10 +198,6 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.DanfossClicked }
 
-    private fun getOpenFloorHeatingIntent() = intent(FlatContract.View::openFloorHeatingActivity)
-        .debounce(200, TimeUnit.MILLISECONDS)
-        .map { FlatViewState.FloorHeatingClicked }
-
     private fun getOpenAirConditionerIntent() =
         intent(FlatContract.View::openAirConditionerActivity)
             .debounce(200, TimeUnit.MILLISECONDS)
@@ -224,6 +206,10 @@ class FlatPresenter @Inject constructor(private val safetyInteractor: SafetyInte
     private fun getOpenLivingRoomIntent() = intent(FlatContract.View::openLivingRoomActivity)
         .debounce(200, TimeUnit.MILLISECONDS)
         .map { FlatViewState.LivingRoomClicked }
+
+    private fun getOpenBoilerIntent() = intent(FlatContract.View::openBoilerActivity)
+        .debounce(200, TimeUnit.MILLISECONDS)
+        .map { FlatViewState.BoilerClicked }
 
     private fun viewPausedIntent() = viewPausedObservable
         .map { FlatViewState.NoActionsState }

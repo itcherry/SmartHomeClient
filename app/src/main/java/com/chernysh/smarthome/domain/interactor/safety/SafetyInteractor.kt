@@ -36,7 +36,6 @@ import javax.inject.Inject
 class SafetyInteractor @Inject constructor(
     private val temperatureHumidityOutsideUseCase: TemperatureHumidityOutsideUseCase,
     private val alarmUseCase: AlarmUseCase,
-    private val boilerUseCase: BoilerUseCase,
     private val securityUseCase: SecurityUseCase,
     private val neptunUseCase: NeptunUseCase,
     private val schedulersTransformer: ObservableTransformer<Any, Any>
@@ -61,19 +60,6 @@ class SafetyInteractor @Inject constructor(
     fun disableAlarmObservable() =
         alarmUseCase.processAlarmState(AlarmUseCase.Data(Method.SET, false))
             .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.AlarmState, FlatPartialViewState.AlarmState>)
-
-    /* Boiler */
-    fun getBoilerStateObservable() =
-        boilerUseCase.processBoilerState(BoilerUseCase.Data(Method.GET))
-            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.BoilerState, FlatPartialViewState.BoilerState>)
-
-    fun enableBoilerObservable() =
-        boilerUseCase.processBoilerState(BoilerUseCase.Data(Method.SET, true))
-            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.BoilerState, FlatPartialViewState.BoilerState>)
-
-    fun disableBoilerObservable() =
-        boilerUseCase.processBoilerState(BoilerUseCase.Data(Method.SET, false))
-            .compose(schedulersTransformer as ObservableTransformer<FlatPartialViewState.BoilerState, FlatPartialViewState.BoilerState>)
 
     /* Security */
     fun getSecurityStateObservable() =

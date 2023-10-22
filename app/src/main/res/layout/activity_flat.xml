@@ -62,20 +62,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/viewNavDrawerBg" />
 
             <Switch
-                android:id="@+id/switchBoiler"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:padding="16dp"
-                android:text="@string/flat_boiler"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switchAlarm" />
-
-            <Switch
                 android:id="@+id/switchSecurity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -87,7 +73,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switchBoiler" />
+                app:layout_constraintTop_toBottomOf="@+id/switchAlarm" />
 
             <TextView
                 android:id="@+id/tvNeptun"
@@ -140,6 +126,21 @@
                 app:layout_constraintTop_toTopOf="@+id/tvFire" />
 
             <TextView
+                android:id="@+id/tvBoiler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:text="@string/flat_boiler"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFire" />
+
+            <TextView
                 android:id="@+id/tvCamera"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -152,7 +153,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFire" />
+                app:layout_constraintTop_toBottomOf="@+id/tvBoiler" />
 
             <TextView
                 android:id="@+id/tvDanfoss"
@@ -170,21 +171,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCamera" />
 
             <TextView
-                android:id="@+id/tvFloorHeating"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:padding="16dp"
-                android:text="@string/flat_floor_heating"
-                android:background="?attr/selectableItemBackground"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDanfoss" />
-
-            <TextView
                 android:id="@+id/tvAirConditioner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -197,7 +183,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFloorHeating" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDanfoss" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.navigation.NavigationView>
 
